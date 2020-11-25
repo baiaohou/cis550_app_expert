@@ -48,11 +48,26 @@ function bestGenresPerDecade(req, res) {
 
 };
 
+
+function getAppDetailByName(req, res) {
+  var query = `SELECT * FROM tmp_table WHERE app_name = '${req.params.app_name}';`;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(rows);
+    }
+  });
+}
+
+
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
 	getAllGenres: getAllGenres,
 	getTopInGenre: getTopInGenre,
 	getRecs: getRecs,
 	getDecades: getDecades,
-  bestGenresPerDecade: bestGenresPerDecade
+  bestGenresPerDecade: bestGenresPerDecade,
+  getAppDetailByName: getAppDetailByName
 }

@@ -7,6 +7,7 @@ import {
 import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
 import BestGenres from './BestGenres';
+import AppDetail from './AppDetail';
 
 export default class App extends React.Component {
 
@@ -41,6 +42,12 @@ export default class App extends React.Component {
 								<BestGenres />
 							)}
 						/>
+						{/* <Route
+							path="/app_deatil"
+							render={() => (
+								<AppDetail app_name="100+ C Programs"/>
+							)}
+						/> */}
 					</Switch>
 				</Router>
 			</div>

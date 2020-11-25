@@ -48,10 +48,7 @@ app.get('/decades', routes.getDecades);
 
 
 
-
-
-
-/* ---- Q3b (Best Genre) ---- */
+app.get('/app_detail/:app_name', routes.getAppDetailByName);
 
 
 
