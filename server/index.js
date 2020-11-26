@@ -50,6 +50,8 @@ app.get('/decades', routes.getDecades);
 
 app.get('/app_detail/:app_name', routes.getAppDetailByName);
 
+app.get('/app_detail/screenshot/:package_name', routes.getAppScreenshotsById);
+
 
 
 
