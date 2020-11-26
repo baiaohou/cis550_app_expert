@@ -42,12 +42,10 @@ export default class App extends React.Component {
 								<BestGenres />
 							)}
 						/>
-						{/* <Route
-							path="/app_deatil"
-							render={() => (
-								<AppDetail app_name="100+ C Programs"/>
-							)}
-						/> */}
+						<Route
+							path="/app_detail/:app_name"
+							component={AppDetail}
+						/>
 					</Switch>
 				</Router>
 			</div>

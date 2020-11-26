@@ -39,7 +39,7 @@ export default class AppDetail extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:8081/app_detail/${this.props.app_name}`, {
+    fetch(`http://localhost:8081/app_detail/${this.props.match.params.app_name}`, {
       method: 'GET'
     })
       .then(res => res.json())
@@ -88,7 +88,7 @@ export default class AppDetail extends React.Component {
           {/* App icon */}
           <Image width={200} src={this.state.icon} alt="Android Application" placeholder={
             <Image
-              src="default_app_icon.png"
+              src="../default_app_icon.png"
               width={200}
             />
           } />
@@ -107,7 +107,7 @@ export default class AppDetail extends React.Component {
 
           {/* Download button */}
           <a href={this.state.gp_url} target="_blank">
-            <Image width={200} preview={false} src="google-play.png" alt="Get it on Google Play" />
+            <Image width={200} preview={false} src="../google-play.png" alt="Get it on Google Play" />
           </a>
 
         </div>
