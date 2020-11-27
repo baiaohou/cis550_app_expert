@@ -10,6 +10,7 @@ import BestGenres from './BestGenres';
 import AppDetail from './AppDetail';
 import Login from './Login';
 import Register from './Register';
+import Wishlist from './Wishlist';
 
 export default class App extends React.Component {
 
@@ -61,6 +62,10 @@ export default class App extends React.Component {
 						<Route
 							path="/app_detail/:app_name"
 							component={AppDetail}
+						/>
+						<Route
+							path="/wishlist"
+							component={Wishlist}
 						/>
 					</Switch>
 				</Router>

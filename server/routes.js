@@ -127,6 +127,48 @@ function loadMoreCommentsByAppName(req, res) {
 }
 
 
+// app.get('/wishlist', routes.getWishlist);
+function get10Apps(req, res) {
+  console.log("Into get10Apps function");
+  var query = `SELECT * FROM app_detail LIMIT 10;`;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("query result: " + rows);
+      res.json(rows);
+      console.log(rows);
+    }
+  });
+}
+
+function addToWishList(req, res) {
+  console.log("Into addToWishList function");
+  var query = `SELECT * FROM app_detail WHERE App= '${req.params.app_name}';`;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("query result: " + rows);
+      res.json(rows);
+      console.log(rows);
+    }
+  });
+}
+
+// function getWishlist(req, res) {
+//   var query = `SELECT * FROM app_detail LIMIT 10;`;
+//   connection.query(query, function(err, rows, fields) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log("query result: " + rows);
+//       res.json(rows);
+//     }
+//   });
+// }
+
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   getAllGenres: getAllGenres,
@@ -136,5 +178,7 @@ module.exports = {
   bestGenresPerDecade: bestGenresPerDecade,
   getAppDetailByName: getAppDetailByName,
   getAppScreenshotsById: getAppScreenshotsById,
-  loadMoreCommentsByAppName: loadMoreCommentsByAppName
+  loadMoreCommentsByAppName: loadMoreCommentsByAppName,
+  get10Apps: get10Apps,
+  addToWishList: addToWishList
 }
