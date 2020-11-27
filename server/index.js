@@ -27,7 +27,7 @@ app.get('/genres', routes.getAllGenres);
 
 
 /* ---- Q1b (Dashboard) ---- */
-app.get('/genres/:genre', () => {}); // Hint: Replace () => {} with the appropriate route handler.
+app.get('/genres/:genre', routes.getTopInGenre); // Hint: Replace () => {} with the appropriate route handler.
 
 
 
@@ -38,7 +38,7 @@ app.get('/genres/:genre', () => {}); // Hint: Replace () => {} with the appropri
 
 /* ---- Q2 (Recommendations) ---- */
 
-
+app.get('/recommendations/:appName', routes.getRecs);
 
 
 
@@ -50,10 +50,8 @@ app.get('/decades', routes.getDecades);
 
 app.get('/app_detail/:app_name', routes.getAppDetailByName);
 
+
 app.get('/app_detail/screenshot/:package_name', routes.getAppScreenshotsById);
-
-
-
 
 
 

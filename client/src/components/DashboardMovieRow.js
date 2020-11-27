@@ -11,9 +11,9 @@ export default class DashboardMovieRow extends React.Component {
 	render() {
 		return (
 			<div className="movie">
-				<div className="title">TITLE</div>
-				<div className="rating">RATING</div>
-				<div className="votes">VOTE_COUNT</div>
+				<div className="App">App</div>
+				<div className="Rating">Rating</div>
+				<div className="Installs">Installs</div>
 			</div>
 		);
 	}
