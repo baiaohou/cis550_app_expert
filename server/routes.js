@@ -10,6 +10,122 @@ var connection = mysql.createPool(config);
 /* -------------------------------------------------- */
 
 
+/* ---- Login validate ---- */
+
+function loginCheck(req, res) {
+  console.log('call routes loginCheck');
+  var url = require('url');
+  console.log(encodeURI(req.url));
+  var parseObj = url.parse(req.url, true);
+  console.log(parseObj);
+
+  req.query = parseObj.query;
+
+  var query = `
+    SELECT *
+    FROM user
+    WHERE email = '${req.query.email}' AND password = '${req.query.password}'
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      var num = rows.length;
+      if (num === 0) {
+        console.log("No such user, goto login failed page");
+        res.redirect(301, 'http://localhost:3000/loginfailed');
+      } else {
+        console.log("We have this user!");
+        res.writeHead(302, {
+          'Set-Cookie': [
+            "isVisit=1",
+            "email=" + rows[0].email,
+            "first_name=" + rows[0].first_name
+          ],
+          'Content-Type': 'text/plain',
+          'Location': 'http://localhost:3000/dashboard'
+          
+        });
+        res.end();
+        console.log(rows);
+      }
+    }
+  });
+};
+
+/* ---- change password ---- */
+function changePassword(req, res) {
+  console.log('call routes changePassword');
+  var url = require('url');
+  console.log(encodeURI(req.url));
+  var parseObj = url.parse(req.url, true);
+  console.log(parseObj);
+
+  req.query = parseObj.query;
+
+  var query = `
+    update user 
+    set password='${req.query.password}' 
+    where email='${req.query.email}'
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      var num = rows.affectedRows;
+      if (num === 0) {
+        console.log("Change password failed - no such user");
+        res.redirect(301, 'http://localhost:3000/resetpasswordfailed');
+      } else {
+        console.log("Change password OK");
+        res.writeHead(302, {
+          'Content-Type': 'text/plain',
+          'Location': 'http://localhost:3000/loginreenter'
+        });
+        res.end();
+        console.log(rows);
+      }
+    }
+  });
+};
+
+/* ---- register validate ---- */
+function register(req, res) {
+  console.log('call routes register');
+  var url = require('url');
+  console.log(encodeURI(req.url));
+  var parseObj = url.parse(req.url, true);
+  console.log(parseObj);
+
+  req.query = parseObj.query;
+
+  var query = `
+  insert into user
+  values (
+    '${req.query.email}', 
+    '${req.query.password}', 
+    '${req.query.firstName}', 
+    '${req.query.lastName}'
+  )
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      // console.log(err);
+      console.log("Register failed - already exist this user");
+      res.redirect(301, 'http://localhost:3000/registerfailed');
+    } else {
+
+      console.log("Register OK");
+      res.writeHead(302, {
+        'Content-Type': 'text/plain',
+        'Location': 'http://localhost:3000/loginreenter'
+      });
+      res.end();
+      console.log(rows);
+      
+    }
+  });
+};
+
+
 /* ---- Q1a (Dashboard) ---- */
 function getAllGenres(req, res) {
   console.log('call routes getAllGenres');
@@ -171,6 +287,9 @@ function addToWishList(req, res) {
 
 // The exported functions, which can be accessed in index.js.
 module.exports = {
+  loginCheck: loginCheck,
+  changePassword: changePassword,
+  register: register,
   getAllGenres: getAllGenres,
   getTopInGenre: getTopInGenre,
   getRecs: getRecs,

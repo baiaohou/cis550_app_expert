@@ -9,7 +9,12 @@ import Recommendations from './Recommendations';
 import BestGenres from './BestGenres';
 import AppDetail from './AppDetail';
 import Login from './Login';
+import LoginFailed from './LoginFailed';
+import LoginReEnter from './LoginReEnter';
 import Register from './Register';
+import RegisterFailed from './RegisterFailed';
+import ResetPassword from './ResetPassword';
+import ResetPasswordFailed from './ResetPasswordFailed';
 import Wishlist from './Wishlist';
 
 export default class App extends React.Component {
@@ -28,9 +33,23 @@ export default class App extends React.Component {
 						/>
 						<Route
 							exact
-							path="/login"
+							path="/Login"
 							render={() => (
 								<Login />
+							)}
+						/>
+						<Route
+							exact
+							path="/LoginFailed"
+							render={() => (
+								<LoginFailed />
+							)}
+						/>
+						<Route
+							exact
+							path="/LoginReEnter"
+							render={() => (
+								<LoginReEnter />
 							)}
 						/>
 						<Route
@@ -38,6 +57,27 @@ export default class App extends React.Component {
 							path="/Register"
 							render={() => (
 								<Register />
+							)}
+						/>
+						<Route
+							exact
+							path="/RegisterFailed"
+							render={() => (
+								<RegisterFailed />
+							)}
+						/>
+						<Route
+							exact
+							path="/ResetPassword"
+							render={() => (
+								<ResetPassword />
+							)}
+						/>
+						<Route
+							exact
+							path="/ResetPasswordFailed"
+							render={() => (
+								<ResetPasswordFailed />
 							)}
 						/>
 						<Route

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register() {
+export default function ResetPassword() {
   const classes = useStyles();
 
   return (
@@ -51,41 +51,18 @@ export default function Register() {
         <Avatar className={classes.avatar}>
           {/* <LockOutlinedIcon /> */}
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Welcome, New User!
+        <Typography component="h1" variant="h5" color="textSecondary">
+          ⚠️Reset failed! No such user⚠️
         </Typography>
-        <form action='http://localhost:8081/registervalidate' method="get" className={classes.form} noValidate>
+        <form action='http://localhost:8081/changepwd' method="get" className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Your Email Address"
                 name="email"
                 autoComplete="email"
               />
@@ -96,7 +73,7 @@ export default function Register() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Your New Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -110,12 +87,12 @@ export default function Register() {
             color="primary"
             className={classes.submit}
           >
-            Register
+            Reset password
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="/Login" variant="body2">
-                Already have an account? Log In
+                Back to Login Page
               </Link>
             </Grid>
           </Grid>

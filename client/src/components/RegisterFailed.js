@@ -51,8 +51,8 @@ export default function Register() {
         <Avatar className={classes.avatar}>
           {/* <LockOutlinedIcon /> */}
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Welcome, New User!
+        <Typography component="h1" variant="h5" color="textSecondary" >
+          ⚠️ This Account Already Exists! ⚠️
         </Typography>
         <form action='http://localhost:8081/registervalidate' method="get" className={classes.form} noValidate>
           <Grid container spacing={2}>

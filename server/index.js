@@ -14,7 +14,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* ---------------------------------------------------------------- */
 
 
-
+/* ---- login validate ---- */
+app.get('/loginvalidate', routes.loginCheck);
+/* ---- change password ---- */
+app.get('/changepwd', routes.changePassword)
+/* ---- register ---- */
+app.get('/registervalidate', routes.register)
 
 /* ---- (Dashboard) ---- */
 // The route localhost:8081/genres is registered to the function
