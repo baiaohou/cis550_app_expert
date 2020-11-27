@@ -2,6 +2,7 @@ import React from 'react';
 import { Carousel } from 'antd';
 import { Image } from 'antd';
 import 'antd/dist/antd.css';
+import { Constants } from './Constants';
 
 export default class AppDetailScreenshots extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class AppDetailScreenshots extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        fetch(`http://localhost:8081/app_detail/screenshot/${nextProps.package_name}`, {
+        fetch(`${Constants.servaddr_prefix}/app_detail/screenshot/${nextProps.package_name}`, {
             method: 'GET'
         })
             .then(res => res.json())

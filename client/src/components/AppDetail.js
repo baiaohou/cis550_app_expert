@@ -1,12 +1,13 @@
 import React from 'react';
-import { Avatar } from 'antd';
 import { Image } from 'antd';
 import { Descriptions } from 'antd';
-import { Rate } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import AppDetailRating from './AppDetailRating';
 import AppDetailScreenshots from './AppDetailScreenshots';
+import AppDetailComments from './AppDetailComments';
+import AppDetailTitleBar from './AppDetailTitleBar';
+import { Constants } from './Constants';
 import 'antd/dist/antd.css';
+import '../style/AppDetail.css';
 
 export default class AppDetail extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ export default class AppDetail extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:8081/app_detail/${this.props.match.params.app_name}`, {
+    fetch(`${Constants.servaddr_prefix}/app_detail/${this.props.match.params.app_name}`, {
       method: 'GET'
     })
       .then(res => res.json())
@@ -86,18 +87,21 @@ export default class AppDetail extends React.Component {
         <div className="app_detail_header">
 
           {/* App icon */}
-          <Image width={200} src={this.state.icon} alt="Android Application" placeholder={
+          <Image className="app-icon" height={200} width={200} src={this.state.icon} alt="Android Application" placeholder={
             <Image
               src="../default_app_icon.png"
+              height={200}
               width={200}
             />
           } />
 
           {/* App brief description */}
           <Descriptions
-            title={this.state.app_name}
+            title={<AppDetailTitleBar text={this.state.app_name}/>}
+            className="app-description"
             bordered
-            column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+            // column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+            column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
           >
             <Descriptions.Item label="Category">{this.state.category}</Descriptions.Item>
             <Descriptions.Item label="Developer">{this.state.developer}</Descriptions.Item>
@@ -106,7 +110,7 @@ export default class AppDetail extends React.Component {
           </Descriptions>
 
           {/* Download button */}
-          <a href={this.state.gp_url} target="_blank">
+          <a className="download-button" href={this.state.gp_url} target="_blank">
             <Image width={200} preview={false} src="../google-play.png" alt="Get it on Google Play" />
           </a>
 
@@ -115,12 +119,20 @@ export default class AppDetail extends React.Component {
         <br></br>
 
         {/* Summary of the app */}
+        <AppDetailTitleBar text="Summary" />
         <div className="app_summary">{this.state.summary}</div>
 
         <br></br>
 
         {/* Scrennshots of the app */}
+        <AppDetailTitleBar text="Screenshots" />
         <AppDetailScreenshots package_name={this.state.package_name} />
+
+        <br></br>
+
+        {/* Comments of the app */}
+        <AppDetailTitleBar text="Comments" />
+        <AppDetailComments app_name={this.state.app_name} />
 
       </div>
     );

@@ -1,0 +1,25 @@
+.app_detail_holder {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.app_detail_header {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    flex: 80%;
+}
+
+.app-description {
+    flex: 60%;
+}
+
+.app-icon {
+    flex: 1;
+}
+
+.download-button {
+    flex: 2;
+}

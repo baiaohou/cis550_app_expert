@@ -4,6 +4,7 @@ import RecommendationsRow from './RecommendationsRow';
 import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
+import { Constants } from './Constants';
 
 export default class Recommendations extends React.Component {
 	constructor(props) {
@@ -29,7 +30,7 @@ export default class Recommendations extends React.Component {
 	/* ---- Q2 (Recommendations) ---- */
 	// Hint: Name of movie submitted is contained in `this.state.movieName`.
 	submitApp() {
-		fetch("http://localhost:8081/recommendations/"+this.state.appName, {
+		fetch(`${Constants.servaddr_prefix}/recommendations/`+this.state.appName, {
 			method: 'GET' // The type of HTTP request.
 		})
 		  

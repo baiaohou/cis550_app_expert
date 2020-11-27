@@ -6,6 +6,7 @@ import GenreButton from './GenreButton';
 import DashboardMovieRow from './DashboardMovieRow';
 import AppDetail from './AppDetail';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
+import { Constants } from './Constants';
 // import { Switch } from 'antd';
 
 export default class Dashboard extends React.Component {
@@ -25,7 +26,7 @@ export default class Dashboard extends React.Component {
   // React function that is called when the page load.
   componentDidMount() {
     // Send an HTTP request to the server.
-    fetch("http://localhost:8081/genres", {
+    fetch(`${Constants.servaddr_prefix}/genres`, {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -49,7 +50,7 @@ export default class Dashboard extends React.Component {
   /* ---- Q1b (Dashboard) ---- */
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
   showMovies(genre) {
-    fetch("http://localhost:8081/genres/"+genre, {
+    fetch(`${Constants.servaddr_prefix}/genres/`+genre, {
       method: 'GET' // The type of HTTP request.
     })
   
