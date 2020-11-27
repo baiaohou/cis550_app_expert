@@ -64,7 +64,7 @@ export default class Dashboard extends React.Component {
         <div key={i} className="app">
         {/* <div className="App">{}</div> */}
         {/* <Router> */}
-        <NavLink to = {"/app_detail/:"+ app.App}  replace > {app.App}</NavLink>
+        <NavLink to = {"/app_detail/"+ app.App}  replace > {app.App}</NavLink>
         <div className="Rating">{app.Rating}</div>
         <div className="Installs">{app.Installs}</div>
 
