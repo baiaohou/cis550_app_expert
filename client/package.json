@@ -15,7 +15,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.0",
     "selenium-webdriver": "^4.0.0-alpha.5",
-    "antd": "^4.8.5"
+    "antd": "^4.8.5",
+    "@material-ui/core": "^4.11.1"
   },
   "scripts": {
     "start": "react-scripts start",
