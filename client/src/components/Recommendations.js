@@ -41,7 +41,7 @@ export default class Recommendations extends React.Component {
 				// Map each genreObj in genreList to an HTML element:
 			let appDivs = appList.map((app, i) =>
 				<div key={i} className="movieResults">
-				<NavLink to = {"/app_detail/:"+ app.App}  replace > {app.App}</NavLink>
+				<NavLink to = {"/app_detail/"+ app.App}  replace > {app.App}</NavLink>
 				<div className="rating">{app.Rating}</div>
 				<div className="votes">{app.Installs}</div>
 				</div>
