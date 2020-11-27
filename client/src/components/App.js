@@ -8,6 +8,8 @@ import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
 import BestGenres from './BestGenres';
 import AppDetail from './AppDetail';
+import Login from './Login';
+import Register from './Register';
 
 export default class App extends React.Component {
 
@@ -20,7 +22,21 @@ export default class App extends React.Component {
 							exact
 							path="/"
 							render={() => (
-								<Dashboard />
+								<Login />
+							)}
+						/>
+						<Route
+							exact
+							path="/login"
+							render={() => (
+								<Login />
+							)}
+						/>
+						<Route
+							exact
+							path="/Register"
+							render={() => (
+								<Register />
 							)}
 						/>
 						<Route
