@@ -1,10 +1,11 @@
 import React from 'react';
-import { Image } from 'antd';
+import { Divider, Image } from 'antd';
 import { Descriptions } from 'antd';
 import AppDetailRating from './AppDetailRating';
 import AppDetailScreenshots from './AppDetailScreenshots';
 import AppDetailComments from './AppDetailComments';
 import AppDetailTitleBar from './AppDetailTitleBar';
+import AppDetailDescription from './AppDetailDescription';
 import { Constants } from './Constants';
 import 'antd/dist/antd.css';
 import '../style/AppDetail.css';
@@ -55,15 +56,15 @@ export default class AppDetail extends React.Component {
           app_name: thisAppDetail.app_name,
           category: thisAppDetail.category,
           rating: thisAppDetail.rating,
-          reviews_count: thisAppDetail.reviews,
+          reviews_count: thisAppDetail.reviews_count,
           size: thisAppDetail.size,
           installs: thisAppDetail.installs,
           type: thisAppDetail.type,
           price: thisAppDetail.price,
           content_rating: thisAppDetail.content_rating,
-          genres: thisAppDetail.genres,
-          last_updated: thisAppDetail.ast_updated,
-          curr_ver: thisAppDetail.curr_ver,
+          // genres: thisAppDetail.genres,
+          last_updated: thisAppDetail.last_updated,
+          curr_ver: thisAppDetail.current_ver,
           android_ver: thisAppDetail.android_ver,
           package_name: thisAppDetail.package_name,
           icon: thisAppDetail.icon,
@@ -87,40 +88,59 @@ export default class AppDetail extends React.Component {
         <div className="app_detail_header">
 
           {/* App icon */}
-          <Image className="app-icon" height={200} width={200} src={this.state.icon} alt="Android Application" placeholder={
-            <Image
-              src="../default_app_icon.png"
-              height={200}
-              width={200}
-            />
-          } />
+          <div className="app-icon">
+            <Image height={230} width={230} src={this.state.icon} alt="Android Application" placeholder={
+              <Image
+                src="../default_app_icon.png"
+                height={200}
+                width={200}
+              />
+            } />
+          </div>
 
-          {/* App brief description */}
-          <Descriptions
-            title={<AppDetailTitleBar text={this.state.app_name}/>}
-            className="app-description"
-            bordered
-            // column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-            column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
-          >
-            <Descriptions.Item label="Category">{this.state.category}</Descriptions.Item>
-            <Descriptions.Item label="Developer">{this.state.developer}</Descriptions.Item>
-            <Descriptions.Item label="Price">{this.state.type == 'Free' ? "Free" : this.state.price}</Descriptions.Item>
-            <Descriptions.Item label="rating">{<AppDetailRating rating={this.state.rating} reviews_count={this.state.reviews_count} />}</Descriptions.Item>
-          </Descriptions>
+          <div className="app_overview">
+            {/* App brief description */}
+            <Descriptions
+              className="app-description"
+              title={<h3>{this.state.app_name}</h3>}
+              bordered
+              // column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+              column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
+            >
+              <Descriptions.Item label="Category">{this.state.category}</Descriptions.Item>
+              <Descriptions.Item label="Developer">{this.state.developer}</Descriptions.Item>
+              <Descriptions.Item label="Price">{this.state.type == 'Free' ? "Free" : this.state.price}</Descriptions.Item>
+              <Descriptions.Item label="rating">{<AppDetailRating rating={this.state.rating} reviews_count={this.state.reviews_count} />}</Descriptions.Item>
+            </Descriptions>
 
-          {/* Download button */}
-          <a className="download-button" href={this.state.gp_url} target="_blank">
-            <Image width={200} preview={false} src="../google-play.png" alt="Get it on Google Play" />
-          </a>
+            <br></br>
+
+            {/* Actions */}
+            <div className="user_actions">
+              {/* Wishlist button */}
+              <div className="wishlist-button">
+                <a href={"https://www.baidu.com"} target="_blank">
+                  <Image width={200} height={59} preview={false} src="../add_to_wishlist.jpg" alt="Add to Wishlist" />
+                </a>
+              </div>
+              {/* Download button */}
+              <div className="download-button">
+                <a href={this.state.gp_url} target="_blank">
+                  <Image width={200} height={59} preview={false} src="../google-play.png" alt="Get it on Google Play" />
+                </a>
+              </div>
+            </div>
+          </div>
 
         </div>
 
-        <br></br>
+        {/* Divider line */}
+        <Divider className="divider"></Divider>
 
         {/* Summary of the app */}
         <AppDetailTitleBar text="Summary" />
         <div className="app_summary">{this.state.summary}</div>
+        <AppDetailDescription package_name={this.state.package_name} />
 
         <br></br>
 

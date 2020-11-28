@@ -2,24 +2,41 @@
     display: flex;
     flex-flow: column;
     justify-content: center;
+    width: 80%;
+    margin: auto;
+    padding-top: 2%;
 }
 
 .app_detail_header {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     flex: 80%;
 }
 
-.app-description {
-    flex: 60%;
+.app_overview {
+    flex: 3;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
 }
 
 .app-icon {
     flex: 1;
 }
 
-.download-button {
-    flex: 2;
+.user_actions {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
 }
+
+.wishlist-button {
+    flex: 1;
+}
+
+.divider {
+    background-color: grey;
+}
+

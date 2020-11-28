@@ -98,7 +98,7 @@ export default class AppDetailComments extends React.Component {
                                     <Avatar size="small" icon={<UserOutlined />} />
                                 }
                                 title={<div>Anonymous User: {<AppDetailCommentsRatingPic sentiment={item.sentiment} />}</div>}
-                                description={item.review}
+                                description={item.review_content}
                             />
                         </Skeleton>
                     </List.Item>

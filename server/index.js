@@ -58,6 +58,8 @@ app.get('/app_detail/:app_name', routes.getAppDetailByName);
 
 app.get('/app_detail/screenshot/:package_name', routes.getAppScreenshotsById);
 
+app.get('/app_detail/description/:package_name', routes.getAppDescriptionById);
+
 app.get('/app_comments', routes.loadMoreCommentsByAppName);
 
 

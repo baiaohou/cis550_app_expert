@@ -207,8 +207,10 @@ function bestGenresPerDecade(req, res) {
 };
 
 
+/* Used for app detail page */
+
 function getAppDetailByName(req, res) {
-  var query = `SELECT * FROM tmp_table WHERE app_name = '${req.params.app_name}';`;
+  var query = `SELECT * FROM app_detail a NATURAL JOIN package_info p WHERE a.app_name = "${req.params.app_name}";`;
   connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
@@ -229,9 +231,20 @@ function getAppScreenshotsById(req, res) {
     });
 }
 
+function getAppDescriptionById(req, res) {
+  gplay.app({ appId: `${req.params.package_name}` })
+    .then(queryResult => {
+      if (queryResult) {
+        res.json(queryResult.descriptionHTML);
+      } else {
+        console.log("Cannot find the description");
+      }
+    });
+}
+
 function loadMoreCommentsByAppName(req, res) {
   var query =
-    `SELECT review, sentiment FROM APP_REVIEWS WHERE app_name = "${req.query.app_name}" 
+    `SELECT review_content, sentiment FROM app_review WHERE app_name = "${req.query.app_name}" 
     LIMIT ${(req.query.curr_page - 1) * req.query.page_size},${req.query.page_size};`;
   connection.query(query, function (err, rows, fields) {
     if (err) {
@@ -297,6 +310,7 @@ module.exports = {
   bestGenresPerDecade: bestGenresPerDecade,
   getAppDetailByName: getAppDetailByName,
   getAppScreenshotsById: getAppScreenshotsById,
+  getAppDescriptionById:getAppDescriptionById,
   loadMoreCommentsByAppName: loadMoreCommentsByAppName,
   get10Apps: get10Apps,
   addToWishList: addToWishList
