@@ -256,7 +256,7 @@ function loadMoreCommentsByAppName(req, res) {
 }
 
 
-// app.get('/wishlist', routes.getWishlist);
+
 function get10Apps(req, res) {
   console.log("Into get10Apps function");
   var query = `SELECT * FROM app_detail LIMIT 10;`;
@@ -273,29 +273,44 @@ function get10Apps(req, res) {
 
 function addToWishList(req, res) {
   console.log("Into addToWishList function");
-  var query = `SELECT * FROM app_detail WHERE App= '${req.params.app_name}';`;
+  console.log("appName: ", req.query.appName);
+  console.log("user: ", req.query.user);
+  var query = `SELECT * FROM wishlist WHERE user='${req.query.user}' AND app_name='${req.query.appName}';`
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (rows.length == 0) {
+        console.log("Wishlist does not have this, insert it.");
+        query = `INSERT INTO wishlist (user, app_name) VALUES ('${req.query.user}', '${req.query.appName}');`;
+      } else {
+        console.log("Wishlist already has this, delete it.");
+        query = `DELETE FROM wishlist WHERE user='${req.query.user}' AND app_name='${req.query.appName}';`;
+      }
+      connection.query(query, function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(rows);
+          console.log("query result: ", rows);
+        }
+      });
+    }
+  });
+}
+
+function getWishlist(req, res) {
+  console.log("Into getWishlist function");
+  var query = `SELECT app_name FROM wishlist WHERE user='${req.params.user}';`;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
       console.log("query result: " + rows);
       res.json(rows);
-      console.log(rows);
     }
   });
 }
-
-// function getWishlist(req, res) {
-//   var query = `SELECT * FROM app_detail LIMIT 10;`;
-//   connection.query(query, function(err, rows, fields) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log("query result: " + rows);
-//       res.json(rows);
-//     }
-//   });
-// }
 
 
 // The exported functions, which can be accessed in index.js.
@@ -313,5 +328,6 @@ module.exports = {
   getAppDescriptionById:getAppDescriptionById,
   loadMoreCommentsByAppName: loadMoreCommentsByAppName,
   get10Apps: get10Apps,
-  addToWishList: addToWishList
+  addToWishList: addToWishList,
+  getWishlist: getWishlist
 }
