@@ -42,7 +42,7 @@ function loginCheck(req, res) {
             "first_name=" + rows[0].first_name
           ],
           'Content-Type': 'text/plain',
-          'Location': 'http://localhost:3000/dashboard'
+          'Location': 'http://localhost:3000/home'
           
         });
         res.end();

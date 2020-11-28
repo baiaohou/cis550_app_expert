@@ -15,6 +15,8 @@ import Register from './Register';
 import RegisterFailed from './RegisterFailed';
 import ResetPassword from './ResetPassword';
 import ResetPasswordFailed from './ResetPasswordFailed';
+import Home from './Home';
+import Team from './Team';
 import Wishlist from './Wishlist';
 
 export default class App extends React.Component {
@@ -78,6 +80,20 @@ export default class App extends React.Component {
 							path="/ResetPasswordFailed"
 							render={() => (
 								<ResetPasswordFailed />
+							)}
+						/>
+						<Route
+							exact
+							path="/Home"
+							render={() => (
+								<Home />
+							)}
+						/>
+						<Route
+							exact
+							path="/Team"
+							render={() => (
+								<Team />
 							)}
 						/>
 						<Route
