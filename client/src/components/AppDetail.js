@@ -7,6 +7,7 @@ import AppDetailComments from './AppDetailComments';
 import AppDetailTitleBar from './AppDetailTitleBar';
 import AppDetailDescription from './AppDetailDescription';
 import { Constants } from './Constants';
+import { getCookie } from './Home';
 import 'antd/dist/antd.css';
 import '../style/AppDetail.css';
 
