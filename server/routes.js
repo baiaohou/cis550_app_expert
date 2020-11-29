@@ -264,7 +264,7 @@ function get10Apps(req, res) {
     if (err) {
       console.log(err);
     } else {
-      console.log("query result: " + rows);
+      console.log("query result: ", rows);
       res.json(rows);
       console.log(rows);
     }
@@ -292,7 +292,7 @@ function addToWishList(req, res) {
           console.log(err);
         } else {
           res.json(rows);
-          console.log("query result: ", rows);
+          console.log("addToWishList query result: ", rows);
         }
       });
     }
@@ -308,25 +308,71 @@ function isInWishList(req, res) {
     if (err) {
       console.log(err);
     } else {
-      console.log("query result: " + rows);
+      console.log("isInWishList query result: ", rows);
       res.json(rows);
     }
   });
 }
 
-function getWishlist(req, res) {
-  console.log("Into getWishlist function");
-  var query = `SELECT * FROM wishlist w JOIN package_info p ON w.app_name=p.app_name WHERE email='${req.params.email}';`;
+function getWishList(req, res) {
+  console.log("Into getWishList function");
+  var query = `SELECT * FROM wishlist w JOIN package_info p ON w.app_name=p.app_name JOIN app_detail d ON w.app_name=d.app_name WHERE email='${req.params.email}';`;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
-      console.log("query result: " + rows);
+      console.log("getWishList query result: ", rows);
       res.json(rows);
     }
   });
 }
 
+function clearWishList(req, res) {
+  console.log("Into clearWishList function");
+  console.log("email: ", req.params.email);
+  var query = `DELETE FROM wishlist WHERE email='${req.params.email}';`;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("clearWishList query result: ", rows);
+      res.json(rows);
+    }
+  });
+}
+
+function getRecommended(req, res) {
+  console.log("Into getRecommended function");
+  var query = `
+    WITH popGenre AS (
+      SELECT genre, COUNT(g.app_name) AS num
+      FROM has_genre g JOIN wishlist w ON g.app_name=w.app_name
+      WHERE w.email='${req.params.email}'
+      GROUP BY genre
+      ORDER BY num DESC
+      LIMIT 1
+    ), popGenreApp AS (
+      SELECT g.app_name
+      FROM popGenre p JOIN has_genre g ON p.genre=g.genre
+    ), fourStarApp AS (
+      SELECT *
+      FROM app_detail
+      WHERE rating>=4
+    )
+    SELECT *
+    FROM popGenreApp g JOIN fourStarApp f ON g.app_name=f.app_name JOIN package_info i ON f.app_name=i.app_name
+    ORDER BY f.installs DESC
+    LIMIT 10;
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("getRecommended query result: ", rows);
+      res.json(rows);
+    }
+  });
+}
 
 // The exported functions, which can be accessed in index.js.
 module.exports = {
@@ -344,6 +390,8 @@ module.exports = {
   loadMoreCommentsByAppName: loadMoreCommentsByAppName,
   get10Apps: get10Apps,
   addToWishList: addToWishList,
-  getWishlist: getWishlist,
-  isInWishList: isInWishList
+  getWishList: getWishList,
+  isInWishList: isInWishList,
+  clearWishList: clearWishList,
+  getRecommended: getRecommended
 }

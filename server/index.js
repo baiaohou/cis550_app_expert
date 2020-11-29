@@ -64,9 +64,11 @@ app.get('/app_comments', routes.loadMoreCommentsByAppName);
 
 
 app.get('/get10apps', routes.get10Apps);
-app.get('/getWishlist/:email', routes.getWishlist);
+app.get('/getWishList/:email', routes.getWishList);
 app.get('/addToWishList', routes.addToWishList);
 app.get('/isInWishList', routes.isInWishList);
+app.get('/clearWishList/:email', routes.clearWishList);
+app.get('/getRecommended/:email', routes.getRecommended);
 
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
