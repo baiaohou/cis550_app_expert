@@ -30,9 +30,14 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
+    align-items: center;
 }
 
 .wishlist-button {
+    flex: 1;
+}
+
+.download-button {
     flex: 1;
 }
 

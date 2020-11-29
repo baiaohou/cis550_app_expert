@@ -6,6 +6,7 @@ import AppDetailScreenshots from './AppDetailScreenshots';
 import AppDetailComments from './AppDetailComments';
 import AppDetailTitleBar from './AppDetailTitleBar';
 import AppDetailDescription from './AppDetailDescription';
+import AppDetailWishlistButton from './AppDetailWishlistButton';
 import { Constants } from './Constants';
 import { getCookie } from './Home';
 import 'antd/dist/antd.css';
@@ -118,18 +119,17 @@ export default class AppDetail extends React.Component {
 
             {/* Actions */}
             <div className="user_actions">
+
               {/* Wishlist button */}
-              <div className="wishlist-button">
-                <a href={"https://www.baidu.com"} target="_blank">
-                  <Image width={200} height={59} preview={false} src="../add_to_wishlist.jpg" alt="Add to Wishlist" />
-                </a>
-              </div>
+              <AppDetailWishlistButton app_name={this.state.app_name} user_name={getCookie("email")} />
+              
               {/* Download button */}
               <div className="download-button">
                 <a href={this.state.gp_url} target="_blank">
                   <Image width={200} height={59} preview={false} src="../google-play.png" alt="Get it on Google Play" />
                 </a>
               </div>
+
             </div>
           </div>
 
