@@ -121,7 +121,7 @@ export default class AppDetail extends React.Component {
             <div className="user_actions">
 
               {/* Wishlist button */}
-              <AppDetailWishlistButton app_name={this.state.app_name} user_name={getCookie("email")} />
+              <AppDetailWishlistButton app_name={this.state.app_name} email={getCookie("email")} />
               
               {/* Download button */}
               <div className="download-button">
