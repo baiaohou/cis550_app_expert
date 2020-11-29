@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react
 import '../style/WishList.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { Rate } from 'antd';
+import { getCookie } from './Home';
 
 
 
@@ -23,8 +24,8 @@ export default class Wishlist extends React.Component {
     this.state = {
       tenApps: [],
       wishList: [],
-      userName: "Zimao Wang",
-      email: "zimaow@gmail.com"
+      userName: getCookie("first_name") + " " + getCookie("last_name"), // e.g. Zimao Wang
+      email: getCookie("email"), // e.g. "zimaow@gmail.com",
       // wishList: new Set(), // store divs for wishlist
       // wishListNames: new Set() // divs in wishList cannot check duplicates, use wishListNames to check
     }
@@ -184,13 +185,13 @@ export default class Wishlist extends React.Component {
             <div class="col-lg-4">
               <aside class="user-info-wrapper">
                 {/* <div class="user-cover" style={{backgroundImage: 'url(https://bootdey.com/img/Content/bg1.jpg)'}}></div> */}
-                <div class="user-cover" style={{backgroundImage: 'url(../bg_profile.jpg)'}}></div>
+                <div class="user-cover" style={{backgroundImage: 'url(https://source.unsplash.com/random)'}}></div>
                 <div class="user-info">
                   <div class="user-avatar">
-                    <a class="edit-avatar" href="#"></a><img src="https://play-lh.googleusercontent.com/eNgdaLP7p4F8HBygVcxdjNq9ZFlLSsOOrP2ZMU5_xwAHL_zRS3gd_KAQiw9fmK1dx04=s180-rw" alt="User"></img>
+                    <a class="edit-avatar" href="#"></a><img src="../user-profile-pic1.png" alt="User"></img>
                   </div>
                   <div class="user-data">
-                    <h4>{this.state.userName}</h4><span>Joined November 29, 2020</span>
+                    <h4>{this.state.userName}</h4><span>Last Login on {getCookie("date")}</span>
                   </div>
                 </div>
               </aside>
