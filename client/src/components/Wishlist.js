@@ -166,58 +166,62 @@ export default class Wishlist extends React.Component {
 
   render() {    
     return (
+      
       // template: https://www.bootdey.com/snippets/view/Wishlist-profile#html
-      <div class="container padding-bottom-3x mb-2">
-        <PageNavbar active="wishlist" />
-        <div className="container movies-container">
-          <div className="jumbotron">
-            <div className="h5">Test: some Apps to be added to wishlilst</div>
-            <div className="genres-container">
-              {this.state.tenApps}
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4">
-            <aside class="user-info-wrapper">
-              {/* <div class="user-cover" style={{backgroundImage: 'url(https://bootdey.com/img/Content/bg1.jpg)'}}></div> */}
-              <div class="user-cover" style={{backgroundImage: 'url(../bg_profile.jpg)'}}></div>
-              <div class="user-info">
-                <div class="user-avatar">
-                  <a class="edit-avatar" href="#"></a><img src="https://play-lh.googleusercontent.com/eNgdaLP7p4F8HBygVcxdjNq9ZFlLSsOOrP2ZMU5_xwAHL_zRS3gd_KAQiw9fmK1dx04=s180-rw" alt="User"></img>
-                </div>
-                <div class="user-data">
-                  <h4>{this.state.userName}</h4><span>Joined November 29, 2020</span>
-                </div>
+      <div> 
+        <PageNavbar active="My Wishlist" />
+      
+        <div class="container padding-bottom-3x mb-2">
+          <div className="container movies-container">
+            <div className="jumbotron">
+              <div className="h5">Test: some Apps to be added to wishlilst</div>
+              <div className="genres-container">
+                {this.state.tenApps}
               </div>
-            </aside>
-            <nav class="list-group">
-                <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
-                <a class="list-group-item with-badge active" href="/wishlist"><i class="fa fa-heart"></i>Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
-                <a class="list-group-item" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommended</a>
-            </nav>
-          </div>
-          <div class="col-lg-8">
-            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
-            <div class="table-responsive wishlist-table margin-bottom-none">
-              <table class="table">
-                <thead>
-                    <tr>
-                        <th>Item Name</th>
-                        <th class="text-center">
-                          <a class="btn btn-sm btn-outline-danger" href="#" onClick={() => this.clearWishList(this.state.email)}>Clear Wishlist</a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.wishList}
-                </tbody>
-              </table>
             </div>
-            {/* <hr class="mb-4"> */}
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" type="checkbox" id="inform_me" checked=""></input>
-                <label class="custom-control-label" for="inform_me">Inform me when item from my wishlist is on sale</label>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <aside class="user-info-wrapper">
+                {/* <div class="user-cover" style={{backgroundImage: 'url(https://bootdey.com/img/Content/bg1.jpg)'}}></div> */}
+                <div class="user-cover" style={{backgroundImage: 'url(../bg_profile.jpg)'}}></div>
+                <div class="user-info">
+                  <div class="user-avatar">
+                    <a class="edit-avatar" href="#"></a><img src="https://play-lh.googleusercontent.com/eNgdaLP7p4F8HBygVcxdjNq9ZFlLSsOOrP2ZMU5_xwAHL_zRS3gd_KAQiw9fmK1dx04=s180-rw" alt="User"></img>
+                  </div>
+                  <div class="user-data">
+                    <h4>{this.state.userName}</h4><span>Joined November 29, 2020</span>
+                  </div>
+                </div>
+              </aside>
+              <nav class="list-group">
+                  <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
+                  <a class="list-group-item with-badge active" href="/wishlist"><i class="fa fa-heart"></i>Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
+                  <a class="list-group-item" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommended</a>
+              </nav>
+            </div>
+            <div class="col-lg-8">
+              <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+              <div class="table-responsive wishlist-table margin-bottom-none">
+                <table class="table">
+                  <thead>
+                      <tr>
+                          <th>Item Name</th>
+                          <th class="text-center">
+                            <a class="btn btn-sm btn-outline-danger" href="#" onClick={() => this.clearWishList(this.state.email)}>Clear Wishlist</a>
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {this.state.wishList}
+                  </tbody>
+                </table>
+              </div>
+              {/* <hr class="mb-4"> */}
+              <div class="custom-control custom-checkbox">
+                  <input class="custom-control-input" type="checkbox" id="inform_me" checked=""></input>
+                  <label class="custom-control-label" for="inform_me">Inform me when item from my wishlist is on sale</label>
+              </div>
             </div>
           </div>
         </div>

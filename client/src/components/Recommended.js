@@ -168,9 +168,11 @@ export default class Recommended extends React.Component {
 
   render() {    
     return (
+      
       // template: https://www.bootdey.com/snippets/view/Wishlist-profile#html
+     <div> 
+       <PageNavbar active="Recommendations" />
       <div class="container padding-bottom-3x mb-2">
-        <PageNavbar active="recommended" />
         <div className="container movies-container">
           <div className="jumbotron">
             <div className="h5">Test: some Apps to be added to wishlilst</div>
@@ -215,6 +217,7 @@ export default class Recommended extends React.Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }

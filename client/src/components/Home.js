@@ -106,7 +106,7 @@ export default function Home() {
    
     <React.Fragment>
       <CssBaseline />
-      <PageNavbar active="home" />
+      <PageNavbar active="Home" />
     {/*    <AppBar position="relative">
          <Toolbar>
            <Typography variant="h6" color="inherit">
