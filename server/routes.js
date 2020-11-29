@@ -274,18 +274,18 @@ function get10Apps(req, res) {
 function addToWishList(req, res) {
   console.log("Into addToWishList function");
   console.log("appName: ", req.query.appName);
-  console.log("user: ", req.query.user);
-  var query = `SELECT * FROM wishlist WHERE user='${req.query.user}' AND app_name='${req.query.appName}';`
+  console.log("email: ", req.query.email);
+  var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name='${req.query.appName}';`;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
       if (rows.length == 0) {
         console.log("Wishlist does not have this, insert it.");
-        query = `INSERT INTO wishlist (user, app_name) VALUES ('${req.query.user}', '${req.query.appName}');`;
+        query = `INSERT INTO wishlist (email, app_name) VALUES ('${req.query.email}', '${req.query.appName}');`;
       } else {
         console.log("Wishlist already has this, delete it.");
-        query = `DELETE FROM wishlist WHERE user='${req.query.user}' AND app_name='${req.query.appName}';`;
+        query = `DELETE FROM wishlist WHERE email='${req.query.email}' AND app_name='${req.query.appName}';`;
       }
       connection.query(query, function(err, rows, fields) {
         if (err) {
@@ -299,9 +299,24 @@ function addToWishList(req, res) {
   });
 }
 
+function isInWishList(req, res) {
+  console.log("Into isInWishList function");
+  console.log("appName: ", req.query.appName);
+  console.log("email: ", req.query.email);
+  var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name='${req.query.appName}';`;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("query result: " + rows);
+      res.json(rows);
+    }
+  });
+}
+
 function getWishlist(req, res) {
   console.log("Into getWishlist function");
-  var query = `SELECT app_name FROM wishlist WHERE user='${req.params.user}';`;
+  var query = `SELECT * FROM wishlist w JOIN package_info p ON w.app_name=p.app_name WHERE email='${req.params.email}';`;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
@@ -329,5 +344,6 @@ module.exports = {
   loadMoreCommentsByAppName: loadMoreCommentsByAppName,
   get10Apps: get10Apps,
   addToWishList: addToWishList,
-  getWishlist: getWishlist
+  getWishlist: getWishlist,
+  isInWishList: isInWishList
 }
