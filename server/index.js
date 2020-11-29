@@ -70,6 +70,8 @@ app.get('/isInWishList', routes.isInWishList);
 app.get('/clearWishList/:email', routes.clearWishList);
 app.get('/getRecommended/:email', routes.getRecommended);
 
+app.get('/getFriends/:email', routes.getFriends);
+
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
 });

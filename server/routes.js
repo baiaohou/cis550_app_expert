@@ -39,7 +39,9 @@ function loginCheck(req, res) {
           'Set-Cookie': [
             "isVisit=1",
             "email=" + rows[0].email,
-            "first_name=" + rows[0].first_name
+            "first_name=" + rows[0].first_name,
+            "last_name=" + rows[0].last_name,
+            "date=" + ((new Date()).getFullYear()) + "/" + ((new Date()).getMonth() + 1) + "/" + (new Date()).getDate()
           ],
           'Content-Type': 'text/plain',
           'Location': 'http://localhost:3000/home'
@@ -374,6 +376,24 @@ function getRecommended(req, res) {
   });
 }
 
+
+function getFriends(req, res) {
+  console.log("Into getFriends function");
+  console.log(req.params.email);
+  var query = `
+  select first_name, last_name from 
+  (select friend2 from friends where friend1='${req.params.email}') t left join user on friend2=email
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("getFriends query result: ", rows);
+      res.json(rows);
+    }
+  });
+}
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   loginCheck: loginCheck,
@@ -393,5 +413,6 @@ module.exports = {
   getWishList: getWishList,
   isInWishList: isInWishList,
   clearWishList: clearWishList,
-  getRecommended: getRecommended
+  getRecommended: getRecommended,
+  getFriends: getFriends
 }

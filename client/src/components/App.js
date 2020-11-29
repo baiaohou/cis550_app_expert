@@ -19,6 +19,7 @@ import Home from './Home';
 import Team from './Team';
 import Wishlist from './Wishlist';
 import Recommended from './Recommended';
+import Friends from './Friends';
 
 export default class App extends React.Component {
 
@@ -127,6 +128,10 @@ export default class App extends React.Component {
 						<Route
 							path="/recommended"
 							component={Recommended}
+						/>
+						<Route
+							path="/friends"
+							component={Friends}
 						/>
 					</Switch>
 				</Router>
