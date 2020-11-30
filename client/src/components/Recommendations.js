@@ -73,7 +73,7 @@ export default class Recommendations extends React.Component {
 
 		return (
 			<div className="Recommendations">
-				<PageNavbar active="recommendations" />
+				<PageNavbar active="Search" />
 
 			    <div className="container recommendations-container">
 			    	<div className="jumbotron">
