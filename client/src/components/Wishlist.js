@@ -11,6 +11,7 @@ import '../style/WishList.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { Rate } from 'antd';
 import { getCookie } from './Home';
+import { Constants } from './Constants';
 
 
 
@@ -37,7 +38,7 @@ export default class Wishlist extends React.Component {
   componentDidMount() {
     console.log("into Wishlist.js Mount");
     // Send an HTTP request to the server to get 10 apps to test.
-    fetch("http://localhost:8081/get10apps", {
+    fetch(`${Constants.servaddr_prefix}/get10apps`, {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -62,7 +63,7 @@ export default class Wishlist extends React.Component {
   }
 
   getWishList(email) {
-    fetch("http://localhost:8081/getWishlist/"+email, {
+    fetch(`${Constants.servaddr_prefix}/getWishlist/`+email, {
     method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -103,7 +104,7 @@ export default class Wishlist extends React.Component {
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
 
   addToWishList(appName, email) {
-    fetch("http://localhost:8081/addToWishList?appName="+appName+"&email="+email, {
+    fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+appName+"&email="+email, {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -117,7 +118,7 @@ export default class Wishlist extends React.Component {
   clearWishList(email) {
     console.log("call clearWishList");
     console.log("clearWishList email: ", email);
-    fetch("http://localhost:8081/clearWishlist/"+email, {
+    fetch(`${Constants.servaddr_prefix}/clearWishlist/`+email, {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -129,7 +130,7 @@ export default class Wishlist extends React.Component {
   }
 
   // addToWL(appName) {
-  //   fetch("http://localhost:8081/addToWishList/"+appName, {
+  //   fetch(`${Constants.servaddr_prefix}/addToWishList/`+appName, {
   //     method: 'GET' // The type of HTTP request.
   //   })
   //     .then(res => res.json()) // Convert the response data to a JSON.

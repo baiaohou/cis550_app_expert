@@ -12,6 +12,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Constants } from './Constants';
 
 function Copyright() {
   return (
@@ -54,7 +55,7 @@ export default function ResetPassword() {
         <Typography component="h1" variant="h5">
           Reset Your Password
         </Typography>
-        <form action='http://localhost:8081/changepwd' method="get" className={classes.form} noValidate>
+        <form action={`${Constants.servaddr_prefix}/changepwd`} method="get" className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

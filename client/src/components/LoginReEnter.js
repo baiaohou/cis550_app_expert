@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 // import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { Constants } from './Constants';
 
 
 
@@ -74,7 +75,7 @@ export default function Login() {
             ✅ Changes has been saved! Sign in now ✅
             
           </Typography>
-          <form action='http://localhost:8081/loginvalidate' method="get" className={classes.form} noValidate>
+          <form action={`${Constants.servaddr_prefix}/loginvalidate`} method="get" className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
