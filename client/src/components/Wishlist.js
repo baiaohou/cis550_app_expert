@@ -74,7 +74,7 @@ export default class Wishlist extends React.Component {
         // A button which triggers the showMovies function for each genre.
         let wishDivs = wishList.map((wishObj, i) => {
           if (wishObj.price == 0) {
-              return ( 
+              return (
                 <tr>
                   <td>
                       <div class="product-item">
