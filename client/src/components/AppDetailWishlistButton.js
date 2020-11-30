@@ -12,9 +12,7 @@ export default class AppDetailWishlistButton extends React.Component {
     }
 
     onSwitchChange= (checked) => {
-        let tmp_name = this.props.app_name;
-        console.log(encodeURIComponent(tmp_name));
-        fetch(`${Constants.servaddr_prefix}/addToWishList?email=${getCookie("email")}&appName=${tmp_name}`, {
+        fetch(`${Constants.servaddr_prefix}/addToWishList?email=${getCookie("email")}&appName=${encodeURIComponent(this.props.app_name)}`, {
             method: 'GET'
         })
             .then(res => res.json())
@@ -22,7 +20,7 @@ export default class AppDetailWishlistButton extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        fetch(`${Constants.servaddr_prefix}/isInWishList?email=${nextProps.email}&appName=${nextProps.app_name}`, {
+        fetch(`${Constants.servaddr_prefix}/isInWishList?email=${nextProps.email}&appName=${encodeURIComponent(nextProps.app_name)}`, {
             method: 'GET'
         })
             .then(res => res.json())

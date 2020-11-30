@@ -22,7 +22,7 @@ export default class AppDetailComments extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        app_to_comment = nextProps.app_name;
+        app_to_comment = encodeURIComponent(nextProps.app_name);
         this.getData(res => {
             this.setState({
                 initLoading: false,
