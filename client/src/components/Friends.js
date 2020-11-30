@@ -175,9 +175,9 @@ export default class Recommended extends React.Component {
       // template: https://www.bootdey.com/snippets/view/Wishlist-profile#html
      <div> 
        <PageNavbar active="Friends" />
+       <br></br><p></p>
       <div class="container padding-bottom-3x mb-2">
         <div className="container movies-container">
-
         </div>
         <div class="row">
           <div class="col-lg-4">
@@ -193,9 +193,9 @@ export default class Recommended extends React.Component {
               </div>
             </aside>
             <nav class="list-group">
-                <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
-                <a class="list-group-item" href="/wishlist"><i class="fa fa-heart"></i>Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
-                <a class="list-group-item with-badge active" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommended</a>
+                <a class="list-group-item active" href="/friends"> <i class="fa fa-user"> </i> Friends</a>
+                <a class="list-group-item with-badge " href="/wishlist"><i class="fa fa-heart"></i>My Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
+                <a class="list-group-item with-badge " href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommendations</a>
             </nav>
           </div>
           <div class="col-lg-8">
@@ -204,7 +204,7 @@ export default class Recommended extends React.Component {
               <table class="table">
                 <thead>
                     <tr>
-                        <th>My Friends</th>
+                        <th>🚧 UNDER CONSRUCTION 🚧</th>
                     </tr>
                 </thead>
                 <tbody>

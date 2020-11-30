@@ -178,8 +178,8 @@ export default class Recommended extends React.Component {
                       <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}><img src={rcmdObj.icon} alt="Product"></img></a>
                       <div class="product-info">
                           <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}>{rcmdObj.app_name}</a></h4>
-                          <div class="divs-inline"><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;{rcmdObj.rating}</div>
-                          {resultPrice}
+                          <div class="divs-inline"><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;&nbsp;&nbsp;{rcmdObj.rating}</div>
+                          &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                           <div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre}</Tag></div>
                           <div>{rcmdObj.installs}+ installs</div>
                           <div class="text-lg text-medium">{rcmdObj.summary}</div>
@@ -211,6 +211,7 @@ export default class Recommended extends React.Component {
       // template: https://www.bootdey.com/snippets/view/Wishlist-profile#html
      <div> 
        <PageNavbar active="Recommendations" />
+       <br></br><p></p>
       <div class="container padding-bottom-3x mb-2">
         {/* <div className="container movies-container">
           <div className="jumbotron">
@@ -234,9 +235,9 @@ export default class Recommended extends React.Component {
               </div>
             </aside>
             <nav class="list-group">
-                <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
-                <a class="list-group-item" href="/wishlist"><i class="fa fa-heart"></i>Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
-                <a class="list-group-item with-badge active" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommended</a>
+                <a class="list-group-item" href="/friends"> <i class="fa fa-user"> </i> Friends</a>
+                <a class="list-group-item with-badge " href="/wishlist"><i class="fa fa-heart"></i>My Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
+                <a class="list-group-item with-badge active" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommendations</a>
             </nav>
           </div>
           <div class="col-lg-8">
@@ -245,7 +246,7 @@ export default class Recommended extends React.Component {
               <table class="table">
                 <thead>
                     <tr>
-                        <th>Recommended for you</th>
+                        <th>Recommendations For You</th>
                     </tr>
                 </thead>
                 <tbody>
