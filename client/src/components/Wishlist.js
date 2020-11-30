@@ -91,8 +91,8 @@ export default class Wishlist extends React.Component {
                       <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
                       <div class="product-info">
                           <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
-                          <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
-                          {resultPrice}
+                          <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;&nbsp;&nbsp;{wishObj.rating}</div>
+                          &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                           <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
                           <div>{wishObj.installs}+ installs</div>
                           <div class="text-lg text-medium">{wishObj.summary}</div>
@@ -191,7 +191,7 @@ export default class Wishlist extends React.Component {
       // template: https://www.bootdey.com/snippets/view/Wishlist-profile#html
       <div> 
         <PageNavbar active="My Wishlist" />
-      
+        <br></br><p></p>
         <div class="container padding-bottom-3x mb-2">
           {/* <div className="container movies-container">
             <div className="jumbotron">
@@ -216,9 +216,9 @@ export default class Wishlist extends React.Component {
                 </div>
               </aside>
               <nav class="list-group">
-                  <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
-                  <a class="list-group-item with-badge active" href="/wishlist"><i class="fa fa-heart"></i>Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
-                  <a class="list-group-item" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommended</a>
+              <a class="list-group-item" href="/friends"> <i class="fa fa-user"> </i> Friends</a>
+                  <a class="list-group-item with-badge active" href="/wishlist"><i class="fa fa-heart"></i>My Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
+                  <a class="list-group-item" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommendations</a>
               </nav>
             </div>
             <div class="col-lg-8">
@@ -230,7 +230,7 @@ export default class Wishlist extends React.Component {
                       <tr>
                           <th>Item Name</th>
                           <th class="text-center">
-                            <a class="btn btn-sm btn-outline-danger" href="#" onClick={() => this.clearWishList(this.state.email)}>Clear Wishlist</a>
+                            <a class="btn btn-sm btn-outline-danger" href="#" onClick={() => this.clearWishList(this.state.email)}><b>Empty</b></a>
                           </th>
                       </tr>
                   </thead>

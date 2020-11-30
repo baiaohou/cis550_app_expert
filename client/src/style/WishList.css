@@ -2,7 +2,7 @@
 
 .add-to-wishlist {
     display: inline-block;
-    color: #00FF00;
+    color: darkgreen;
     font-size: 18px;
     line-height: 1;
     text-decoration: none
@@ -230,7 +230,7 @@ a.list-group-item, .list-group-item-action {
 .wishlist-table .remove-from-cart,
 .order-table .remove-from-cart {
     display: inline-block;
-    color: #ff5252;
+    color: rgb(190, 13, 13);
     font-size: 18px;
     line-height: 1;
     text-decoration: none
