@@ -126,7 +126,7 @@ export default function Home() {
               color="textPrimary"
               gutterBottom
             >
-              About Our Team
+              Not Finished Yet
             </Typography>
             <Typography
               variant="h5"

@@ -14,6 +14,7 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import PageNavbar from './PageNavbar';
 
+
 function Sub() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -31,26 +32,26 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(6, 0, 3)
   },
   heroButtons: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(3)
   },
   cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(5)
+    paddingTop: theme.spacing(4.5),
+    paddingBottom: theme.spacing(0)
   },
   card: {
-    height: "100%",
+    height: "95%", // 100%
     display: "flex",
     flexDirection: "column"
   },
   cardMedia: {
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "48%"// "56.25%" // 16:9
   },
   cardContent: {
     flexGrow: 1
   },
   footer: {
     //backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(0)
+    padding: theme.spacing(4)
   }
 }));
 
@@ -64,7 +65,7 @@ const cards = [
   },
 
   {
-    header: "See Top Apps 🏅",
+    header: "Get Top Apps 🏅",
     img:
       "https://images.unsplash.com/photo-1564198879220-63f2734f7cec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2072&q=80",
     desc: "Description blah blah blah",
@@ -72,11 +73,35 @@ const cards = [
   },
 
   {
-    header: "My Wishlist ✨",
+    header: "My Wishlist 🛒",
     img:
       "../card-3.jpg",
     desc: "Description blah blah blah",
     goto: "/wishlist"
+  },
+
+  {
+    header: "Recommendations 👀",
+    img:
+      "../card-4.jpg",
+    desc: "Description blah blah blah",
+    goto: "/recommended"
+  },
+
+  {
+    header: "See My Friends 👭",
+    img:
+      "../card-5.jpg",
+    desc: "See what apps your friend likes",
+    goto: "/friends"
+  },
+
+  {
+    header: "I'm Feeling Lucky 🎲",
+    img:
+      "../card-6.jpg",
+    desc: "Pick a random app",
+    goto: "/team"
   }
 ];
 
@@ -134,9 +159,7 @@ export default function Home() {
               color="textSecondary"
               paragraph
             >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+              Nobody Knows Apps Better Than Us
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
@@ -165,7 +188,7 @@ export default function Home() {
                   <CardMedia
                     className={classes.cardMedia}
                     image={card.img}
-                    title="Image title"
+                    title="😉 What are you looking for?"
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
