@@ -3,8 +3,6 @@ import { Constants } from './Constants';
 import { getCookie } from './Home';
 import { Switch } from 'antd';
 
-var app_name_to_fav;
-
 export default class AppDetailWishlistButton extends React.Component {
     constructor(props) {
         super(props);
@@ -13,8 +11,17 @@ export default class AppDetailWishlistButton extends React.Component {
         }
     }
 
+    onSwitchChange= (checked) => {
+        let tmp_name = this.props.app_name;
+        console.log(encodeURIComponent(tmp_name));
+        fetch(`${Constants.servaddr_prefix}/addToWishList?email=${getCookie("email")}&appName=${tmp_name}`, {
+            method: 'GET'
+        })
+            .then(res => res.json())
+            .catch(err => console.log(err));
+    }
+
     componentWillReceiveProps(nextProps) {
-        app_name_to_fav = nextProps.app_name;
         fetch(`${Constants.servaddr_prefix}/isInWishList?email=${nextProps.email}&appName=${nextProps.app_name}`, {
             method: 'GET'
         })
@@ -25,7 +32,7 @@ export default class AppDetailWishlistButton extends React.Component {
                         button: <Switch
                             checkedChildren="In Wishlist"
                             unCheckedChildren="Not In Wishlist"
-                            onChange={onChange}
+                            onChange={this.onSwitchChange}
                         />
                     })
                 } else {
@@ -34,7 +41,7 @@ export default class AppDetailWishlistButton extends React.Component {
                             checkedChildren="In Wishlist"
                             unCheckedChildren="Not In Wishlist"
                             defaultChecked
-                            onChange={onChange}
+                            onChange={this.onSwitchChange}
                         />
                     })
                 }
@@ -49,12 +56,4 @@ export default class AppDetailWishlistButton extends React.Component {
             </div>
         )
     }
-}
-
-function onChange(checked) {
-    fetch(`${Constants.servaddr_prefix}/addToWishList?email=${getCookie("email")}&appName=${app_name_to_fav}`, {
-        method: 'GET'
-    })
-        .then(res => res.json())
-        .catch(err => console.log(err));
 }

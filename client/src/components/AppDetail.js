@@ -57,7 +57,7 @@ export default class AppDetail extends React.Component {
         let thisAppDetail = appList[0];
         this.setState({
           app_name: thisAppDetail.app_name,
-          category: thisAppDetail.category,
+          category: thisAppDetail.category.replace(/_/g, " "),
           rating: thisAppDetail.rating,
           reviews_count: thisAppDetail.reviews_count,
           size: thisAppDetail.size,

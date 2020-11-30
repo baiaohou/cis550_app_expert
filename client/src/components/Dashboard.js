@@ -66,7 +66,7 @@ export default class Dashboard extends React.Component {
         // <div key={i} className="app">
         // {/* <div className="App">{}</div> */}
         // {/* <Router> */}
-        // <NavLink to = {"/app_detail/"+ app.App}  replace > {app.App}</NavLink>
+        // <NavLink to = {"/app_detail/"+ encodeURIComponent(app.App)}  replace > {app.App}</NavLink>
         // <div className="Rating">{app.Rating}</div>
         // <div className="Installs">{app.Installs}</div>
 
@@ -75,9 +75,9 @@ export default class Dashboard extends React.Component {
         <tr>
             <td>
                 <div class="product-item">
-                    <a class="product-thumb" href={"/app_detail/"+app.app_name}><img src={app.icon} alt="Product"></img></a>
+                    <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a>
                     <div class="product-info">
-                        <h4 class="product-title"><a href={"/app_detail/"+app.app_name}>{app.app_name}</a></h4>
+                        <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4>
                         <div><Rate disabled defaultValue={0} value={app.rating} />&nbsp;{app.rating}</div>
                         <div>{app.installs}+ installs</div>
                         <div class="text-lg text-medium text-muted">${app.price}</div>

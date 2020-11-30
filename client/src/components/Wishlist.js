@@ -75,9 +75,9 @@ export default class Wishlist extends React.Component {
           <tr>
             <td>
                 <div class="product-item">
-                    <a class="product-thumb" href={"/app_detail/"+wishObj.app_name}><img src={wishObj.icon} alt="Product"></img></a>
+                    <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
                     <div class="product-info">
-                        <h4 class="product-title"><a href={"/app_detail/"+wishObj.app_name}>{wishObj.app_name}</a></h4>
+                        <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
                         <div><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
                         <div>{wishObj.installs}+ installs</div>
                         <div class="text-lg text-medium text-muted">${wishObj.price}</div>
