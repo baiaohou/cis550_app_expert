@@ -327,6 +327,7 @@ function getWishList(req, res) {
     )
     SELECT *
     FROM wishApp w JOIN package_info p ON w.app_name=p.app_name JOIN app_detail d ON w.app_name=d.app_name JOIN has_genre g ON w.app_name=g.app_name
+    ORDER BY w.app_name;
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) {
@@ -377,7 +378,7 @@ function getRecommended(req, res) {
     )
     SELECT *
     FROM popGenreApp g JOIN fourStarApp f ON g.app_name=f.app_name JOIN package_info i ON f.app_name=i.app_name
-    ORDER BY f.installs DESC
+    ORDER BY f.installs DESC, f.rating DESC
     LIMIT 10;
   `;
   connection.query(query, function(err, rows, fields) {

@@ -5,14 +5,13 @@ import PageNavbar from './PageNavbar';
 import GenreButton from './GenreButton';
 import DashboardMovieRow from './DashboardMovieRow';
 import AppDetail from './AppDetail';
-import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
-// import { Switch } from 'antd';
+// import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
 import '../style/WishList.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { Rate, Tag } from 'antd';
 import { getCookie } from './Home';
 import { Constants } from './Constants';
-import AppDetailWishlistButton from './AppDetailWishlistButton';
+
 
 
 
@@ -30,6 +29,7 @@ export default class Wishlist extends React.Component {
       email: getCookie("email"), // e.g. "zimaow@gmail.com",
       // wishList: new Set(), // store divs for wishlist
       // wishListNames: new Set() // divs in wishList cannot check duplicates, use wishListNames to check
+      tmpName: ""
     }
 
     // this.addToWL = this.addToWL.bind(this);
@@ -73,54 +73,46 @@ export default class Wishlist extends React.Component {
         // Map each tenAppObj in tenAppList to an HTML element:
         // A button which triggers the showMovies function for each genre.
         let wishDivs = wishList.map((wishObj, i) => {
+          this.setState({
+            tmpName: wishObj.app_name
+          });
+          console.log("tmpName: ", this.state.tmpName);
+          let resultPrice = "";
           if (wishObj.price == 0) {
-              return (
-                <tr>
-                  <td>
-                      <div class="product-item">
-                          <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
-                          <div class="product-info">
-                              <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
-                              <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
-                              <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>
-                              <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
-                              <div>{wishObj.installs}+ installs</div>
-                              <div class="text-lg text-medium">{wishObj.summary}</div>
-                              <div className="user_actions"><AppDetailWishlistButton app_name={wishObj.app_name} email={getCookie("email")} /></div>
-                          </div>
+            resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>;
+          } else {
+            resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${wishObj.price}&nbsp;&nbsp;</div>;
+          }
+          // let resultButton = <div id={wishObj.app_name}><Switch id={wishObj.app_name} checkedChildren="pick" defaultChecked onClick={() => this.addToWishList(wishObj.app_name, this.state.email)} /></div> ;
+          return (
+            <tr>
+              <td>
+                  <div class="product-item">
+                      <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
+                      <div class="product-info">
+                          <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
+                          <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
+                          {resultPrice}
+                          <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
+                          <div>{wishObj.installs}+ installs</div>
+                          <div class="text-lg text-medium">{wishObj.summary}</div>
                       </div>
-                  </td>
-                  <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-                </tr>
-              )
-            } else {
-              return (
-                <tr>
-                  <td>
-                      <div class="product-item">
-                          <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
-                          <div class="product-info">
-                              <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
-                              <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
-                              <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${wishObj.price}&nbsp;&nbsp;</div>
-                              <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
-                              <div>{wishObj.installs}+ installs</div>
-                              <div class="text-lg text-medium">{wishObj.summary}</div>
-                              <div className="user_actions"><AppDetailWishlistButton app_name={wishObj.app_name} email={getCookie("email")} /></div>
-                          </div>
-                      </div>
-                  </td>
-                  <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-              </tr>
-              )
-            }
+                  </div>
+              </td>
+              <td class="text-center">
+                <a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                  <i class="fa fa-window-close fa-2x" aria-hidden="true" onClick={() => this.addToWishList(wishObj.app_name, this.state.email)}></i>
+                </a>
+              </td>
+            </tr>
+          )
         });
-        console.log("wishDivs: " + wishDivs);
+        console.log("wishDivs: ", wishDivs);
         // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({
           wishList: wishDivs
         });
-        console.log("state's wishList: " + this.state.wishList);
+        console.log("state's wishList: ", this.state.wishList);
       })
       .catch(err => console.log(err));	// Print the error if there is one.
   }
@@ -130,7 +122,8 @@ export default class Wishlist extends React.Component {
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
 
   addToWishList(appName, email) {
-    fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+appName+"&email="+email, {
+    console.log("call addToWishList");
+    fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+encodeURIComponent(appName)+"&email="+email, {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -200,14 +193,14 @@ export default class Wishlist extends React.Component {
         <PageNavbar active="My Wishlist" />
       
         <div class="container padding-bottom-3x mb-2">
-          <div className="container movies-container">
+          {/* <div className="container movies-container">
             <div className="jumbotron">
               <div className="h5">Test: some Apps to be added to wishlilst</div>
               <div className="genres-container">
                 {this.state.tenApps}
               </div>
             </div>
-          </div>
+          </div> */}
           <div class="row">
             <div class="col-lg-4">
               <aside class="user-info-wrapper">
@@ -231,6 +224,7 @@ export default class Wishlist extends React.Component {
             <div class="col-lg-8">
               <div class="padding-top-2x mt-2 hidden-lg-up"></div>
               <div class="table-responsive wishlist-table margin-bottom-none">
+              {/* <div className="user_actions block"><AddToWishlistButton app_name="Facebook" email='zimaow@gmail.com' /></div> */}
                 <table class="table">
                   <thead>
                       <tr>
@@ -241,6 +235,8 @@ export default class Wishlist extends React.Component {
                       </tr>
                   </thead>
                   <tbody>
+                    {/* <tr><td><div className="user_actions"><AddToWishlistButton app_name={this.state.tmpName} email={getCookie("email")} /></div></td></tr> */}
+                  
                       {this.state.wishList}
                   </tbody>
                 </table>

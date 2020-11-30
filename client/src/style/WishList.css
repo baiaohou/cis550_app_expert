@@ -1,5 +1,17 @@
 /* body{margin-top:20px;} */
 
+.add-to-wishlist {
+    display: inline-block;
+    color: #00FF00;
+    font-size: 18px;
+    line-height: 1;
+    text-decoration: none
+}
+
+.remove-float {
+    float: right;
+}
+
 .tag-inline-block {
     display: inline-block;
 }
