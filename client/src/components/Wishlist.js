@@ -9,9 +9,10 @@ import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react
 // import { Switch } from 'antd';
 import '../style/WishList.css';
 import 'font-awesome/css/font-awesome.min.css';
-import { Rate } from 'antd';
+import { Rate, Tag } from 'antd';
 import { getCookie } from './Home';
 import { Constants } from './Constants';
+import AppDetailWishlistButton from './AppDetailWishlistButton';
 
 
 
@@ -71,24 +72,49 @@ export default class Wishlist extends React.Component {
         if (!wishList) return;
         // Map each tenAppObj in tenAppList to an HTML element:
         // A button which triggers the showMovies function for each genre.
-        let wishDivs = wishList.map((wishObj, i) =>
-          // <GenreButton id={"button-" + wishObj.app_name} onClick={() => this.addToWishList(wishObj.app_name, email)} genre={wishObj.app_name} />
-          <tr>
-            <td>
-                <div class="product-item">
-                    <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
-                    <div class="product-info">
-                        <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
-                        <div><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
-                        <div>{wishObj.installs}+ installs</div>
-                        <div class="text-lg text-medium text-muted">${wishObj.price}</div>
-                        <div class="text-lg text-medium">{wishObj.summary}</div>
-                    </div>
-                </div>
-            </td>
-            <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-        </tr>
-        );
+        let wishDivs = wishList.map((wishObj, i) => {
+          if (wishObj.price == 0) {
+              return (
+                <tr>
+                  <td>
+                      <div class="product-item">
+                          <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
+                          <div class="product-info">
+                              <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
+                              <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
+                              <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>
+                              <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
+                              <div>{wishObj.installs}+ installs</div>
+                              <div class="text-lg text-medium">{wishObj.summary}</div>
+                              <div className="user_actions"><AppDetailWishlistButton app_name={wishObj.app_name} email={getCookie("email")} /></div>
+                          </div>
+                      </div>
+                  </td>
+                  <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+                </tr>
+              )
+            } else {
+              return (
+                <tr>
+                  <td>
+                      <div class="product-item">
+                          <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
+                          <div class="product-info">
+                              <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
+                              <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
+                              <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${wishObj.price}&nbsp;&nbsp;</div>
+                              <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
+                              <div>{wishObj.installs}+ installs</div>
+                              <div class="text-lg text-medium">{wishObj.summary}</div>
+                              <div className="user_actions"><AppDetailWishlistButton app_name={wishObj.app_name} email={getCookie("email")} /></div>
+                          </div>
+                      </div>
+                  </td>
+                  <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+              </tr>
+              )
+            }
+        });
         console.log("wishDivs: " + wishDivs);
         // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({

@@ -8,7 +8,7 @@ import AppDetail from './AppDetail';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
 // import { Switch } from 'antd';
 import '../style/WishList.css';
-import { Rate } from 'antd';
+import { Rate, Tag } from 'antd';
 import { getCookie } from './Home';
 import { Constants } from './Constants';
 
@@ -59,7 +59,7 @@ export default class Recommended extends React.Component {
       .catch(err => console.log(err));	// Print the error if there is one.
 
     // send an HTTP request to the server to fetch wishlist
-    // this.getWishList(this.state.email);
+    this.getWishList(this.state.email);// to update this.state.wishList, displaying length in badge
     this.getRecommended(this.state.email);
   }
 
@@ -72,22 +72,47 @@ export default class Recommended extends React.Component {
         if (!wishList) return;
         // Map each tenAppObj in tenAppList to an HTML element:
         // A button which triggers the showMovies function for each genre.
-        let wishDivs = wishList.map((wishObj, i) =>
-          <tr>
-            <td>
-                <div class="product-item">
-                    <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
-                    <div class="product-info">
-                        <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
-                        ReactDOM.render(<Rate disabled defaultValue={0} value={wishObj.rating} />, mountNode);
-                        <div class="text-lg text-medium text-muted">${wishObj.price}</div>
-                        <div class="text-lg text-medium">{wishObj.summary}</div>
+        let wishDivs = wishList.map((wishObj, i) => {
+          if (wishObj.price == 0) {
+            return (
+              <tr>
+                <td>
+                    <div class="product-item">
+                        <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
+                        <div class="product-info">
+                            <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
+                            <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
+                            <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>
+                            <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
+                            <div>{wishObj.installs}+ installs</div>
+                            <div class="text-lg text-medium">{wishObj.summary}</div>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-        </tr>
-        );
+                </td>
+                <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+              </tr>
+            )
+          } else {
+            return (
+              <tr>
+                <td>
+                    <div class="product-item">
+                        <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}><img src={wishObj.icon} alt="Product"></img></a>
+                        <div class="product-info">
+                            <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
+                            <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;{wishObj.rating}</div>
+                            <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${wishObj.price}&nbsp;&nbsp;</div>
+                            <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
+                            <div>{wishObj.installs}+ installs</div>
+                            <div class="text-lg text-medium">{wishObj.summary}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+            </tr>
+            )
+          }
+        });
         console.log("wishDivs: " + wishDivs);
         // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({
@@ -103,7 +128,7 @@ export default class Recommended extends React.Component {
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
 
   addToWishList(appName, email) {
-    fetch(`${Constants.servaddr_prefix}/addToWishList?appName="+appName+"&email=`+email, {
+    fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+appName+"&email="+email, {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
@@ -139,23 +164,47 @@ export default class Recommended extends React.Component {
         if (!rcmdList) return;
         // Map each tenAppObj in tenAppList to an HTML element:
         // A button which triggers the showMovies function for each genre.
-        let rcmdDivs = rcmdList.map((rcmdObj, i) =>
-          <tr>
-            <td>
-                <div class="product-item">
-                    <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}><img src={rcmdObj.icon} alt="Product"></img></a>
-                    <div class="product-info">
-                        <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}>{rcmdObj.app_name}</a></h4>
-                        <div><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;{rcmdObj.rating}</div>
-                        <div>{rcmdObj.installs}+ installs</div>
-                        <div class="text-lg text-medium text-muted">${rcmdObj.price}</div>
-                        <div class="text-lg text-medium">{rcmdObj.summary}</div>
+        let rcmdDivs = rcmdList.map((rcmdObj, i) => {
+          if (rcmdObj.price == 0) {
+            return (
+              <tr>
+                <td>
+                    <div class="product-item">
+                        <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}><img src={rcmdObj.icon} alt="Product"></img></a>
+                        <div class="product-info">
+                            <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}>{rcmdObj.app_name}</a></h4>
+                            <div class="divs-inline"><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;{rcmdObj.rating}</div>
+                            <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>
+                            <div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre}</Tag></div>
+                            <div>{rcmdObj.installs}+ installs</div>
+                            <div class="text-lg text-medium">{rcmdObj.summary}</div>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-        </tr>
-        );
+                </td>
+                <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+              </tr>
+            )
+          } else {
+            return (
+              <tr>
+                <td>
+                    <div class="product-item">
+                        <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}><img src={rcmdObj.icon} alt="Product"></img></a>
+                        <div class="product-info">
+                            <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}>{rcmdObj.app_name}</a></h4>
+                            <div class="divs-inline"><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;{rcmdObj.rating}</div>
+                            <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${rcmdObj.price}&nbsp;&nbsp;</div>
+                            <div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre}</Tag></div>
+                            <div>{rcmdObj.installs}+ installs</div>
+                            <div class="text-lg text-medium">{rcmdObj.summary}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+            </tr>
+            )
+          }
+        });
         console.log("rcmdDivs: " + rcmdDivs);
         // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({

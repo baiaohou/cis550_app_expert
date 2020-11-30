@@ -319,7 +319,15 @@ function isInWishList(req, res) {
 
 function getWishList(req, res) {
   console.log("Into getWishList function");
-  var query = `SELECT * FROM wishlist w JOIN package_info p ON w.app_name=p.app_name JOIN app_detail d ON w.app_name=d.app_name WHERE email='${req.params.email}';`;
+  var query = `
+    WITH wishApp AS (
+      SELECT app_name
+      FROM wishlist
+      WHERE email='${req.params.email}'
+    )
+    SELECT *
+    FROM wishApp w JOIN package_info p ON w.app_name=p.app_name JOIN app_detail d ON w.app_name=d.app_name JOIN has_genre g ON w.app_name=g.app_name
+  `;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
@@ -355,8 +363,13 @@ function getRecommended(req, res) {
       ORDER BY num DESC
       LIMIT 1
     ), popGenreApp AS (
-      SELECT g.app_name
+      SELECT p.genre, app_name
       FROM popGenre p JOIN has_genre g ON p.genre=g.genre
+			WHERE app_name NOT IN (
+				SELECT app_name
+				FROM wishlist
+				WHERE email='${req.params.email}'
+			)
     ), fourStarApp AS (
       SELECT *
       FROM app_detail

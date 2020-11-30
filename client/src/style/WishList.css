@@ -1,5 +1,13 @@
 /* body{margin-top:20px;} */
 
+.tag-inline-block {
+    display: inline-block;
+}
+
+.divs-inline {
+    display: inline
+}
+
 .user-info-wrapper {
     position: relative;
     width: 100%;
