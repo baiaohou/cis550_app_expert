@@ -116,7 +116,7 @@ export default class AppDetail extends React.Component {
                 <Descriptions.Item label="Category">{this.state.category}</Descriptions.Item>
                 <Descriptions.Item label="Developer">{this.state.developer}</Descriptions.Item>
                 <Descriptions.Item label="Price">{this.state.type == 'Free' ? "Free" : this.state.price}</Descriptions.Item>
-                <Descriptions.Item label="rating">{<AppDetailRating rating={this.state.rating} reviews_count={this.state.reviews_count} />}</Descriptions.Item>
+                <Descriptions.Item label="Rating">{<AppDetailRating rating={this.state.rating}  reviews_count={this.state.reviews_count} />}</Descriptions.Item>
               </Descriptions>
 
               <br></br>
@@ -147,18 +147,18 @@ export default class AppDetail extends React.Component {
           <div className="app_summary">{this.state.summary}</div>
           <AppDetailDescription package_name={this.state.package_name} />
 
-          <br></br>
+          <p></p><p></p>
 
           {/* Scrennshots of the app */}
           <AppDetailTitleBar text="Screenshots" />
           <AppDetailScreenshots package_name={this.state.package_name} />
 
-          <br></br>
+          <p></p><p></p>
 
           {/* Comments of the app */}
           <AppDetailTitleBar text="Comments" />
           <AppDetailComments app_name={this.state.app_name} />
-
+          <p></p><p></p><p></p><p></p><p></p>
         </div>
       </div>
     );
