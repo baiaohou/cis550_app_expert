@@ -8,6 +8,7 @@ import AppDetail from './AppDetail';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
 import { Constants } from './Constants';
 // import { Switch } from 'antd';
+import { Rate } from 'antd';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -62,23 +63,30 @@ export default class Dashboard extends React.Component {
         // A button which triggers the showMovies function for each genre.
         let appDivs = appList.map((app, i) =>
 
-        <div key={i} className="app">
-        {/* <div className="App">{}</div> */}
-        {/* <Router> */}
-        <NavLink to = {"/app_detail/"+ app.App}  replace > {app.App}</NavLink>
-        <div className="Rating">{app.Rating}</div>
-        <div className="Installs">{app.Installs}</div>
+        // <div key={i} className="app">
+        // {/* <div className="App">{}</div> */}
+        // {/* <Router> */}
+        // <NavLink to = {"/app_detail/"+ app.App}  replace > {app.App}</NavLink>
+        // <div className="Rating">{app.Rating}</div>
+        // <div className="Installs">{app.Installs}</div>
 
-        {/* <Switch>
-        <Route
-							path={"/app_deatil/:"+ app.App}
-							render={() => (
-								<AppDetail app_name={app.App}/>
-							)}
-						/>
-        </Switch>
-        </Router> */}
-        </div>
+        // </div>
+
+        <tr>
+            <td>
+                <div class="product-item">
+                    <a class="product-thumb" href={"/app_detail/"+app.app_name}><img src={app.icon} alt="Product"></img></a>
+                    <div class="product-info">
+                        <h4 class="product-title"><a href={"/app_detail/"+app.app_name}>{app.app_name}</a></h4>
+                        <div><Rate disabled defaultValue={0} value={app.rating} />&nbsp;{app.rating}</div>
+                        <div>{app.installs}+ installs</div>
+                        <div class="text-lg text-medium text-muted">${app.price}</div>
+                        <div class="text-lg text-medium">{app.summary}</div>
+                    </div>
+                </div>
+            </td>
+            <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+        </tr>
         );
         console.log(appList);
 
@@ -106,17 +114,19 @@ export default class Dashboard extends React.Component {
           </div>
 
           <br></br>
-          <div className="jumbotron">
-            <div className="movies-container"> 
-              <div className="movies-header">
-                <div className="header-lg"><strong>App</strong></div>
-                <div className="header"><strong>Rating</strong></div>
-                <div className="header"><strong>Installs</strong></div>
-              </div>
-              <div className="results-container" id="results">
-                {this.state.apps}
-              </div>
-         
+          <div class="col-lg-8">
+            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+            <div class="table-responsive wishlist-table margin-bottom-none">
+              <table class="table">
+                <thead>
+                    <tr>
+                        <th>Top apps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.state.apps}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

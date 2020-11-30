@@ -5,6 +5,7 @@ import '../style/Recommendations.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
 import { Constants } from './Constants';
+import { Rate } from 'antd';
 
 export default class Recommendations extends React.Component {
 	constructor(props) {
@@ -41,11 +42,21 @@ export default class Recommendations extends React.Component {
 			if (!appList) return;
 				// Map each genreObj in genreList to an HTML element:
 			let appDivs = appList.map((app, i) =>
-				<div key={i} className="movieResults">
-				<NavLink to = {"/app_detail/"+ app.App}  replace > {app.App}</NavLink>
-				<div className="rating">{app.Rating}</div>
-				<div className="votes">{app.Installs}</div>
-				</div>
+				<tr>
+				<td>
+					<div class="product-item">
+						<a class="product-thumb" href={"/app_detail/"+app.app_name}><img src={app.icon} alt="Product"></img></a>
+						<div class="product-info">
+							<h4 class="product-title"><a href={"/app_detail/"+app.app_name}>{app.app_name}</a></h4>
+							<div><Rate disabled defaultValue={0} value={app.rating} />&nbsp;{app.rating}</div>
+							<div>{app.installs}+ installs</div>
+							<div class="text-lg text-medium text-muted">${app.price}</div>
+							<div class="text-lg text-medium">{app.summary}</div>
+						</div>
+					</div>
+				</td>
+				<td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+				</tr>
 				);
 				console.log(appDivs);
 
@@ -74,14 +85,16 @@ export default class Recommendations extends React.Component {
 			    		</div>
 			    		<div className="header-container">
 			    			<div className="h6">You may like ...</div>
-			    			<div className="headers">
-			    				<div className="header"><strong>App</strong></div>
-					            <div className="header"><strong>Rating</strong></div>
-					            <div className="header"><strong>Installs</strong></div>
-			    			</div>
-			    		</div>
-			    		<div className="results-container" id="results">
-			    			{this.state.recApps}
+						<div class="col-lg-8">
+							<div class="padding-top-2x mt-2 hidden-lg-up"></div>
+							<div class="table-responsive wishlist-table margin-bottom-none">
+							<table class="table">
+								<tbody>
+									{this.state.recApps}
+								</tbody>
+							</table>
+							</div>
+						</div>
 			    		</div>
 			    	</div>
 			    </div>

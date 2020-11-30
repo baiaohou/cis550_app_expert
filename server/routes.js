@@ -151,11 +151,11 @@ function getTopInGenre(req, res) {
   var genre = req.params.genre;
   console.log(genre)
   var query = `
-    SELECT a.App, a.Rating, a.Installs
-    FROM app_detail a
+    SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
+    FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
     WHERE a.Category = '${genre}' 
-    ORDER BY a.Rating DESC, a.Reviews_Count DESC
-    LIMIT 15;
+    ORDER BY a.rating DESC, a.installs DESC
+    LIMIT 10;
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
@@ -172,9 +172,10 @@ function getRecs(req, res) {
   var appName = req.params.appName;
   console.log(appName)
   var query = `
-    SELECT a.App, a.Rating, a.Installs
-    FROM app_detail a
-    WHERE a.App LIKE '%${appName}%' ;
+  SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
+  FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
+  WHERE a.app_name LIKE '%${appName}%' 
+  ORDER BY a.installs DESC, a.rating DESC;
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
