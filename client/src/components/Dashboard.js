@@ -9,6 +9,11 @@ import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react
 import { Constants } from './Constants';
 // import { Switch } from 'antd';
 import { Rate } from 'antd';
+import { Menu, Button } from 'antd';
+import Layout from 'antd/lib/layout/layout';
+const { Header, Content, Sider } = Layout;
+const { Item: MenuItem } = Menu;
+// const { SubMenu } = Menu;
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -35,9 +40,15 @@ export default class Dashboard extends React.Component {
         if (!genreList) return;
         // Map each genreObj in genreList to an HTML element:
         // A button which triggers the showMovies function for each genre.
+        console.log('genrelist')
+        console.log(genreList)
         let genreDivs = genreList.map((genreObj, i) =>
-          <GenreButton id={"button-" + genreObj.genre} onClick={() => this.showMovies(genreObj.genre)} genre={genreObj.genre} />
+          <Menu.Item key = {i} color="grey" onClick={() => this.showMovies(genreObj.genre)} genre={genreObj.genre}> {genreObj.genre.replace(/_/g, " ")}</Menu.Item> 
+          //<GenreButton id={"button-" + genreObj.genre} onClick={() => this.showMovies(genreObj.genre)} genre={genreObj.genre} />
         );
+        
+        console.log('menu items')
+        console.log(genreDivs)
 
         // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({
@@ -106,30 +117,43 @@ export default class Dashboard extends React.Component {
 
         <br></br>
         <div className="container movies-container">
-          <div className="jumbotron">
+          {/* <div className="jumbotron"> */}
+            
             <div className="h5">Top Apps </div>
-            <div className="genres-container">
-              {this.state.genres}
-            </div>
-          </div>
-
-          <br></br>
-          <div class="col-lg-8">
-            <div class="padding-top-2x mt-2 hidden-lg-up"></div>
-            <div class="table-responsive wishlist-table margin-bottom-none">
-              <table class="table">
-                <thead>
-                    <tr>
-                        <th>Top apps</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.apps}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+            <br></br>
+            <div class = "row">
+              <div class = "col-lg-3">
+                <aside>
+                  <div className="genres-container">
+                    {/* {this.state.genres} */}
+                    <Menu>
+                    {this.state.genres}
+                    </Menu>                
+                  </div>
+                </aside>
+              </div>
+          
+              
+              {/* <div class="col-lg-9" style={{backgroundColor:"gainsboro"}}> */}
+              <div class="col-lg-9">
+                <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+                  <div class="table-responsive wishlist-table margin-bottom-none">
+                    <table class="table">
+                      <thead>
+                          <tr>
+                              <th>Most Popular Apps</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {this.state.apps}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              
+             </div>
+        {/* </div> */}
       </div>
     );
   }
