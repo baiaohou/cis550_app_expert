@@ -83,6 +83,12 @@ export default class Wishlist extends React.Component {
           } else {
             resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${wishObj.price}&nbsp;&nbsp;</div>;
           }
+          let resultGenre = "";
+          if (wishObj.genre1 == wishObj.genre2) {
+            resultGenre = <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre1}</Tag></div>
+          } else {
+            resultGenre = <div class="tag-inline-block"><div class="tag-inline-block"><Tag color="cyan">{wishObj.genre1}</Tag></div><div class="tag-inline-block"><Tag color="cyan">{wishObj.genre2}</Tag></div></div>
+          }
           // let resultButton = <div id={wishObj.app_name}><Switch id={wishObj.app_name} checkedChildren="pick" defaultChecked onClick={() => this.addToWishList(wishObj.app_name, this.state.email)} /></div> ;
           return (
             <tr>
@@ -93,7 +99,7 @@ export default class Wishlist extends React.Component {
                           <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
                           <div class="divs-inline"><Rate disabled defaultValue={0} value={wishObj.rating} />&nbsp;&nbsp;&nbsp;{wishObj.rating}</div>
                           &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
-                          <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
+                          {resultGenre}
                           <div>{wishObj.installs}+ installs</div>
                           <div class="text-lg text-medium">{wishObj.summary}</div>
                       </div>

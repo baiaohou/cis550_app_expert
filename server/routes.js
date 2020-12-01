@@ -153,8 +153,8 @@ function getTopInGenre(req, res) {
   var query = `
     SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
     FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
-    WHERE a.Category = '${genre}' AND a.rating >= 4
-    ORDER BY a.installs DESC, a.rating DESC
+    WHERE a.Category = '${genre}' 
+    ORDER BY a.rating DESC, a.installs DESC
     LIMIT 10;
   `;
   connection.query(query, function (err, rows, fields) {
@@ -317,17 +317,43 @@ function isInWishList(req, res) {
   });
 }
 
+// get details of apps in wishlist
+// notice that here we get two different genres in a row for the apps with dual genres
 function getWishList(req, res) {
   console.log("Into getWishList function");
   var query = `
-    WITH wishApp AS (
+    WITH wishApp AS ( -- get apps in the wishlist
       SELECT app_name
       FROM wishlist
-      WHERE email='${req.params.email}'
+      WHERE email='zimaow@gmail.com'
+    ), wishAppAndGenre AS ( -- have two rows for the app with two genres
+      SELECT w.app_name, genre
+      FROM wishApp w JOIN app_detail d ON w.app_name=d.app_name JOIN has_genre g ON w.app_name=g.app_name
+      ORDER BY w.app_name
+    ), wishAppAndGenreSelfJoin AS ( -- join two wishAppAndGenre together, to show two genres in a row
+      SELECT w1.app_name, w1.genre AS genre1, w2.genre AS genre2
+      FROM wishAppAndGenre w1 JOIN wishAppAndGenre w2 ON w1.app_name=w2.app_name
+      ORDER BY app_name, genre1
+    ), dualGenreApp AS ( -- get the apps with two genres and rank two rows of the same app
+        SELECT *, IF(@tmp=app_name,@rank:=@rank+1,@rank:=1) AS new_rank,@tmp:=app_name AS tmp
+        FROM wishAppAndGenreSelfJoin
+        WHERE genre1!=genre2
+    ), singleAndDualGenreApp AS ( -- get apps with genre1 and genre2 in one row
+      ( -- get the apps with only one genre
+        SELECT app_name, genre1, genre2
+        FROM wishAppAndGenreSelfJoin
+        WHERE app_name NOT IN (SELECT app_name FROM dualGenreApp)
+      )
+      UNION
+      (
+        SELECT app_name, genre1, genre2
+        FROM dualGenreApp
+        WHERE new_rank=1
+      )
     )
-    SELECT *
-    FROM wishApp w JOIN package_info p ON w.app_name=p.app_name JOIN app_detail d ON w.app_name=d.app_name JOIN has_genre g ON w.app_name=g.app_name
-    ORDER BY w.app_name;
+    SELECT s.app_name, genre1, genre2, rating, installs, price, icon, summary
+    FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
+    ORDER BY app_name;
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) {
@@ -356,7 +382,7 @@ function clearWishList(req, res) {
 function getRecommended(req, res) {
   console.log("Into getRecommended function");
   var query = `
-    WITH popGenre AS (
+    WITH popGenre AS ( 
       SELECT genre, COUNT(g.app_name) AS num
       FROM has_genre g JOIN wishlist w ON g.app_name=w.app_name
       WHERE w.email='${req.params.email}'
