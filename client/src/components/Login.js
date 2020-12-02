@@ -62,6 +62,7 @@ export default function Login() {
 
 
   return (
+    
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -96,33 +97,16 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              // onClick={
-              //   () => {
-              //     alert("yoyoyo");
-              //     var usr;
-              //     var pwd;
-              //     pwd = document.getElementByLabel("password");
-              //     pwd = 
-              //     alert("PWD is " + pwd);
-              //   }
-              // }
-
-              // onClick={
-              //   () => {
-                  
-              //   }
-              // }
-              
             >
               Sign In
             </Button>
@@ -138,10 +122,31 @@ export default function Login() {
                 </Link>
               </Grid>
             </Grid>
+            <p></p>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/ResetPassword" variant="body2">
+                   
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/GoogleLogin" variant="body2">
+                  {"Sign In With Google"}
+                </Link>
+              </Grid>
+            </Grid>
             <Box mt={5}>
               <Copyright />
             </Box>
           </form>
+
+
+
+
+
+
+
+         
         </div>
       </Grid>
     </Grid>

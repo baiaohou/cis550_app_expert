@@ -9,6 +9,8 @@ import Recommendations from './Recommendations';
 import BestGenres from './BestGenres';
 import AppDetail from './AppDetail';
 import Login from './Login';
+import Google from './Google';
+import Google2 from './Google2';
 import LoginFailed from './LoginFailed';
 import LoginReEnter from './LoginReEnter';
 import Register from './Register';
@@ -26,6 +28,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
+
 				<Router>
 					<Switch>
 						<Route
@@ -42,6 +45,41 @@ export default class App extends React.Component {
 								<Login />
 							)}
 						/>
+
+						<Route
+							exact
+							path="/GoogleLogin"
+							render={() => (
+								<div>
+								<Google /></div>
+
+							)}
+						/>
+
+						<Route
+							exact
+							path="/GoogleLogout"
+							render={() => (
+								<div>
+								<Google2 /></div>
+
+							)}
+						/>
+
+						{/* <Route
+							exact
+							path="/Google"
+							render={() => (
+								<Google />
+							)}
+						/>
+						<Route
+							exact
+							path="/Google2"
+							render={() => (
+								<Google2 />
+							)}
+						/> */}
 						<Route
 							exact
 							path="/LoginFailed"

@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import PageNavbar from './PageNavbar';
+import { Logout } from './Google2';
 
 
 function Sub() {
@@ -121,6 +122,8 @@ export function getCookie(cname) {
 }
 
 
+
+
 const first_name = getCookie("first_name");
 
 
@@ -169,7 +172,7 @@ export default function Home() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary" href="/Login">
+                  <Button variant="outlined" color="primary" href="/GoogleLogout" >
                     Sign Out 🔙
                   </Button>
                 </Grid>
