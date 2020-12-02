@@ -6,3 +6,7 @@
     margin: auto;
     padding-top: 2%;
 }
+
+.bing_result_page .bing_result_list .bing_display_url {
+    color: green;
+}

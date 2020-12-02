@@ -98,9 +98,9 @@ export default class BingSearchResultList extends React.Component {
                             <List.Item>
                                 <Skeleton title={false} loading={item.loading} active>
                                     <div>
-                                        <h4>{decodeURIComponent(item.name)}</h4>
+                                        <h4><a href={item.url} target="_blank">{decodeURIComponent(item.name)}</a></h4>
                                         <p>{decodeURIComponent(item.snippet)}</p>
-                                        <div><a href={item.url} target="_blank">{item.displayUrl}</a></div>
+                                        <div><a href={item.url} target="_blank" className="bing_display_url">{item.displayUrl}</a></div>
                                     </div>
                                 </Skeleton>
                             </List.Item>
