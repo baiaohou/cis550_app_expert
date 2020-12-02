@@ -278,17 +278,17 @@ function addToWishList(req, res) {
   console.log("Into addToWishList function");
   console.log("appName: ", req.query.appName);
   console.log("email: ", req.query.email);
-  var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name='${req.query.appName}';`;
+  var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name="${req.query.appName}";`;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
       if (rows.length == 0) {
         console.log("Wishlist does not have this, insert it.");
-        query = `INSERT INTO wishlist (email, app_name) VALUES ('${req.query.email}', '${req.query.appName}');`;
+        query = `INSERT INTO wishlist (email, app_name) VALUES ('${req.query.email}', "${req.query.appName}");`;
       } else {
         console.log("Wishlist already has this, delete it.");
-        query = `DELETE FROM wishlist WHERE email='${req.query.email}' AND app_name='${req.query.appName}';`;
+        query = `DELETE FROM wishlist WHERE email='${req.query.email}' AND app_name="${req.query.appName}";`;
       }
       connection.query(query, function(err, rows, fields) {
         if (err) {
@@ -306,7 +306,7 @@ function isInWishList(req, res) {
   console.log("Into isInWishList function");
   console.log("appName: ", req.query.appName);
   console.log("email: ", req.query.email);
-  var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name='${req.query.appName}';`;
+  var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name="${req.query.appName}";`;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
@@ -325,7 +325,7 @@ function getWishList(req, res) {
     WITH wishApp AS ( -- get apps in the wishlist
       SELECT app_name
       FROM wishlist
-      WHERE email='zimaow@gmail.com'
+      WHERE email='${req.params.email}'
     ), wishAppAndGenre AS ( -- have two rows for the app with two genres
       SELECT w.app_name, genre
       FROM wishApp w JOIN app_detail d ON w.app_name=d.app_name JOIN has_genre g ON w.app_name=g.app_name
