@@ -139,6 +139,49 @@ function getAllGenres(req, res) {
     if (err) console.log(err);
     else {
       res.json(rows);
+      // console.log(rows);
+    }
+  });
+};
+
+function getCategory(req, res) {
+  console.log('call routes getCategory');
+  var genre = req.params.genre;
+  var query = `
+    WITH categories AS (
+      SELECT category,  AVG (rating) AS average, count(app_name) AS num
+        FROM app_detail
+        group by category
+    ),
+    wish_category AS (
+      SELECT category, count(distinct email) AS user_num
+        FROM wishlist w JOIN app_detail a ON w.app_name = a.app_name
+        GROUP BY category
+    ),
+    stars AS (
+      SELECT category, SUM(if(rating >= 4, 1, 0)) AS four_star, 
+        SUM(if(rating >= 3 AND rating < 4, 1, 0)) AS three_star , 
+        SUM(if(rating <= 3, 1, 0)) AS two_star
+        FROM app_detail 
+        GROUP BY category
+    ),
+    statistics AS (
+      SELECT c.category, c.average, c.num, s.four_star, s.three_star, s.two_star,
+      w.user_num
+      FROM categories c LEFT JOIN wish_category w ON c.category = w.category 
+      JOIN stars s ON c.category = s.category
+    )
+    SELECT s.category, s.num, s.user_num, s.four_star, s.three_star, s.two_star,
+    ROUND(s.average,2) AS average, RANK() OVER (ORDER BY s.average) avg_rank,
+    RANK() OVER (ORDER BY s.four_star) fourstar_rank,
+    RANK() OVER (ORDER BY s.user_num DESC) user_rank
+    FROM statistics s
+    WHERE s.category = '${genre}';
+  `;
+  connection.query(query, function (err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
       console.log(rows);
     }
   });
@@ -161,7 +204,7 @@ function getTopInGenre(req, res) {
     if (err) console.log(err);
     else {
       res.json(rows);
-      console.log(rows);
+      // console.log(rows);
     }
   });
 };
@@ -441,6 +484,7 @@ module.exports = {
   changePassword: changePassword,
   register: register,
   getAllGenres: getAllGenres,
+  getCategory: getCategory,
   getTopInGenre: getTopInGenre,
   getRecs: getRecs,
   getDecades: getDecades,

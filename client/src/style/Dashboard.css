@@ -32,3 +32,28 @@
 .movies-header .header, .movie .rating, .movie .votes {
   flex: 1 0 25%;
 }
+
+.category_info{
+  background-color: #ddd;
+  /* background-image: "../category_bg.jpg";
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+#chart, #category_text{
+  display: inline;
+}
+/* #block_container
+{
+    text-align:center;
+} */
+
+#chart {
+  float: right;
+}
+
+#category_text {
+  float: left;
+}
