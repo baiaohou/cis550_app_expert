@@ -171,6 +171,12 @@ export default class Recommended extends React.Component {
           } else {
             resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${rcmdObj.price}&nbsp;&nbsp;</div>;
           }
+          let resultGenre = "";
+          if (!rcmdObj.genre2) {
+            resultGenre = <div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre1}</Tag></div>
+          } else {
+            resultGenre = <div class="tag-inline-block"><div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre1}</Tag></div><div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre2}</Tag></div></div>
+          }
           return (
             <tr>
               <td>
@@ -180,7 +186,7 @@ export default class Recommended extends React.Component {
                           <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}>{rcmdObj.app_name}</a></h4>
                           <div class="divs-inline"><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;&nbsp;&nbsp;{rcmdObj.rating}</div>
                           &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
-                          <div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre}</Tag></div>
+                          {resultGenre}
                           <div>{rcmdObj.installs}+ installs</div>
                           <div class="text-lg text-medium">{rcmdObj.summary}</div>
                       </div>
