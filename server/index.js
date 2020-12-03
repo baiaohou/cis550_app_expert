@@ -72,6 +72,8 @@ app.get('/getRecommended/:email', routes.getRecommended);
 
 app.get('/getFriends/:email', routes.getFriends);
 
+app.get('/rating', routes.setUserRating);
+
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);
 });

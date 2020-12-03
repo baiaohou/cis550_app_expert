@@ -116,7 +116,7 @@ export default class AppDetail extends React.Component {
                 <Descriptions.Item label="Category">{this.state.category}</Descriptions.Item>
                 <Descriptions.Item label="Developer">{this.state.developer}</Descriptions.Item>
                 <Descriptions.Item label="Price">{this.state.type == 'Free' ? "Free" : this.state.price}</Descriptions.Item>
-                <Descriptions.Item label="Rating">{<AppDetailRating rating={this.state.rating} reviews_count={this.state.reviews_count} />}</Descriptions.Item>
+                <Descriptions.Item label="Rating">{<AppDetailRating app_name={this.state.app_name} email={getCookie("email")} rating={this.state.rating} reviews_count={this.state.reviews_count} />}</Descriptions.Item>
               </Descriptions>
 
               <br></br>

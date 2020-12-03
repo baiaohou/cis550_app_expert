@@ -301,6 +301,17 @@ function loadMoreCommentsByAppName(req, res) {
   });
 }
 
+function setUserRating(req, res) {
+  var query = "REPLACE INTO user_review(`user`, app_name, rating)" + `VALUES("${req.query.email}", "${req.query.app_name}", ${req.query.rating});`;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(rows);
+    }
+  })
+}
+
 
 
 function get10Apps(req, res) {
@@ -499,5 +510,6 @@ module.exports = {
   isInWishList: isInWishList,
   clearWishList: clearWishList,
   getRecommended: getRecommended,
-  getFriends: getFriends
+  getFriends: getFriends,
+  setUserRating: setUserRating
 }
