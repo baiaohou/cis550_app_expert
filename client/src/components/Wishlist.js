@@ -84,7 +84,7 @@ export default class Wishlist extends React.Component {
             resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${wishObj.price}&nbsp;&nbsp;</div>;
           }
           let resultGenre = "";
-          if (wishObj.genre1 == wishObj.genre2) {
+          if (!wishObj.genre2) {
             resultGenre = <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre1}</Tag></div>
           } else {
             resultGenre = <div class="tag-inline-block"><div class="tag-inline-block"><Tag color="cyan">{wishObj.genre1}</Tag></div><div class="tag-inline-block"><Tag color="cyan">{wishObj.genre2}</Tag></div></div>

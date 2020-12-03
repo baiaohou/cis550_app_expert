@@ -392,7 +392,7 @@ function getWishList(req, res) {
       WHERE email='${req.params.email}'
     ), wishAppAndGenre AS ( -- have two rows for the app with two genres
       SELECT w.app_name, genre
-      FROM wishApp w JOIN app_detail d ON w.app_name=d.app_name JOIN has_genre g ON w.app_name=g.app_name
+      FROM wishApp w JOIN has_genre g ON w.app_name=g.app_name
       ORDER BY w.app_name
     ), wishAppAndGenreSelfJoin AS ( -- join two wishAppAndGenre together, to show two genres in a row
       SELECT w1.app_name, w1.genre AS genre1, w2.genre AS genre2
@@ -418,9 +418,9 @@ function getWishList(req, res) {
         WHERE new_rank=1
       )
     )
-    SELECT s.app_name, genre1, genre2, rating, installs, price, icon, summary
+    SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
     FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
-    ORDER BY app_name;
+    ORDER BY app_name
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) {
@@ -449,30 +449,52 @@ function clearWishList(req, res) {
 function getRecommended(req, res) {
   console.log("Into getRecommended function");
   var query = `
-    WITH popGenre AS ( 
+    WITH popGenre AS ( -- find most popular genre in this zimao's wishlist
       SELECT genre, COUNT(g.app_name) AS num
       FROM has_genre g JOIN wishlist w ON g.app_name=w.app_name
       WHERE w.email='${req.params.email}'
       GROUP BY genre
       ORDER BY num DESC
       LIMIT 1
-    ), popGenreApp AS (
-      SELECT p.genre, app_name
+    ), popGenreApp AS ( -- find apps of above genre, exclude those already in zimao's wishlist
+      SELECT app_name
       FROM popGenre p JOIN has_genre g ON p.genre=g.genre
-			WHERE app_name NOT IN (
-				SELECT app_name
-				FROM wishlist
-				WHERE email='${req.params.email}'
-			)
-    ), fourStarApp AS (
-      SELECT *
-      FROM app_detail
-      WHERE rating>=4
+      WHERE app_name NOT IN (
+        SELECT app_name
+        FROM wishlist
+        WHERE email='${req.params.email}'
+      )
+    ), popGenreAppAndGenre AS ( -- get the apps above with genres, some app has double rows
+      SELECT p.app_name, genre
+      FROM popGenreApp p JOIN has_genre g ON p.app_name=g.app_name
+    ), popGenreAppSelfJoin AS (
+      SELECT p1.app_name, p1.genre AS genre1, p2.genre AS genre2
+      FROM popGenreAppAndGenre p1 JOIN popGenreAppAndGenre p2 ON p1.app_name=p2.app_name
+      ORDER BY app_name, genre1
+    ), dualGenreApp AS ( -- get the apps with two genres and rank two rows of the same app
+      SELECT *, RANK() OVER (
+        PARTITION BY app_name
+        ORDER BY genre1
+      )new_rank
+      FROM popGenreAppSelfJoin
+      WHERE genre1!=genre2
+    ), singleAndDualGenreApp AS ( -- get apps with genre1 and genre2 in one row
+      ( -- get the apps with only one genre
+        SELECT app_name, genre1, genre2
+        FROM popGenreAppSelfJoin
+        WHERE app_name NOT IN (SELECT app_name FROM dualGenreApp)
+      )
+      UNION
+      (
+        SELECT app_name, genre1, genre2
+        FROM dualGenreApp
+        WHERE new_rank=1
+      )
     )
-    SELECT *
-    FROM popGenreApp g JOIN fourStarApp f ON g.app_name=f.app_name JOIN package_info i ON f.app_name=i.app_name
-    ORDER BY f.installs DESC, f.rating DESC
-    LIMIT 10;
+    SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
+    FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
+    ORDER BY app_name
+    LIMIT 10
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) {
