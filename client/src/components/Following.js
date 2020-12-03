@@ -7,7 +7,6 @@ import { Constants } from './Constants';
 import DashboardMovieRow from './DashboardMovieRow';
 import AppDetail from './AppDetail';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
-// import { Switch } from 'antd';
 import '../style/WishList.css';
 import { Rate } from 'antd';
 import { getCookie } from './Home';
@@ -16,20 +15,18 @@ import { getCookie } from './Home';
 
 
 
-export default class Recommended extends React.Component {
+export default class Following extends React.Component {
   constructor(props) {
     super(props);
 
     // The state maintained by this React Component. This component maintains the list of genres,
     // and a list of movies for a specified genre.
     this.state = {
-      tenApps: [],
+      followeeList: new Set(),
       wishList: [],
       userName: getCookie("first_name") + " " + getCookie("last_name"), // e.g. Zimao Wang
       email: getCookie("email"), // e.g. "zimaow@gmail.com",
       rcmdList: []
-      // wishList: new Set(), // store divs for wishlist
-      // wishListNames: new Set() // divs in wishList cannot check duplicates, use wishListNames to check
     }
 
     // this.addToWL = this.addToWL.bind(this);
@@ -37,32 +34,45 @@ export default class Recommended extends React.Component {
 
   // React function that is called when the page load.
   componentDidMount() {
-    console.log("into Recommended.js Mount");
+    console.log("into Following.js Mount");
     // Send an HTTP request to the server to get 10 apps to test.
-    fetch(`${Constants.servaddr_prefix}/getFriends/` + getCookie("email"), {
+    fetch(`${Constants.servaddr_prefix}/getFollowing/` + getCookie("email"), {
       method: 'GET' // The type of HTTP request.
     })
       .then(res => res.json()) // Convert the response data to a JSON.
-      .then(tenAppList => {
-        if (!tenAppList) return;
-        // Map each tenAppObj in tenAppList to an HTML element:
-        // A button which triggers the showMovies function for each genre.
-        let tenAppDivs = tenAppList.map((tenAppObj, i) =>
-           <GenreButton id={"button-" + tenAppObj.app_name} onClick={() => this.addToWishList(tenAppObj.app_name, this.state.email)} genre={tenAppObj.app_name} />
-
-        );
-        console.log("tenAppDivs: " + tenAppDivs);
-        // Set the state of the genres list to the value returned by the HTTP response from the server.
-        this.setState({
-          tenApps: tenAppDivs
+      .then(followeeList => {
+        if (!followeeList) return;
+        followeeList.map((followeeObj, i) => {
+          let tmpSet = this.state.followeeList;
+          tmpSet.add(followeeObj.following);
+          this.setState({followeeList: tmpSet});
         });
-        console.log("state's tenApps: " + this.state.tenApps);
+        console.log("followeeList", this.state.followeeList);
       })
       .catch(err => console.log(err));	// Print the error if there is one.
 
+      // fetch(`${Constants.servaddr_prefix}/getFollowing/` + getCookie("email"), {
+      //   method: 'GET' // The type of HTTP request.
+      // })
+      //   .then(res => res.json()) // Convert the response data to a JSON.
+      //   .then(tenAppList => {
+      //     if (!tenAppList) return;
+      //     // Map each tenAppObj in tenAppList to an HTML element:
+      //     // A button which triggers the showMovies function for each genre.
+      //     let tenAppDivs = tenAppList.map((tenAppObj, i) =>
+      //        <GenreButton id={"button-" + tenAppObj.app_name} onClick={() => this.addToWishList(tenAppObj.app_name, this.state.email)} genre={tenAppObj.app_name} />
+  
+      //     );
+      //     console.log("tenAppDivs: " + tenAppDivs);
+      //     // Set the state of the genres list to the value returned by the HTTP response from the server.
+      //     this.setState({
+      //       tenApps: tenAppDivs
+      //     });
+      //     console.log("state's tenApps: " + this.state.tenApps);
+      //   })
+      //   .catch(err => console.log(err));	// Print the error if there is one.
+
     // send an HTTP request to the server to fetch wishlist
-    // this.getWishList(this.state.email);
-    this.getRecommended(this.state.email);
   }
 
   getWishList(email) {
@@ -101,72 +111,6 @@ export default class Recommended extends React.Component {
   }
 
 
-  /* ---- Q1b (Dashboard) ---- */
-  /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
-
-  addToWishList(appName, email) {
-    fetch(`${Constants.servaddr_prefix}/addToWishList?appName="+appName+"&email=`+email, {
-      method: 'GET' // The type of HTTP request.
-    })
-      .then(res => res.json()) // Convert the response data to a JSON.
-      .then(oneAppList => {
-        // reload wishlist
-        this.getWishList(email);
-        this.getRecommended(email);
-      })
-      .catch(err => console.log(err))	// Print the error if there is one.
-  }
-
-  // clearWishList(email) {
-  //   console.log("call clearWishList");
-  //   console.log("clearWishList email: ", email);
-  //   fetch(`${Constants.servaddr_prefix}/clearWishlist/`+email, {
-  //     method: 'GET' // The type of HTTP request.
-  //   })
-  //     .then(res => res.json()) // Convert the response data to a JSON.
-  //     .then(oneAppList => {
-  //       // reload wishlist
-  //       this.getWishList(email);
-  //     })
-  //     .catch(err => console.log(err))	// Print the error if there is one.
-  // }
-
-  getRecommended(email) {
-    console.log("call getRecommended");
-    fetch(`${Constants.servaddr_prefix}/getFriends/`+email, {
-    method: 'GET' // The type of HTTP request.
-    })
-      .then(res => res.json()) // Convert the response data to a JSON.
-      .then(rcmdList => {
-        if (!rcmdList) return;
-        // Map each tenAppObj in tenAppList to an HTML element:
-        // A button which triggers the showMovies function for each genre.
-        let rcmdDivs = rcmdList.map((rcmdObj, i) =>
-          <tr>
-            <td>
-                <div class="product-item">
-                    {/* <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}><img src={rcmdObj.icon} alt="Product"></img></a> */}
-                    <div class="product-info">
-                        <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}>{rcmdObj.app_name}</a></h4>
-                        <div><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;{rcmdObj.rating}</div>
-                        <div>{rcmdObj.installs}+ installs</div>
-                        <div class="text-lg text-medium text-muted">${rcmdObj.price}</div>
-                        <div class="text-lg text-medium">{rcmdObj.summary}</div>
-                    </div>
-                </div>
-            </td>
-            <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-        </tr>
-        );
-        console.log("rcmdDivs: " + rcmdDivs);
-        // Set the state of the genres list to the value returned by the HTTP response from the server.
-        this.setState({
-          rcmdList: rcmdDivs
-        });
-        console.log("state's rcmdList: " + this.state.rcmdList);
-      })
-      .catch(err => console.log(err));	// Print the error if there is one.
-  }
   
 
   render() {    
@@ -174,7 +118,7 @@ export default class Recommended extends React.Component {
       
       // template: https://www.bootdey.com/snippets/view/Wishlist-profile#html
      <div> 
-       <PageNavbar active="Friends" />
+       <PageNavbar active="Following" />
        <br></br><p></p>
       <div class="container padding-bottom-3x mb-2">
         <div className="container movies-container">
@@ -193,7 +137,7 @@ export default class Recommended extends React.Component {
               </div>
             </aside>
             <nav class="list-group">
-                <a class="list-group-item active" href="/friends"> <i class="fa fa-user"> </i> Friends</a>
+                <a class="list-group-item active" href="/following"> <i class="fa fa-user"> </i> Following</a>
                 <a class="list-group-item with-badge " href="/wishlist"><i class="fa fa-heart"></i>My Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
                 <a class="list-group-item with-badge " href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommendations</a>
             </nav>

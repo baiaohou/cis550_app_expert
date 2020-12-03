@@ -71,7 +71,7 @@ app.get('/clearWishList/:email', routes.clearWishList);
 app.get('/getRecommended/:email', routes.getRecommended);
 app.get('/getRecommendedByFollowees/:email', routes.getRecommendedByFollowees);
 
-app.get('/getFriends/:email', routes.getFriends);
+app.get('/getFollowing/:email', routes.getFollowing);
 
 app.get('/rating', routes.setUserRating);
 app.get('/video/:package_name', routes.getAppVideoById);

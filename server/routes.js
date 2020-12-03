@@ -583,18 +583,19 @@ function getRecommendedByFollowees(req, res) {
 }
 
 
-function getFriends(req, res) {
-  console.log("Into getFriends function");
+function getFollowing(req, res) {
+  console.log("Into getFollowing function");
   console.log(req.params.email);
   var query = `
-  select first_name, last_name from 
-  (select friend2 from friends where friend1='${req.params.email}') t left join user on friend2=email
+  select following
+  from follow
+  where self='${req.params.email}';
   `;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
-      console.log("getFriends query result: ", rows);
+      console.log("getFollowing query result: ", rows);
       res.json(rows);
     }
   });
@@ -622,7 +623,7 @@ module.exports = {
   clearWishList: clearWishList,
   getRecommended: getRecommended,
   getRecommendedByFollowees: getRecommendedByFollowees,
-  getFriends: getFriends,
+  getFollowing: getFollowing,
   setUserRating: setUserRating,
   getAppVideoById: getAppVideoById
 }

@@ -90,11 +90,11 @@ const cards = [
   },
 
   {
-    header: "See My Friends 👭",
+    header: "See My Followees 👭",
     img:
       "../card-5.jpg",
-    desc: "See what apps your friend likes",
-    goto: "/friends"
+    desc: "See what apps your followees likes",
+    goto: "/following"
   },
 
   {

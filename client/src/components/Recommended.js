@@ -342,7 +342,7 @@ export default class Recommended extends React.Component {
               </div>
             </aside>
             <nav class="list-group">
-                <a class="list-group-item" href="/friends"> <i class="fa fa-user"> </i> Friends</a>
+                <a class="list-group-item" href="/following"> <i class="fa fa-user"> </i> Following</a>
                 <a class="list-group-item with-badge " href="/wishlist"><i class="fa fa-heart"></i>My Wishlist<span class="badge badge-primary badge-pill">{this.state.wishList.length}</span></a>
                 <a class="list-group-item with-badge active" href="/recommended"><i class="fa fa-puzzle-piece"></i>Recommendations</a>
             </nav>
