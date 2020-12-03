@@ -321,9 +321,9 @@ function get10Apps(req, res) {
     if (err) {
       console.log(err);
     } else {
-      console.log("query result: ", rows);
+      // console.log("query result: ", rows);
       res.json(rows);
-      console.log(rows);
+      // console.log(rows);
     }
   });
 }
@@ -389,9 +389,12 @@ function getWishList(req, res) {
       FROM wishAppAndGenre w1 JOIN wishAppAndGenre w2 ON w1.app_name=w2.app_name
       ORDER BY app_name, genre1
     ), dualGenreApp AS ( -- get the apps with two genres and rank two rows of the same app
-        SELECT *, IF(@tmp=app_name,@rank:=@rank+1,@rank:=1) AS new_rank,@tmp:=app_name AS tmp
-        FROM wishAppAndGenreSelfJoin
-        WHERE genre1!=genre2
+      SELECT *, RANK() OVER (
+        PARTITION BY app_name
+        ORDER BY genre1
+      )new_rank
+      FROM wishAppAndGenreSelfJoin
+      WHERE genre1!=genre2
     ), singleAndDualGenreApp AS ( -- get apps with genre1 and genre2 in one row
       ( -- get the apps with only one genre
         SELECT app_name, genre1, genre2
