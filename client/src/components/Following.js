@@ -118,7 +118,7 @@ export default class Following extends React.Component {
       
       // template: https://www.bootdey.com/snippets/view/Wishlist-profile#html
      <div> 
-       <PageNavbar active="Following" />
+       <PageNavbar active="Community" />
        <br></br><p></p>
       <div class="container padding-bottom-3x mb-2">
         <div className="container movies-container">

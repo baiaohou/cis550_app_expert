@@ -14,8 +14,8 @@ export default class PageNavbar extends React.Component {
 	}
 
 	componentDidMount() {
-		const pageList = ['Home', 'Top Apps', 'Search', 'My Wishlist', 'Recommendations', 'Following'];
-		const urls = ['/home', '/dashboard', '/recommendations', '/wishlist', '/recommended', '/following'];
+		const pageList = ['Home', 'Categories', 'My Wishlist', 'Recommendations', 'Community'];
+		const urls = ['/home', '/dashboard', '/wishlist', '/recommended', '/following'];
 
 		let navbarDivs = pageList.map((page, i) => {
 			if (this.props.active === page) {
@@ -53,6 +53,7 @@ export default class PageNavbar extends React.Component {
 					</div>
 					<div className="search-bars">
 						<div className="bing-search-bar"><ExpertSearch /></div>
+						&nbsp;&nbsp;&nbsp;
 						<div className="expert-search-bar"><BingSearch /></div>
 					</div>
 				</nav>

@@ -19,7 +19,7 @@ export default class ExpertSearch extends React.Component {
     render() {
         return (
             <div>
-                <Search style={{ width: 200}} placeholder="App Expert Search" addonBefore={<Image width={32} height={32} src="/new-icon6.png" alt="App Expert Search"/>} allowClear size="middle" onSearch={this.searchHandler} />
+                <Search style={{ width: 200}} placeholder="Search" addonBefore={<Image width={32} height={32} src="/new-icon6.png" alt="App Expert Search"/>} allowClear size="middle" onSearch={this.searchHandler} />
             </div>
         )
     }

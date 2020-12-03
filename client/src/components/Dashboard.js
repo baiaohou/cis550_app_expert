@@ -182,7 +182,7 @@ export default class Dashboard extends React.Component {
       
       <div className="Dashboard">
 
-        <PageNavbar active="Top Apps" />
+        <PageNavbar active="Categories" />
 
         <br></br>
         <div className="container movies-container">
