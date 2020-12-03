@@ -1,5 +1,7 @@
 import React from 'react';
 import BingSearch from './BingSearch';
+import ExpertSearch from './ExpertSearch';
+import '../style/PageNavbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class PageNavbar extends React.Component {
@@ -49,7 +51,10 @@ export default class PageNavbar extends React.Component {
 							{this.state.navDivs}
 						</div>
 					</div>
-					<BingSearch />
+					<div className="search-bars">
+						<div className="bing-search-bar"><ExpertSearch /></div>
+						<div className="expert-search-bar"><BingSearch /></div>
+					</div>
 				</nav>
 			</div>
 		);

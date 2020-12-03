@@ -28,7 +28,7 @@ export default class BingSearch extends React.Component {
     render() {
         return (
             <div>
-                <Search placeholder="Search on Bing" addonBefore={<Image width={32} height={32} src="/bing_button.png" alt="Bing Search"/>} allowClear size="middle" onSearch={this.searchHandler} />
+                <Search style={{ width: 200}} placeholder="Bing Search" addonBefore={<Image width={32} height={32} src="/bing_button.png" alt="Bing Search"/>} allowClear size="middle" onSearch={this.searchHandler} />
             </div>
         )
     }

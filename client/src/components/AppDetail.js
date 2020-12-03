@@ -85,7 +85,7 @@ export default class AppDetail extends React.Component {
 
   render() {
     return (
-      <div> 
+      <div>
         <PageNavbar />
         <div className="app_detail_holder">
 
@@ -112,11 +112,11 @@ export default class AppDetail extends React.Component {
                 // column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
                 column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
               >
-                
+
                 <Descriptions.Item label="Category">{this.state.category}</Descriptions.Item>
                 <Descriptions.Item label="Developer">{this.state.developer}</Descriptions.Item>
                 <Descriptions.Item label="Price">{this.state.type == 'Free' ? "Free" : this.state.price}</Descriptions.Item>
-                <Descriptions.Item label="Rating">{<AppDetailRating rating={this.state.rating}  reviews_count={this.state.reviews_count} />}</Descriptions.Item>
+                <Descriptions.Item label="Rating">{<AppDetailRating rating={this.state.rating} reviews_count={this.state.reviews_count} />}</Descriptions.Item>
               </Descriptions>
 
               <br></br>
@@ -126,7 +126,7 @@ export default class AppDetail extends React.Component {
 
                 {/* Wishlist button */}
                 <AppDetailWishlistButton app_name={this.state.app_name} email={getCookie("email")} />
-                
+
                 {/* Download button */}
                 <div className="download-button">
                   <a href={this.state.gp_url} target="_blank">
@@ -144,7 +144,7 @@ export default class AppDetail extends React.Component {
 
           {/* Summary of the app */}
           <AppDetailTitleBar text="Summary" />
-          <div className="app_summary">{this.state.summary}</div>
+          <div className="app_summary" dangerouslySetInnerHTML={{ __html: this.state.summary }}></div>
           <AppDetailDescription package_name={this.state.package_name} />
 
           <p></p><p></p>
@@ -159,6 +159,11 @@ export default class AppDetail extends React.Component {
           <AppDetailTitleBar text="Comments" />
           <AppDetailComments app_name={this.state.app_name} />
           <p></p><p></p><p></p><p></p><p></p>
+
+
+          {/* <div className="app_detail_video">
+            <iframe width="840" height="473" src="https://www.youtube.com/embed/Qi8jrtmUtJA?ps=play&vq=large&rel=0&autohide=1&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div> */}
         </div>
       </div>
     );

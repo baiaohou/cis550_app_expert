@@ -30,16 +30,14 @@ export default class BingSearchResultList extends React.Component {
         })
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.query_term != prevProps.query_term) {
-            pageSize = this.props.maxNumOfRes;
-            term = this.props.query_term;
-            this.setState({
-                initLoading: false,
-                data: this.props.bing_res,
-                list: this.props.bing_res
-            })
-        }
+    componentWillReceiveProps(nextProps) {
+        pageSize = nextProps.maxNumOfRes;
+        term = nextProps.query_term;
+        this.setState({
+            initLoading: false,
+            data: nextProps.bing_res,
+            list: nextProps.bing_res
+        })
     }
 
     getData = callback => {
@@ -110,8 +108,8 @@ export default class BingSearchResultList extends React.Component {
                             <List.Item>
                                 <Skeleton title={false} loading={item.loading} active>
                                     <div>
-                                        <h4><a href={item.url} target="_blank">{decodeURIComponent(item.name)}</a></h4>
-                                        <p>{decodeURIComponent(item.snippet)}</p>
+                                        <h4><a href={item.url} target="_blank">{(item.name)}</a></h4>
+                                        <p>{(item.snippet)}</p>
                                         <div><a href={item.url} target="_blank" className="bing_display_url">{item.displayUrl}</a></div>
                                     </div>
                                 </Skeleton>
