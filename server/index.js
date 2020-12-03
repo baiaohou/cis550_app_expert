@@ -73,6 +73,7 @@ app.get('/getRecommended/:email', routes.getRecommended);
 app.get('/getFriends/:email', routes.getFriends);
 
 app.get('/rating', routes.setUserRating);
+app.get('/video/:package_name', routes.getAppVideoById);
 
 app.listen(8081, () => {
 	console.log(`Server listening on PORT 8081`);

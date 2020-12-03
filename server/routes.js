@@ -312,6 +312,16 @@ function setUserRating(req, res) {
   })
 }
 
+function getAppVideoById(req, res) {
+  gplay.app({ appId: `${req.params.package_name}` })
+  .then(queryResult => {
+    if (queryResult) {
+      res.json(queryResult);
+    } else {
+      console.log("Cannot find the app");
+    }
+  });
+}
 
 
 function get10Apps(req, res) {
@@ -514,5 +524,6 @@ module.exports = {
   clearWishList: clearWishList,
   getRecommended: getRecommended,
   getFriends: getFriends,
-  setUserRating: setUserRating
+  setUserRating: setUserRating,
+  getAppVideoById: getAppVideoById
 }

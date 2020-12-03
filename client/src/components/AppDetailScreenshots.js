@@ -67,9 +67,9 @@ const contentStyle = {
     // width: "fit-content",
     // width: "50",
     margin: "auto",
-    "border-radius": "15px"
+    borderRadius: "15px"
 };
 
 const style2 = {
-    "padding-top": "2%",
+    paddingTop: "2%"
 }
