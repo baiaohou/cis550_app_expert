@@ -11,6 +11,9 @@ import '../style/WishList.css';
 import { Rate, Tag } from 'antd';
 import { getCookie } from './Home';
 import { Constants } from './Constants';
+import { Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+
 
 
 
@@ -26,9 +29,10 @@ export default class Recommended extends React.Component {
       wishList: [],
       userName: getCookie("first_name") + " " + getCookie("last_name"), // e.g. Zimao Wang
       email: getCookie("email"), // e.g. "zimaow@gmail.com",
-      rcmdList: []
-      // wishList: new Set(), // store divs for wishlist
-      // wishListNames: new Set() // divs in wishList cannot check duplicates, use wishListNames to check
+      rcmdList: [],
+      recmdBySelf: 1,
+      menu: "",
+      whoseInterest: "Your interest"
     }
 
     // this.addToWL = this.addToWL.bind(this);
@@ -60,7 +64,26 @@ export default class Recommended extends React.Component {
 
     // send an HTTP request to the server to fetch wishlist
     this.getWishList(this.state.email);// to update this.state.wishList, displaying length in badge
-    this.getRecommended(this.state.email);
+    if (this.state.recmdBySelf == 1) {
+      this.getRecommended(this.state.email);
+    } else {
+      this.getRecommendedByFollowees(this.state.email);
+    }
+    let menu = <Menu>
+    <Menu.Item key="0">
+        <a target="_blank" onClick={() => this.updateRcmdList(1)}>
+          Your interest
+        </a>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <a target="_blank" onClick={() => this.updateRcmdList(0)}>
+          Followees' interest
+        </a>
+      </Menu.Item>
+    </Menu>
+    this.setState({
+      menu: menu
+    })
   }
 
   getWishList(email) {
@@ -135,7 +158,11 @@ export default class Recommended extends React.Component {
       .then(oneAppList => {
         // reload wishlist
         this.getWishList(email);
-        this.getRecommended(email);
+        if (this.state.recmdBySelf == 1) {
+          this.getRecommended(this.state.email);
+        } else {
+          this.getRecommendedByFollowees(this.state.email);
+        }
       })
       .catch(err => console.log(err))	// Print the error if there is one.
   }
@@ -209,7 +236,80 @@ export default class Recommended extends React.Component {
       })
       .catch(err => console.log(err));	// Print the error if there is one.
   }
+
+  getRecommendedByFollowees(email) {
+    console.log("call getRecommendedByFollowees");
+    fetch(`${Constants.servaddr_prefix}/getRecommendedByFollowees/`+email, {
+    method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(rcmdList => {
+        if (!rcmdList) return;
+        // Map each tenAppObj in tenAppList to an HTML element:
+        // A button which triggers the showMovies function for each genre.
+        let rcmdDivs = rcmdList.map((rcmdObj, i) => {
+          let resultPrice = "";
+          if (rcmdObj.price == 0) {
+            resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>;
+          } else {
+            resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${rcmdObj.price}&nbsp;&nbsp;</div>;
+          }
+          let resultGenre = "";
+          if (!rcmdObj.genre2) {
+            resultGenre = <div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre1}</Tag></div>
+          } else {
+            resultGenre = <div class="tag-inline-block"><div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre1}</Tag></div><div class="tag-inline-block"><Tag color="cyan">{rcmdObj.genre2}</Tag></div></div>
+          }
+          return (
+            <tr>
+              <td>
+                  <div class="product-item">
+                      <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}><img src={rcmdObj.icon} alt="Product"></img></a>
+                      <div class="product-info">
+                          <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(rcmdObj.app_name)}>{rcmdObj.app_name}</a></h4>
+                          <div class="divs-inline"><Rate disabled defaultValue={0} value={rcmdObj.rating} />&nbsp;&nbsp;&nbsp;{rcmdObj.rating}</div>
+                          &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
+                          {resultGenre}
+                          <div>{rcmdObj.installs}+ installs</div>
+                          <div class="text-lg text-medium">{rcmdObj.summary}</div>
+                      </div>
+                  </div>
+              </td>
+              <td class="text-center">
+                <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                  <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(rcmdObj.app_name, this.state.email)}></i>
+                </a>
+              </td>
+            </tr>
+          )
+        });
+        console.log("rcmdDivs: " + rcmdDivs);
+        // Set the state of the genres list to the value returned by the HTTP response from the server.
+        this.setState({
+          rcmdList: rcmdDivs
+        });
+        console.log("state's rcmdList: " + this.state.rcmdList);
+      })
+      .catch(err => console.log(err));	// Print the error if there is one.
+  }
   
+  updateRcmdList(isBySelf) {
+    // isBySelf=1 means true
+    console.log("call updateRcmdList","recmdBySelf=",this.state.whoseInterest,"isByself=",isBySelf);
+    if (this.state.recmdBySelf != isBySelf) {
+      if (isBySelf == 1) {
+        this.getRecommended(this.state.email);
+        this.setState({whoseInterest: "Your interest"});
+      } else {
+        this.getRecommendedByFollowees(this.state.email);
+        this.setState({whoseInterest: "Followees' interest"});
+      }
+      this.setState({recmdBySelf: 1-this.state.recmdBySelf});
+    } else {
+      console.log("already in this state");
+    }
+  }
+
 
   render() {    
     return (
@@ -253,6 +353,12 @@ export default class Recommended extends React.Component {
                 <thead>
                     <tr>
                         <th>Recommendations For You</th>
+                        <Dropdown overlay={this.state.menu}>
+                          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                            {this.state.whoseInterest} <DownOutlined />
+                          </a>
+                        </Dropdown>
+                        {/* <i class="fa fa-heart" onClick={() => {console.log(this.state.recmdBySelf); this.setState({recmdBySelf: 1-this.state.recmdBySelf});this.updateRcmdList();}}></i> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -267,3 +373,5 @@ export default class Recommended extends React.Component {
     );
   }
 }
+
+

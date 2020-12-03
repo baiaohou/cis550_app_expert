@@ -446,6 +446,8 @@ function clearWishList(req, res) {
   });
 }
 
+
+
 function getRecommended(req, res) {
   console.log("Into getRecommended function");
   var query = `
@@ -493,7 +495,7 @@ function getRecommended(req, res) {
     )
     SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
     FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
-    ORDER BY app_name
+    ORDER BY installs DESC, rating DESC
     LIMIT 10
   `;
   connection.query(query, function(err, rows, fields) {
@@ -501,6 +503,80 @@ function getRecommended(req, res) {
       console.log(err);
     } else {
       console.log("getRecommended query result: ", rows);
+      res.json(rows);
+    }
+  });
+}
+
+function getRecommendedByFollowees(req, res) {
+  console.log("Into getRecommendedByFollowees");
+  var query= `
+    WITH Followings AS ( -- find all the users that zimao follows
+      SELECT following AS user
+      FROM Follow
+      WHERE self='${req.params.email}'
+    ), genreNumForEachFollowing AS ( -- count apps in each genre for each followed-user's wishlist
+      SELECT f.user, g.genre, COUNT(g.app_name) AS num
+      FROM Followings f JOIN wishlist w ON f.user=w.email JOIN has_genre g ON w.app_name=g.app_name
+      GROUP BY f.user, g.genre
+      ORDER BY f.user, num DESC
+    ) , genreRankForEachFollowing AS ( -- give a ranking of genres for each followed-user
+      SELECT user, genre, num,
+      RANK() OVER (
+        PARTITION BY user
+        ORDER BY num DESC
+      )new_rank
+      FROM genreNumForEachFollowing
+      ORDER BY user
+    ), top2GenresForEachFollowing AS ( -- find top 2 genres for each user, and get the distinct genres
+      SELECT DISTINCT genre
+      FROM genreRankForEachFollowing
+      WHERE new_rank <=2
+    ), popGenreApp AS ( -- find all apps in the above genres, exclude those already in zimao's wishlist
+      SELECT DISTINCT app_name
+      FROM top2GenresForEachFollowing p JOIN has_genre g ON p.genre=g.genre
+      WHERE app_name NOT IN (
+        SELECT app_name
+        FROM wishlist
+        WHERE email='${req.params.email}'
+      )
+    ), popGenreAppAndGenre AS ( -- get the apps above with genres, some app has double rows
+      SELECT p.app_name, genre
+      FROM popGenreApp p JOIN has_genre g ON p.app_name=g.app_name
+    ), popGenreAppSelfJoin AS ( -- join app_name and genre to themselves, to make 2 genres in a row
+      SELECT p1.app_name, p1.genre AS genre1, p2.genre AS genre2
+      FROM popGenreAppAndGenre p1 JOIN popGenreAppAndGenre p2 ON p1.app_name=p2.app_name
+      ORDER BY app_name, genre1
+    ), dualGenreApp AS ( -- get the apps with double genres and rank two rows of the same app
+      SELECT *, RANK() OVER (
+        PARTITION BY app_name
+        ORDER BY genre1
+      )new_rank
+      FROM popGenreAppSelfJoin
+      WHERE genre1!=genre2
+    ), singleAndDualGenreApp AS ( -- get apps with genre1 and genre2 in one row
+      ( -- get the apps with only one genre
+        SELECT app_name, genre1, genre2
+        FROM popGenreAppSelfJoin
+        WHERE app_name NOT IN (SELECT app_name FROM dualGenreApp)
+      )
+      UNION
+      ( -- get the apps with double genres, only take A,B instead of B,A
+        SELECT app_name, genre1, genre2
+        FROM dualGenreApp
+        WHERE new_rank=1
+      )
+    )
+    SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
+    FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
+    ORDER BY installs DESC, rating DESC
+    LIMIT 20
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("getRecommendedByFollowees query result: ", rows);
       res.json(rows);
     }
   });
@@ -545,6 +621,7 @@ module.exports = {
   isInWishList: isInWishList,
   clearWishList: clearWishList,
   getRecommended: getRecommended,
+  getRecommendedByFollowees: getRecommendedByFollowees,
   getFriends: getFriends,
   setUserRating: setUserRating,
   getAppVideoById: getAppVideoById

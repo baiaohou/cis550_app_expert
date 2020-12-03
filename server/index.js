@@ -69,6 +69,7 @@ app.get('/addToWishList', routes.addToWishList);
 app.get('/isInWishList', routes.isInWishList);
 app.get('/clearWishList/:email', routes.clearWishList);
 app.get('/getRecommended/:email', routes.getRecommended);
+app.get('/getRecommendedByFollowees/:email', routes.getRecommendedByFollowees);
 
 app.get('/getFriends/:email', routes.getFriends);
 
