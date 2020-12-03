@@ -2,6 +2,7 @@ import React from 'react';
 import { List, Button, Skeleton } from 'antd';
 import { Constants } from './Constants';
 import PageNavbar from './PageNavbar';
+import AppDetailTitleBar from './AppDetailTitleBar';
 import '../style/BingSearchResultList.css';
 
 var pageSize = 10;
@@ -98,6 +99,7 @@ export default class BingSearchResultList extends React.Component {
             <div>
                 <PageNavbar />
                 <div className="bing_result_page">
+                    <AppDetailTitleBar text={`Search results for "${term}"`} />
                     <List
                         className="bing_result_list"
                         loading={initLoading}
