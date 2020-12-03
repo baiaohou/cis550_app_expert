@@ -18,7 +18,8 @@
     "react-google-login": "^5.1.25",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.0",
-    "selenium-webdriver": "^4.0.0-alpha.5"
+    "selenium-webdriver": "^4.0.0-alpha.5",
+    "react-google-charts": "^3.0.15"
   },
   "scripts": {
     "start": "react-scripts start",
