@@ -26,8 +26,20 @@ export default class BingSearchResultList extends React.Component {
         this.setState({
             initLoading: false,
             data: this.props.bing_res,
-            list: this.props.bing_res,
+            list: this.props.bing_res
         })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.query_term != prevProps.query_term) {
+            pageSize = this.props.maxNumOfRes;
+            term = this.props.query_term;
+            this.setState({
+                initLoading: false,
+                data: this.props.bing_res,
+                list: this.props.bing_res
+            })
+        }
     }
 
     getData = callback => {
