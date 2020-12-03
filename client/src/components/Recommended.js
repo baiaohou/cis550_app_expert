@@ -32,7 +32,7 @@ export default class Recommended extends React.Component {
       rcmdList: [],
       recmdBySelf: 1,
       menu: "",
-      whoseInterest: "Your interest"
+      whoseInterest: "Your own interest"
     }
 
     // this.addToWL = this.addToWL.bind(this);
@@ -72,12 +72,12 @@ export default class Recommended extends React.Component {
     let menu = <Menu>
     <Menu.Item key="0">
         <a target="_blank" onClick={() => this.updateRcmdList(1)}>
-          Your interest
+          Your own interest
         </a>
       </Menu.Item>
       <Menu.Item key="1">
         <a target="_blank" onClick={() => this.updateRcmdList(0)}>
-          Followees' interest
+          Followees interest
         </a>
       </Menu.Item>
     </Menu>
@@ -293,16 +293,17 @@ export default class Recommended extends React.Component {
       .catch(err => console.log(err));	// Print the error if there is one.
   }
   
+  // change the way and update recommended list according to the button
   updateRcmdList(isBySelf) {
     // isBySelf=1 means true
     console.log("call updateRcmdList","recmdBySelf=",this.state.whoseInterest,"isByself=",isBySelf);
     if (this.state.recmdBySelf != isBySelf) {
       if (isBySelf == 1) {
         this.getRecommended(this.state.email);
-        this.setState({whoseInterest: "Your interest"});
+        this.setState({whoseInterest: "Your own interest"});
       } else {
         this.getRecommendedByFollowees(this.state.email);
-        this.setState({whoseInterest: "Followees' interest"});
+        this.setState({whoseInterest: "Followees interest"});
       }
       this.setState({recmdBySelf: 1-this.state.recmdBySelf});
     } else {
@@ -352,17 +353,24 @@ export default class Recommended extends React.Component {
               <table class="table">
                 <thead>
                     <tr>
-                        <th>Recommendations For You</th>
-                        <Dropdown overlay={this.state.menu}>
-                          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                            {this.state.whoseInterest} <DownOutlined />
-                          </a>
-                        </Dropdown>
+                        <th>Recommendations For You</th>\
                         {/* <i class="fa fa-heart" onClick={() => {console.log(this.state.recmdBySelf); this.setState({recmdBySelf: 1-this.state.recmdBySelf});this.updateRcmdList();}}></i> */}
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.rcmdList}
+                  <td></td>
+                  <td class="text-center">
+                    <div style={{ textAlign: "right" }}>
+                      <Dropdown overlay={this.state.menu}>
+                        <Tag >
+                          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                            {this.state.whoseInterest} <DownOutlined />
+                          </a>
+                        </Tag>
+                      </Dropdown>
+                    </div>
+                  </td>
+                  {this.state.rcmdList}
                 </tbody>
               </table>
             </div>
