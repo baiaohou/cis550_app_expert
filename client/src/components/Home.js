@@ -30,22 +30,22 @@ const useStyles = makeStyles(theme => ({
   heroContent: {
     // backgroundColor: theme.palette.background.paper,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(6, 0, 3)
+    padding: theme.spacing(9, 0, 8)
   },
   heroButtons: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(5)
   },
   cardGrid: {
-    paddingTop: theme.spacing(4.5),
-    paddingBottom: theme.spacing(0)
+    paddingTop: theme.spacing(7),
+    paddingBottom: theme.spacing(3)
   },
   card: {
-    height: "95%", // 100%
+    height: "100%", // 100%
     display: "flex",
     flexDirection: "column"
   },
   cardMedia: {
-    paddingTop: "48%"// "56.25%" // 16:9
+    paddingTop: "56.25%"// "56.25%" // 16:9
   },
   cardContent: {
     flexGrow: 1
@@ -57,19 +57,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const cards = [
-  {
-    header: "Search Your App 🔍",
-    img:
-      "../card-1.jpg",
-    desc: "Description blah blah blah",
-    goto: "/recommendations"
-  },
+  // {
+  //   header: "Search Your App 🔍",
+  //   img:
+  //     "../card-1.jpg",
+  //   desc: "Description blah blah blah",
+  //   goto: "/recommendations"
+  // },
 
   {
-    header: "Get Top Apps 🏅",
+    header: "Categories 🏅",
     img:
       "https://images.unsplash.com/photo-1564198879220-63f2734f7cec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2072&q=80",
-    desc: "Description blah blah blah",
+    desc: "Explore top apps per category",
     goto: "/dashboard"
   },
 
@@ -77,33 +77,33 @@ const cards = [
     header: "My Wishlist 🛒",
     img:
       "../card-3.jpg",
-    desc: "Description blah blah blah",
+    desc: "See which apps you picked",
     goto: "/wishlist"
   },
 
-  {
-    header: "Recommendations 👀",
-    img:
-      "../card-4.jpg",
-    desc: "Description blah blah blah",
-    goto: "/recommended"
-  },
+  // {
+  //   header: "Recommendations 👀",
+  //   img:
+  //     "../card-4.jpg",
+  //   desc: "Description blah blah blah",
+  //   goto: "/recommended"
+  // },
 
   {
-    header: "See My Followees 👭",
+    header: "Community 👭",
     img:
       "../card-5.jpg",
-    desc: "See what apps your followees likes",
+    desc: "Meet friends, get their tastes",
     goto: "/following"
   },
 
-  {
-    header: "I'm Feeling Lucky 🎲",
-    img:
-      "../card-6.jpg",
-    desc: "Pick a random app",
-    goto: "/team"
-  }
+  // {
+  //   header: "I'm Feeling Lucky 🎲",
+  //   img:
+  //     "../card-6.jpg",
+  //   desc: "Pick a random app",
+  //   goto: "/team"
+  // }
 ];
 
 export function getCookie(cname) {
@@ -167,10 +167,11 @@ export default function Home() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary" href="/Team">
-                    About Our Team 🙋
+                  <Button variant="contained" color="primary" href="/Recommended">
+                    recommended for you 🙋
                   </Button>
                 </Grid>
+                &nbsp;
                 <Grid item>
                   <Button variant="outlined" color="primary" href="/GoogleLogout" >
                     Sign Out 🔙
