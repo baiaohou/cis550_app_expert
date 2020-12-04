@@ -7,6 +7,7 @@ import AppDetailComments from './AppDetailComments';
 import AppDetailTitleBar from './AppDetailTitleBar';
 import AppDetailDescription from './AppDetailDescription';
 import AppDetailWishlistButton from './AppDetailWishlistButton';
+import AppDetailVideo from './AppDetailVideo';
 import { Constants } from './Constants';
 import { getCookie } from './Home';
 import 'antd/dist/antd.css';
@@ -149,6 +150,10 @@ export default class AppDetail extends React.Component {
 
           <p></p><p></p>
 
+          {/* Video of the app, if exists */}
+          <AppDetailVideo package_name={this.state.package_name} />
+          <p></p><p></p>
+
           {/* Scrennshots of the app */}
           <AppDetailTitleBar text="Screenshots" />
           <AppDetailScreenshots package_name={this.state.package_name} />
@@ -158,12 +163,25 @@ export default class AppDetail extends React.Component {
           {/* Comments of the app */}
           <AppDetailTitleBar text="Comments" />
           <AppDetailComments app_name={this.state.app_name} />
+
+          <p></p><p></p>
+
+          {/* Additional Information of the app */}
+          <AppDetailTitleBar text="Additional Information"/>
+          <Descriptions
+                className="app-aditional"
+                bordered
+                column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+              >
+                <Descriptions.Item label="Installs">{this.state.installs}</Descriptions.Item>
+                <Descriptions.Item label="Content rating">{this.state.content_rating}</Descriptions.Item>
+                <Descriptions.Item label="Size">{this.state.size}</Descriptions.Item>
+                <Descriptions.Item label="Current version">{this.state.curr_ver}</Descriptions.Item>
+                <Descriptions.Item label="Android version">{this.state.android_ver}</Descriptions.Item>
+              </Descriptions>
+
           <p></p><p></p><p></p><p></p><p></p>
 
-
-          {/* <div className="app_detail_video">
-            <iframe width="840" height="473" src="https://www.youtube.com/embed/Qi8jrtmUtJA?ps=play&vq=large&rel=0&autohide=1&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div> */}
         </div>
       </div>
     );
