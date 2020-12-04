@@ -26,7 +26,14 @@ export default class Following extends React.Component {
       wishList: [],
       userName: getCookie("first_name") + " " + getCookie("last_name"), // e.g. Zimao Wang
       email: getCookie("email"), // e.g. "zimaow@gmail.com",
-      rcmdList: []
+      rcmdList: [],
+      pieData: [],
+      barData: [],
+      top3Apps: [],
+      top3Picks: [],
+      top3Ratings: [],
+      top3Installs: [],
+      top3Price: []
     }
 
     // this.addToWL = this.addToWL.bind(this);
@@ -50,29 +57,8 @@ export default class Following extends React.Component {
         console.log("followeeList", this.state.followeeList);
       })
       .catch(err => console.log(err));	// Print the error if there is one.
-
-      // fetch(`${Constants.servaddr_prefix}/getFollowing/` + getCookie("email"), {
-      //   method: 'GET' // The type of HTTP request.
-      // })
-      //   .then(res => res.json()) // Convert the response data to a JSON.
-      //   .then(tenAppList => {
-      //     if (!tenAppList) return;
-      //     // Map each tenAppObj in tenAppList to an HTML element:
-      //     // A button which triggers the showMovies function for each genre.
-      //     let tenAppDivs = tenAppList.map((tenAppObj, i) =>
-      //        <GenreButton id={"button-" + tenAppObj.app_name} onClick={() => this.addToWishList(tenAppObj.app_name, this.state.email)} genre={tenAppObj.app_name} />
-  
-      //     );
-      //     console.log("tenAppDivs: " + tenAppDivs);
-      //     // Set the state of the genres list to the value returned by the HTTP response from the server.
-      //     this.setState({
-      //       tenApps: tenAppDivs
-      //     });
-      //     console.log("state's tenApps: " + this.state.tenApps);
-      //   })
-      //   .catch(err => console.log(err));	// Print the error if there is one.
-
-    // send an HTTP request to the server to fetch wishlist
+      this.getFollowingCategoryData(this.state.email);
+      this.getWishList(this.state.email); // to update the number on the badge
   }
 
   getWishList(email) {
@@ -108,6 +94,65 @@ export default class Following extends React.Component {
         console.log("state's wishList: " + this.state.wishList);
       })
       .catch(err => console.log(err));	// Print the error if there is one.
+  }
+
+  getFollowingCategoryData(email) {
+    console.log("call getFollowingCategoryData");
+    fetch(`${Constants.servaddr_prefix}/getFollowingCategoryData/`+email, {
+      method: 'GET' // The type of HTTP request.
+      })
+        .then(res => res.json()) // Convert the response data to a JSON.
+        .then(dataList => {
+          if (!dataList) return;
+          let newPieData = [['Category', 'Proportion', 'max', 'min', 'avg']];
+          let newBarData = [['Category', 'max', 'min', 'avg']]
+          dataList.map((dataObj, i) => {
+            let tmpList = [dataObj.category, dataObj.num, dataObj.max_rating, dataObj.min_rating, dataObj.avg_rating];
+            newPieData.push(tmpList);
+            if (dataObj.num > 1) { // for bar chart, only consider category with num>1
+              tmpList = [dataObj.category, dataObj.max_rating, dataObj.min_rating, dataObj.avg_rating];
+              newBarData.push(tmpList);
+            }
+          });
+          console.log("newPieData: ", newPieData);
+          console.log("newBarData: ", newBarData);
+          this.setState({pieData: newPieData, barData: newBarData});
+          console.log("state pieData: ", this.state.pieData);
+          console.log("state barData: ", this.state.barData);
+        })
+        .catch(err => console.log(err));	// Print the error if there is one.
+
+    // get top3 apps with number
+    fetch(`${Constants.servaddr_prefix}/getTop3Apps/`+email, {
+      method: 'GET' // The type of HTTP request.
+      })
+        .then(res => res.json()) // Convert the response data to a JSON.
+        .then(dataList => {
+          if (!dataList) return;
+          let tmpTop3Apps = [];
+          let tmpTop3Picks = [];
+          let tmpTop3Ratings = [];
+          let tmpTop3Installs = [];
+          let tmpTop3Price = [];
+          dataList.map((dataObj, i) => {
+            if (i < 3) {
+              console.log("rating: ", dataObj.general_rating);
+              console.log("price: ", dataObj.price);
+              tmpTop3Apps.push(dataObj.app_name);
+              tmpTop3Picks.push(dataObj.picks);
+              tmpTop3Ratings.push(dataObj.general_rating);
+              tmpTop3Installs.push(dataObj.installs);
+              tmpTop3Price.push(dataObj.price);
+            }
+          });
+          this.setState({top3Apps: tmpTop3Apps,
+                        top3Picks: tmpTop3Picks,
+                        top3Ratings: tmpTop3Ratings,
+                        top3Installs: tmpTop3Installs,
+                        top3Price: tmpTop3Price
+          });
+        })
+        .catch(err => console.log(err));	// Print the error if there is one.
   }
 
 
@@ -156,24 +201,15 @@ export default class Following extends React.Component {
                     
 
 
-                    {/* Top Categories Picked By Your Followings */}
+                    {/* Top Categories Picked By Your Following */}
                     <Chart
                       width={'600px'}
                       height={'300px'}
                       chartType="PieChart"
                       loader={<div>Loading Chart</div>}
-                      data={[
-                        // example data, need to replace this
-                        ['Category', 'Proportion', 'max', 'min', 'avg'],
-                        ['finance', 5, 5, 1, 3.2],
-                        ['tools', 4, 5, 1, 3.2],
-                        ['maps and navigation', 3, 5, 1, 3.2],
-                        ['shopping', 2, 5, 1, 3.2],
-                        ['lifestyle', 1, 5, 1, 3.2],
-                        ['news and magazines', 1, 5, 1, 3.2]
-                      ]}
+                      data={this.state.pieData}
                       options={{
-                        title: 'Top Categories Picked By Your Followings',
+                        title: 'Top Categories Picked By Your Following',
                         // pieSliceText: 'label',
                         pieHole:0.4,
                         slices: {
@@ -186,28 +222,15 @@ export default class Following extends React.Component {
                       rootProps={{ 'data-testid': '5' }}
                     />
 
-                    {/* User Ratings By Your Followings */}
+                    {/* User Ratings By Your Following */}
                     <Chart
                       width={'500px'}
                       height={'300px'}
                       chartType="ComboChart"
                       loader={<div>Loading Chart</div>}
-                      data={[
-                        // example data, need to replace this
-                        [
-                          'Category',
-                          'max',
-                          'min',
-                          'avg',
-                        ],
-                        ['Finance', 5, 1, 3.2],
-                        ['Tools', 5, 1, 2.63],
-                        ['Maps and Navigation', 4.5, 1, 2.67],
-                        ['Shopping', 2, 1, 1.50]
-                        // Note: Zimao, please ignore those categories with only 1 ppl rated
-                      ]}
+                      data={this.state.barData}
                       options={{
-                        title: 'User Ratings By Your Followings',
+                        title: 'User Ratings By Your Following',
                         vAxis: { title: 'User Ratings' },
                         hAxis: { title: 'Categories' },
                         seriesType: 'bars',
@@ -217,48 +240,48 @@ export default class Following extends React.Component {
                     />
 
 
-                    <b>TOP 3 APPS PICKED BY YOUR FOLLOWINGS</b><br></br>
+                    <b>TOP 3 APPS PICKED BY YOUR FOLLOWING</b><br></br>
                     {/* example data, need to replace this */}
                     <a data-tip data-for="1st" align="center">
-                    🏅  &nbsp;<b style={{color:'orange'}}>Uber</b> (4 friends) 
+                    🏅  &nbsp;<b style={{color:'orange'}}>{this.state.top3Apps[0]}</b> ({this.state.top3Picks[0]} picks) 
                     </a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a data-tip data-for="2nd" align="center">
-                    🥈  &nbsp;<b style={{color:'gray'}}>CF</b> (3 friends)
+                    🥈  &nbsp;<b style={{color:'gray'}}>{this.state.top3Apps[1]}</b> ({this.state.top3Picks[1]} picks)
                     </a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a data-tip data-for="3rd" align="center">
-                    🥉  &nbsp;<b style={{color:'brown'}}>BI APP</b> (2 friends)
+                    🥉  &nbsp;<b style={{color:'brown'}}>{this.state.top3Apps[2]}</b> ({this.state.top3Picks[2]} picks)
                     </a>
 
                     <ReactTooltip id="1st" place="right" >
                       <b>Uber</b>
                       <br></br>
-                      Rating: 4.2
+                      Rating: {this.state.top3Ratings[0]}
                       <br></br>
-                      Installs: 100000000+
+                      Installs: {this.state.top3Installs[0]}+
                       <br></br>
-                      Price: FREE
+                      Price: ${this.state.top3Price[0]}
                     </ReactTooltip>
 
                     <ReactTooltip id="2nd" place="right" >
                       <b>CF</b>
                       <br></br>
-                      Rating: 5
+                      Rating: {this.state.top3Ratings[1]}
                       <br></br>
-                      Installs: 100+
+                      Installs: {this.state.top3Installs[1]}+
                       <br></br>
-                      Price: FREE
+                      Price: ${this.state.top3Price[1]}
                     </ReactTooltip>
 
                     <ReactTooltip id="3rd" place="right" >
                       <b>BI APP</b>
                       <br></br>
-                      Rating: 5
+                      Rating: {this.state.top3Ratings[2]}
                       <br></br>
-                      Installs: 100+
+                      Installs: {this.state.top3Installs[2]}+
                       <br></br>
-                      Price: FREE
+                      Price: ${this.state.top3Price[2]}
                     </ReactTooltip>
 
 <div class="tooltip">Hover over me
