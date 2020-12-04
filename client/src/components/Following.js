@@ -10,8 +10,8 @@ import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react
 import '../style/WishList.css';
 import { Rate } from 'antd';
 import { getCookie } from './Home';
-
-
+import Chart from "react-google-charts";
+import ReactTooltip from "react-tooltip";
 
 
 
@@ -153,6 +153,118 @@ export default class Following extends React.Component {
                 </thead>
                 <tbody>
                     {this.state.rcmdList}
+                    
+
+
+                    {/* Top Categories Picked By Your Followings */}
+                    <Chart
+                      width={'600px'}
+                      height={'300px'}
+                      chartType="PieChart"
+                      loader={<div>Loading Chart</div>}
+                      data={[
+                        // example data, need to replace this
+                        ['Category', 'Proportion', 'max', 'min', 'avg'],
+                        ['finance', 5, 5, 1, 3.2],
+                        ['tools', 4, 5, 1, 3.2],
+                        ['maps and navigation', 3, 5, 1, 3.2],
+                        ['shopping', 2, 5, 1, 3.2],
+                        ['lifestyle', 1, 5, 1, 3.2],
+                        ['news and magazines', 1, 5, 1, 3.2]
+                      ]}
+                      options={{
+                        title: 'Top Categories Picked By Your Followings',
+                        // pieSliceText: 'label',
+                        pieHole:0.4,
+                        slices: {
+                          4: { offset: 0.2 },
+                          12: { offset: 0.3 },
+                          14: { offset: 0.4 },
+                          15: { offset: 0.5 },
+                        }
+                      }}
+                      rootProps={{ 'data-testid': '5' }}
+                    />
+
+                    {/* User Ratings By Your Followings */}
+                    <Chart
+                      width={'500px'}
+                      height={'300px'}
+                      chartType="ComboChart"
+                      loader={<div>Loading Chart</div>}
+                      data={[
+                        // example data, need to replace this
+                        [
+                          'Category',
+                          'max',
+                          'min',
+                          'avg',
+                        ],
+                        ['Finance', 5, 1, 3.2],
+                        ['Tools', 5, 1, 2.63],
+                        ['Maps and Navigation', 4.5, 1, 2.67],
+                        ['Shopping', 2, 1, 1.50]
+                        // Note: Zimao, please ignore those categories with only 1 ppl rated
+                      ]}
+                      options={{
+                        title: 'User Ratings By Your Followings',
+                        vAxis: { title: 'User Ratings' },
+                        hAxis: { title: 'Categories' },
+                        seriesType: 'bars',
+                        series: { 2: { type: 'line' } },
+                      }}
+                      rootProps={{ 'data-testid': '1' }}
+                    />
+
+
+                    <b>TOP 3 APPS PICKED BY YOUR FOLLOWINGS</b><br></br>
+                    {/* example data, need to replace this */}
+                    <a data-tip data-for="1st" align="center">
+                    🏅  &nbsp;<b style={{color:'orange'}}>Uber</b> (4 friends) 
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a data-tip data-for="2nd" align="center">
+                    🥈  &nbsp;<b style={{color:'gray'}}>CF</b> (3 friends)
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a data-tip data-for="3rd" align="center">
+                    🥉  &nbsp;<b style={{color:'brown'}}>BI APP</b> (2 friends)
+                    </a>
+
+                    <ReactTooltip id="1st" place="right" >
+                      <b>Uber</b>
+                      <br></br>
+                      Rating: 4.2
+                      <br></br>
+                      Installs: 100000000+
+                      <br></br>
+                      Price: FREE
+                    </ReactTooltip>
+
+                    <ReactTooltip id="2nd" place="right" >
+                      <b>CF</b>
+                      <br></br>
+                      Rating: 5
+                      <br></br>
+                      Installs: 100+
+                      <br></br>
+                      Price: FREE
+                    </ReactTooltip>
+
+                    <ReactTooltip id="3rd" place="right" >
+                      <b>BI APP</b>
+                      <br></br>
+                      Rating: 5
+                      <br></br>
+                      Installs: 100+
+                      <br></br>
+                      Price: FREE
+                    </ReactTooltip>
+
+<div class="tooltip">Hover over me
+  <span class="tooltiptext">Tooltip text</span>
+</div>
+
                 </tbody>
               </table>
             </div>
