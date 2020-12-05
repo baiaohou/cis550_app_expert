@@ -1,3 +1,4 @@
+const Constants = require('./Constants.js');
 var config = require('./db-config.js');
 var mysql = require('mysql');
 var gplay = require('google-play-scraper');
@@ -32,7 +33,7 @@ function loginCheck(req, res) {
       var num = rows.length;
       if (num === 0) {
         console.log("No such user, goto login failed page");
-        res.redirect(301, 'http://localhost:3000/loginfailed');
+        res.redirect(301, `${Constants.frontend_prefix}/loginfailed`);
       } else {
         console.log("We have this user!");
         res.writeHead(302, {
@@ -44,7 +45,7 @@ function loginCheck(req, res) {
             "date=" + ((new Date()).getFullYear()) + "/" + ((new Date()).getMonth() + 1) + "/" + (new Date()).getDate()
           ],
           'Content-Type': 'text/plain',
-          'Location': 'http://localhost:3000/home'
+          'Location': `${Constants.frontend_prefix}/home`
           
         });
         res.end();
@@ -75,12 +76,12 @@ function changePassword(req, res) {
       var num = rows.affectedRows;
       if (num === 0) {
         console.log("Change password failed - no such user");
-        res.redirect(301, 'http://localhost:3000/resetpasswordfailed');
+        res.redirect(301, `${Constants.frontend_prefix}/resetpasswordfailed`);
       } else {
         console.log("Change password OK");
         res.writeHead(302, {
           'Content-Type': 'text/plain',
-          'Location': 'http://localhost:3000/loginreenter'
+          'Location': `${Constants.frontend_prefix}/loginreenter`
         });
         res.end();
         console.log(rows);
@@ -112,13 +113,13 @@ function register(req, res) {
     if (err) {
       // console.log(err);
       console.log("Register failed - already exist this user");
-      res.redirect(301, 'http://localhost:3000/registerfailed');
+      res.redirect(301, `${Constants.frontend_prefix}/registerfailed`);
     } else {
 
       console.log("Register OK");
       res.writeHead(302, {
         'Content-Type': 'text/plain',
-        'Location': 'http://localhost:3000/loginreenter'
+        'Location': `${Constants.frontend_prefix}/loginreenter`
       });
       res.end();
       console.log(rows);

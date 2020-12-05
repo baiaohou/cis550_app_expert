@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Constants } from './Constants';
 import { GoogleLogin } from 'react-google-login';
 
 const clientId =
@@ -56,7 +56,7 @@ function Login() {
       `Logged in successfully welcome ${getCookie('date')} 😍. \n See console for full profile object.`
     );
     // refreshTokenSetup(res);
-    window.location.replace(`http://localhost:3000/home`);
+    window.location.replace(`${Constants.frontend_prefix}/home`);
   };
 
   const onFailure = (res) => {

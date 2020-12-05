@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoogleLogout } from 'react-google-login';
+import { Constants } from './Constants';
 
 const clientId =
   '610587898387-d02phqvl7l6v4bt9lm4ml3f2apg5g019.apps.googleusercontent.com';
@@ -20,7 +21,7 @@ export function Logout() {
 
     console.log('Logout OK');
     alert('See You Next Time!');
-    window.location.replace(`http://localhost:3000/`);
+    window.location.replace(`${Constants.frontend_prefix}/`);
   };
 
   return (
