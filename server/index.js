@@ -73,6 +73,8 @@ app.get('/getRecommended/:email', routes.getRecommended);
 app.get('/getRecommendedByFollowees/:email', routes.getRecommendedByFollowees);
 
 app.get('/getFollowing/:email', routes.getFollowing);
+app.get('/getFollowingCategoryData/:email', routes.getFollowingCategoryData);
+app.get('/getTop3Apps/:email', routes.getTop3Apps);
 
 app.get('/rating', routes.setUserRating);
 app.get('/video/:package_name', routes.getAppVideoById);

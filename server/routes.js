@@ -198,7 +198,7 @@ function getTopInGenre(req, res) {
     SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
     FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
     WHERE a.Category = '${genre}' 
-    ORDER BY a.rating DESC, a.installs DESC
+    ORDER BY a.installs DESC, a.rating DESC
     LIMIT 10;
   `;
   connection.query(query, function (err, rows, fields) {
@@ -602,6 +602,88 @@ function getFollowing(req, res) {
   });
 }
 
+
+
+function getFollowingCategoryData(req, res) {
+  console.log("Into getFollowingCategoryData");
+  console.log(req.params.email);
+  var query = `
+    WITH followings AS (
+      SELECT following
+      FROM follow
+      WHERE self='${req.params.email}'
+    ), user_app_rating AS (
+      SELECT *
+      FROM followings f
+      LEFT JOIN user_review u
+      ON f.following=u.user
+    ), user_app_rating_category AS (
+      SELECT uar.following, uar.app_name, uar.rating, ad.category
+      FROM user_app_rating uar
+      LEFT JOIN app_detail ad
+      ON uar.app_name=ad.app_name
+    ) SELECT
+        category,
+        count(category) AS num,
+        count(category) / (
+                            SELECT count(category)
+                            FROM user_app_rating_category
+                          ) AS percentage,
+        max(rating) AS max_rating,
+        min(rating) AS min_rating,
+        cast(avg(rating) as decimal(10, 2)) AS avg_rating
+    FROM user_app_rating_category
+    GROUP BY category
+    ORDER BY percentage DESC, category, avg_rating;
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("getFollowingCategoryData query result: ", rows);
+      res.json(rows);
+    }
+  });
+}
+
+function getTop3Apps(req, res) {
+  console.log("Into getTop3Apps");
+  console.log(req.params.email);
+  var query = `
+    WITH followings AS (
+      SELECT following
+      FROM follow
+      WHERE self='${req.params.email}'
+    ), user_app_rating AS (
+      SELECT *
+      FROM followings f
+      LEFT JOIN user_review u
+      ON f.following=u.user
+    ), user_app_rating_details AS (
+      SELECT u1.user, u1.app_name, u2.rating, u2.installs, u2.price
+      FROM user_app_rating u1
+      LEFT JOIN app_detail u2
+      ON u1.app_name=u2.app_name
+    )
+    SELECT app_name,
+            count(app_name) AS picks,
+            rating AS general_rating,
+            installs,
+            price
+    FROM user_app_rating_details
+    GROUP BY app_name
+    ORDER BY picks DESC, general_rating DESC;
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("getTop3Apps query result: ", rows);
+      res.json(rows);
+    }
+  });
+}
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   loginCheck: loginCheck,
@@ -626,5 +708,7 @@ module.exports = {
   getRecommendedByFollowees: getRecommendedByFollowees,
   getFollowing: getFollowing,
   setUserRating: setUserRating,
-  getAppVideoById: getAppVideoById
+  getAppVideoById: getAppVideoById,
+  getFollowingCategoryData: getFollowingCategoryData,
+  getTop3Apps: getTop3Apps
 }
