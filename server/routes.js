@@ -325,7 +325,7 @@ function getAppVideoById(req, res) {
 }
 
 
-function get10Apps(req, res) {
+function get10Apps(req, res) {// will be deleted
   console.log("Into get10Apps function");
   var query = `SELECT * FROM app_detail LIMIT 10;`;
   connection.query(query, function(err, rows, fields) {
@@ -684,6 +684,32 @@ function getTop3Apps(req, res) {
   });
 }
 
+function getFollowingWishList(req, res) {
+  console.log("Into getFollowingWishList");
+  console.log(req.params.email);
+  var query = `
+    WITH followings AS (
+      SELECT following
+      FROM follow
+      WHERE self='${req.params.email}'
+    )
+    SELECT w.email, w.app_name, u.first_name, p.icon
+    FROM wishlist w
+    JOIN followings f ON w.email=f.following
+    JOIN package_info p ON p.app_name=w.app_name
+    JOIN user u ON u. email=w.email
+    ORDER BY email
+  `;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("getFollowingWishList query result: ", rows);
+      res.json(rows);
+    }
+  });
+}
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   loginCheck: loginCheck,
@@ -710,5 +736,6 @@ module.exports = {
   setUserRating: setUserRating,
   getAppVideoById: getAppVideoById,
   getFollowingCategoryData: getFollowingCategoryData,
-  getTop3Apps: getTop3Apps
+  getTop3Apps: getTop3Apps,
+  getFollowingWishList: getFollowingWishList
 }

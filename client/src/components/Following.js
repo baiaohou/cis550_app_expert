@@ -14,6 +14,12 @@ import Chart from "react-google-charts";
 import ReactTooltip from "react-tooltip";
 
 
+import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
+import { Comment, Tooltip, Avatar } from 'antd';
+
+import { Input } from 'antd';
+const { Search } = Input;
+
 
 export default class Following extends React.Component {
   constructor(props) {
@@ -26,14 +32,15 @@ export default class Following extends React.Component {
       wishList: [],
       userName: getCookie("first_name") + " " + getCookie("last_name"), // e.g. Zimao Wang
       email: getCookie("email"), // e.g. "zimaow@gmail.com",
-      rcmdList: [],
       pieData: [],
       barData: [],
       top3Apps: [],
       top3Picks: [],
       top3Ratings: [],
       top3Installs: [],
-      top3Price: []
+      top3Price: [],
+      followingWishList: [],
+      content: []
     }
 
     // this.addToWL = this.addToWL.bind(this);
@@ -59,6 +66,7 @@ export default class Following extends React.Component {
       .catch(err => console.log(err));	// Print the error if there is one.
       this.getFollowingCategoryData(this.state.email);
       this.getWishList(this.state.email); // to update the number on the badge
+      this.getFollowingWishList(this.state.email);
   }
 
   getWishList(email) {
@@ -155,7 +163,47 @@ export default class Following extends React.Component {
         .catch(err => console.log(err));	// Print the error if there is one.
   }
 
+  getFollowingWishList(email) {
+    console.log("call getFollowingWishList");
+    fetch(`${Constants.servaddr_prefix}/getFollowingWishList/`+email, {
+      method: 'GET' // The type of HTTP request.
+      })
+        .then(res => res.json()) // Convert the response data to a JSON.
+        .then(dataList => {
+          if (!dataList) return;
+          let lastemail = "";
+          let tmpDiv = "";
+          let dataDivs =  [];
+          let tmpContent = [];
+          let avatars = [];// avatars in avatar.group
+          dataList.map((dataObj, i) => {
+            
+            
+            if (i == 0) {
+              avatars.push(<Tooltip title={dataObj.app_name} placement="top"><Avatar src={dataObj.icon} /></Tooltip>);
+              tmpDiv = <Comment author={<a>{dataObj.email}</a>} avatar={ <Avatar style={{backgroundColor:'#f56a00',}}>{dataObj.first_name}</Avatar>} content={<Avatar.Group maxCount={5} size="large" maxStyle={{color: '#f56a00',backgroundColor: '#fde3cf',}}>{avatars}</Avatar.Group>}/>
+            } else if (dataObj.email!=lastemail) {
+              dataDivs.push(tmpDiv);
+              avatars = [];// clear avatars for new user
+              avatars.push(<Tooltip title={dataObj.app_name} placement="top"><Avatar src={dataObj.icon} /></Tooltip>);
+              tmpDiv = <Comment author={<a>{dataObj.email}</a>} avatar={ <Avatar style={{backgroundColor:'#f56a00',}}>{dataObj.first_name}</Avatar>} content={<Avatar.Group maxCount={5} size="large" maxStyle={{color: '#f56a00',backgroundColor: '#fde3cf',}}>{avatars}</Avatar.Group>}/>
+            } else {
+              avatars.push(<Tooltip title={dataObj.app_name} placement="top"><Avatar src={dataObj.icon} /></Tooltip>);
+            }
+            lastemail=dataObj.email;// record last email, to divide by emails
+          });
+          dataDivs.push(tmpDiv);// add the last dataObj
+          this.setState({
+            followingWishList: dataDivs
+          });
+        })
+        .catch(err => console.log(err));	// Print the error if there is one.
+        console.log("state followingwishlist: ", this.state.followingWishList);
+  }
 
+  addFollow(email) {
+    console.log("call addFollow", email);
+  }
   
 
   render() {    
@@ -193,14 +241,21 @@ export default class Following extends React.Component {
               <table class="table">
                 <thead>
                     <tr>
-                        <th>🚧 UNDER CONSRUCTION 🚧</th>
+                      <Search placeholder="search email and follow" prefix={<UserOutlined className="site-form-item-icon"/>} allowClear enterButton="Follow"  onSearch={this.addFollow} />
                     </tr>
+                    <tr>
+                        <th>Your following</th>
+                    </tr>
+                    {/* <tr>
+                      <Search placeholder="input search email" suffix="+" prefix={<UserOutlined />} allowClear onSearch={this.getWishList} style={{ width: 200, margin: '0 10px' }} />
+                    </tr>
+                    <tr>
+                    <Input placeholder="search email and follow" prefix={<UserOutlined className="site-form-item-icon"/>} suffix="follow" />
+                    </tr> */}
                 </thead>
                 <tbody>
-                    {this.state.rcmdList}
+                    {this.state.followingWishList}
                     
-
-
                     {/* Top Categories Picked By Your Following */}
                     <Chart
                       width={'600px'}
@@ -283,10 +338,6 @@ export default class Following extends React.Component {
                       <br></br>
                       Price: ${this.state.top3Price[2]}
                     </ReactTooltip>
-
-<div class="tooltip">Hover over me
-  <span class="tooltiptext">Tooltip text</span>
-</div>
 
                 </tbody>
               </table>
