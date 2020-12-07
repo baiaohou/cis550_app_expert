@@ -325,20 +325,6 @@ function getAppVideoById(req, res) {
 }
 
 
-function get10Apps(req, res) {// will be deleted
-  console.log("Into get10Apps function");
-  var query = `SELECT * FROM app_detail LIMIT 10;`;
-  connection.query(query, function(err, rows, fields) {
-    if (err) {
-      console.log(err);
-    } else {
-      // console.log("query result: ", rows);
-      res.json(rows);
-      // console.log(rows);
-    }
-  });
-}
-
 function addToWishList(req, res) {
   console.log("Into addToWishList function");
   console.log("appName: ", req.query.appName);
@@ -710,6 +696,34 @@ function getFollowingWishList(req, res) {
   });
 }
 
+function addFollow(req, res) {
+  console.log("Into addFollow");
+  console.log("self", req.params.self);
+  console.log("following", req.params.following);
+  var query = `SELECT * FROM follow WHERE self='${req.query.self}' AND following="${req.query.following}";`;
+  connection.query(query, function(err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (rows.length == 0) {
+        console.log("follow does not have this pari, insert it.");
+        query = `INSERT INTO follow (self, following) VALUES ('${req.query.self}', "${req.query.following}");`;
+      } else {
+        console.log("follow already has this, delete it.");
+        query = `DELETE FROM follow WHERE self='${req.query.self}' AND following="${req.query.following}";`;
+      }
+      connection.query(query, function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(rows);
+          console.log("addFollow query result: ", rows);
+        }
+      });
+    }
+  });
+}
+
 // The exported functions, which can be accessed in index.js.
 module.exports = {
   loginCheck: loginCheck,
@@ -725,7 +739,6 @@ module.exports = {
   getAppScreenshotsById: getAppScreenshotsById,
   getAppDescriptionById:getAppDescriptionById,
   loadMoreCommentsByAppName: loadMoreCommentsByAppName,
-  get10Apps: get10Apps,
   addToWishList: addToWishList,
   getWishList: getWishList,
   isInWishList: isInWishList,
@@ -737,5 +750,6 @@ module.exports = {
   getAppVideoById: getAppVideoById,
   getFollowingCategoryData: getFollowingCategoryData,
   getTop3Apps: getTop3Apps,
-  getFollowingWishList: getFollowingWishList
+  getFollowingWishList: getFollowingWishList,
+  addFollow: addFollow
 }

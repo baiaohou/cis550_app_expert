@@ -64,7 +64,6 @@ app.get('/app_detail/description/:package_name', routes.getAppDescriptionById);
 app.get('/app_comments', routes.loadMoreCommentsByAppName);
 
 
-app.get('/get10apps', routes.get10Apps);
 app.get('/getWishList/:email', routes.getWishList);
 app.get('/addToWishList', routes.addToWishList);
 app.get('/isInWishList', routes.isInWishList);
@@ -76,6 +75,7 @@ app.get('/getFollowing/:email', routes.getFollowing);
 app.get('/getFollowingCategoryData/:email', routes.getFollowingCategoryData);
 app.get('/getTop3Apps/:email', routes.getTop3Apps);
 app.get('/getFollowingWishList/:email', routes.getFollowingWishList);
+app.get('/addFollow', routes.addFollow);
 
 app.get('/rating', routes.setUserRating);
 app.get('/video/:package_name', routes.getAppVideoById);

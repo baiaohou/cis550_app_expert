@@ -202,7 +202,19 @@ export default class Following extends React.Component {
   }
 
   addFollow(email) {
-    console.log("call addFollow", email);
+    console.log("call addFollow", email);// onSearch will pass value here
+    let thisemail = this.state.email;
+    console.log("this email", thisemail);
+    fetch(`${Constants.servaddr_prefix}/addFollow?self=`+getCookie("email")+"&following="+email, {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .then(oneAppList => {
+        // reload following's wishlist
+        this.getFollowingCategoryData(thisemail);
+        this.getFollowingWishList(thisemail);
+      })
+      .catch(err => console.log(err))	// Print the error if there is one.
   }
   
 
@@ -241,7 +253,7 @@ export default class Following extends React.Component {
               <table class="table">
                 <thead>
                     <tr>
-                      <Search placeholder="search email and follow" prefix={<UserOutlined className="site-form-item-icon"/>} allowClear enterButton="Follow"  onSearch={this.addFollow} />
+                      <Search placeholder="search email and follow/unfollow" prefix={<UserOutlined className="site-form-item-icon"/>} allowClear enterButton="Follow/Unfollow"  onSearch={this.addFollow.bind(this)} />
                     </tr>
                     <tr>
                         <th>Your following</th>

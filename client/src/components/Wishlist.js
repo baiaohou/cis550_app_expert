@@ -38,27 +38,6 @@ export default class Wishlist extends React.Component {
   // React function that is called when the page load.
   componentDidMount() {
     console.log("into Wishlist.js Mount");
-    // Send an HTTP request to the server to get 10 apps to test.
-    fetch(`${Constants.servaddr_prefix}/get10apps`, {
-      method: 'GET' // The type of HTTP request.
-    })
-      .then(res => res.json()) // Convert the response data to a JSON.
-      .then(tenAppList => {
-        if (!tenAppList) return;
-        // Map each tenAppObj in tenAppList to an HTML element:
-        // A button which triggers the showMovies function for each genre.
-        let tenAppDivs = tenAppList.map((tenAppObj, i) =>
-          <GenreButton id={"button-" + tenAppObj.app_name} onClick={() => this.addToWishList(tenAppObj.app_name, this.state.email)} genre={tenAppObj.app_name} />
-        );
-        console.log("tenAppDivs: " + tenAppDivs);
-        // Set the state of the genres list to the value returned by the HTTP response from the server.
-        this.setState({
-          tenApps: tenAppDivs
-        });
-        console.log("state's tenApps: " + this.state.tenApps);
-      })
-      .catch(err => console.log(err));	// Print the error if there is one.
-
     // send an HTTP request to the server to fetch wishlist
     this.getWishList(this.state.email);
   }
