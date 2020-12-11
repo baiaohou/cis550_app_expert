@@ -2,6 +2,9 @@ import React from 'react';
 import { List, Button, Skeleton } from 'antd';
 import { Constants } from './Constants';
 import PageNavbar from './PageNavbar';
+import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
+import { Rate } from 'antd';
+import { getCookie } from './Home';
 
 // var pageSize = 10;
 // var currPage = 0;
@@ -11,24 +14,232 @@ export default class ExpertSearchResults extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+			appName: this.props.query_term,
+            recApps: [],
+            topApps:[],
+            userName: getCookie("first_name") + " " + getCookie("last_name"), // e.g. Zimao Wang
+            email: getCookie("email"), // e.g. "zimaow@gmail.com",
+            
+        }
+        
+        // this.submitApp = this.submitApp.bind(this);
+        this.onLoadMore = this.onLoadMore.bind(this);
+        this.addToWishListSearch = this.addToWishListSearch.bind(this);
     }
 
     componentDidMount() {
         // 这个是此组件第一次渲染到网页上的回调
         // 可通过 this.props.query_term接收ExpertSearch传来的参数
         // do something, like setState
+        // this.setState({
+		// 	appName: this.props.query_term
+        // });
+        
+        fetch(`${Constants.servaddr_prefix}/recommendations/`+this.state.appName, {
+			method: 'GET' // The type of HTTP request.
+		})
+		  
+		.then(res => res.json()) // Convert the response data to a JSON.
+		//   .then(text => console.log(text))
+		.then(appList => {
+            console.log(appList)
+            // topDivs = []
+			if (!appList) return;
+                // Map each genreObj in genreList to an HTML element:
+            let topDivs = []
+            let appDivs = appList.map((app, i) =>{
+                let resultPrice = "";
+                if (app.price == 0) {
+                    resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>;
+                } else {
+                    resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${app.price}&nbsp;&nbsp;</div>;
+                }
+                return(
+                <tr>
+                    <td>
+                        <div class="product-item">
+                            <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4>
+                                <div class="divs-inline"><Rate disabled defaultValue={0} value={app.rating} />&nbsp;&nbsp;&nbsp;{app.rating}</div>
+                                &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
+                                {/* {resultGenre} */}
+                                <div>{app.installs}+ installs</div>
+                                <div class="text-lg text-medium">{app.summary}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                            <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListSearch(app.app_name, this.state.email)}></i>
+                        </a>
+                    </td>
+                </tr>
+                )
+            });
+				console.log(appDivs)
+                // topDivs = [];
+                topDivs = appDivs.slice(0,5)
+				// Set the state of the genres list to the value returned by the HTTP response from the server.
+				this.setState({
+                    
+                    recApps: topDivs
+                    
+				})
+		})
+		.catch(err => console.log(err))	// Print the error if there is one.
+    }
+
+    addToWishListSearch(appName, email) {
+        fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+encodeURIComponent(appName)+"&email="+email, {
+          method: 'GET' // The type of HTTP request.
+        })
+          .then(res => res.json()) // Convert the response data to a JSON.
+          .catch(err => console.log(err))	// Print the error if there is one.
+        //   .then(window.navigate(`${Constants.frontend_prefix}/recommanded`,'_self'))
+        
     }
 
     componentWillReceiveProps(nextProps) {
-        // 这个是此组件已经显示在网页上了，只是props改变了，比如我用Expert Search搜出了结果，还在这个页面，又想搜新的内容
-        // 可通过 nextProps.query_term接收ExpertSearch传来的新的参数
-        // do something similar to what you do in componentDidMount()
+        this.setState({                  
+            appName: nextProps.query_term
+        })
+        fetch(`${Constants.servaddr_prefix}/recommendations/`+this.state.appName, {
+			method: 'GET' // The type of HTTP request.
+		})
+		  
+		.then(res => res.json()) // Convert the response data to a JSON.
+		//   .then(text => console.log(text))
+		.then(appList => {
+            console.log(appList)
+            // topDivs = []
+			if (!appList) return;
+                // Map each genreObj in genreList to an HTML element:
+            let topDivs = []
+			let appDivs = appList.map((app, i) =>{
+                let resultPrice = "";
+                if (app.price == 0) {
+                    resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>;
+                } else {
+                    resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${app.price}&nbsp;&nbsp;</div>;
+                }
+                return(
+                <tr>
+                    <td>
+                        <div class="product-item">
+                            <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4>
+                                <div class="divs-inline"><Rate disabled defaultValue={0} value={app.rating} />&nbsp;&nbsp;&nbsp;{app.rating}</div>
+                                &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
+                                {/* {resultGenre} */}
+                                <div>{app.installs}+ installs</div>
+                                <div class="text-lg text-medium">{app.summary}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                            <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(app.app_name, this.state.email)}></i>
+                        </a>
+                    </td>
+                </tr>
+                )
+            });
+				console.log(appDivs)
+                // topDivs = [];
+                topDivs = appDivs.slice(0,5)
+				// Set the state of the genres list to the value returned by the HTTP response from the server.
+				this.setState({    
+                    recApps: topDivs    
+				})
+		})
+		.catch(err => console.log(err))	// Print the error if there is one.
     }
+
+
+    onLoadMore() {
+        fetch(`${Constants.servaddr_prefix}/recommendations/`+this.state.appName, {
+			method: 'GET' // The type of HTTP request.
+		})
+		  
+		.then(res => res.json()) // Convert the response data to a JSON.
+		//   .then(text => console.log(text))
+		.then(appList => {
+			console.log(appList)
+			if (!appList) return;
+				// Map each genreObj in genreList to an HTML element:
+                let appDivs = appList.map((app, i) =>{
+                    let resultPrice = "";
+                    if (app.price == 0) {
+                        resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>;
+                    } else {
+                        resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${app.price}&nbsp;&nbsp;</div>;
+                    }
+                    return(
+                    <tr>
+                        <td>
+                            <div class="product-item">
+                                <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a>
+                                <div class="product-info">
+                                    <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4>
+                                    <div class="divs-inline"><Rate disabled defaultValue={0} value={app.rating} />&nbsp;&nbsp;&nbsp;{app.rating}</div>
+                                    &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
+                                    {/* {resultGenre} */}
+                                    <div>{app.installs}+ installs</div>
+                                    <div class="text-lg text-medium">{app.summary}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(app.app_name, this.state.email)}></i>
+                            </a>
+                        </td>
+                    </tr>
+                    )
+                });
+				console.log(appDivs);
+
+				// Set the state of the genres list to the value returned by the HTTP response from the server.
+				this.setState({
+                    
+                    recApps: appDivs
+                    
+				})
+		})
+		.catch(err => console.log(err))	// Print the error if there is one.
+    }
+    
 
     render() {
         return (
             <div>
                 <PageNavbar />
+
+                <div className="container recommendations-container">
+			    	{/* <div className="jumbotron"> */}
+                    <br></br>
+                    <div class="col-lg-12">
+			    		<div class="row">
+                            <div class="col-lg-6"><div className="h6">Are these apps you want to search for? Click load more or search again!</div></div>
+                            <div class="col-lg-3"><Button onClick={this.onLoadMore}>load more</Button></div>
+                        </div>
+                    </div>
+						<div class="col-lg-12">
+							<div class="padding-top-2x mt-2 hidden-lg-up"></div>
+							<div class="table-responsive wishlist-table margin-bottom-none">
+							<table class="table">
+								<tbody>
+									{this.state.recApps}
+								</tbody>
+							</table>
+							</div>
+						</div>
+			    		{/* </div> */}
+			    	{/* </div> */}
+			    </div>
             </div>
         )
     }

@@ -12,8 +12,10 @@ import { Rate } from 'antd';
 import { Menu, Button } from 'antd';
 import Chart from "react-google-charts";
 import Layout from 'antd/lib/layout/layout';
+import { getCookie } from './Home';
 const { Header, Content, Sider } = Layout;
 const { Item: MenuItem } = Menu;
+
 
 // const { SubMenu } = Menu;
 
@@ -28,13 +30,18 @@ export default class Dashboard extends React.Component {
       category_info: [],
       url: "..\public\category_bg.jpg",
       apps: [],
+      topRatingApps:[],
+      topInstallApps:[],
       four_star: 0,
       three_star: 0,
       two_star: 0,
-      cate_data: [["stars","apps"],["Positve", 0],["Neutral", 0],["Negative",0]]
+      cate_data: [["stars","apps"],["Positve", 0],["Neutral", 0],["Negative",0]],
+      userName: getCookie("first_name") + " " + getCookie("last_name"), // e.g. Zimao Wang
+      email: getCookie("email"), // e.g. "zimaow@gmail.com",
     }
     this.showCategory = this.showCategory.bind(this);
     this.showMovies = this.showMovies.bind(this);
+    // this.addToWishList = this.addToWishList.bind(this);
   }
 
   // React function that is called when the page load.
@@ -65,8 +72,6 @@ export default class Dashboard extends React.Component {
       })
       .catch(err => console.log(err))	// Print the error if there is one.
   }
-
-
 
   showCategory(genre){
     fetch(`${Constants.servaddr_prefix}/category/`+genre, {
@@ -122,6 +127,17 @@ export default class Dashboard extends React.Component {
   }
   /* ---- Q1b (Dashboard) ---- */
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
+  addToWishListDashboard(appName, email) {
+    fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+encodeURIComponent(appName)+"&email="+email, {
+      method: 'GET' // The type of HTTP request.
+    })
+      .then(res => res.json()) // Convert the response data to a JSON.
+      .catch(err => console.log(err))	// Print the error if there is one.
+      
+  }
+
+  
+
   showMovies(genre) {
     fetch(`${Constants.servaddr_prefix}/genres/`+genre, {
       method: 'GET' // The type of HTTP request.
@@ -131,39 +147,48 @@ export default class Dashboard extends React.Component {
       .then(appList => {
         
         if (!appList) return;
+        let topRating = []
+        let topInstalls = []
         // Map each genreObj in genreList to an HTML element:
         // A button which triggers the showMovies function for each genre.
-        let appDivs = appList.map((app, i) =>
-
-        // <div key={i} className="app">
-        // {/* <div className="App">{}</div> */}
-        // {/* <Router> */}
-        // <NavLink to = {"/app_detail/"+ encodeURIComponent(app.App)}  replace > {app.App}</NavLink>
-        // <div className="Rating">{app.Rating}</div>
-        // <div className="Installs">{app.Installs}</div>
-
-        // </div>
-
-        <tr>
-            <td>
-                <div class="product-item">
-                    <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a>
-                    <div class="product-info">
-                        <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4>
-                        <div><Rate disabled defaultValue={0} value={app.rating} />&nbsp;{app.rating}</div>
-                        <div>{app.installs}+ installs</div>
-                        <div class="text-lg text-medium text-muted">${app.price}</div>
-                        <div class="text-lg text-medium">{app.summary}</div>
-                    </div>
-                </div>
-            </td>
-            <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-        </tr>
-        );
-        console.log(appList);
-
+        let appDivs = appList.map((app, i) =>{
+          
+          let resultPrice = "";
+          if (app.price == 0) {
+              resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>;
+          } else {
+              resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${app.price}&nbsp;&nbsp;</div>;
+          }
+          return(
+          <tr>
+              <td>
+                  <div class="product-item">
+                      <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a>
+                      <div class="product-info">
+                          <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4>
+                          <div class="divs-inline"><Rate disabled defaultValue={0} value={app.rating} />&nbsp;&nbsp;&nbsp;{app.rating}</div>
+                          &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
+                          {/* {resultGenre} */}
+                          <div>{app.installs}+ installs</div>
+                          <div class="text-lg text-medium">{app.summary}</div>
+                      </div>
+                  </div>
+              </td>
+              <td class="text-center">
+                  <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                      <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListDashboard(app.app_name, this.state.email)}></i>
+                  </a>
+              </td>
+          </tr>
+          )
+      });
+        // console.log(appList);
+        topInstalls = appDivs.slice(0,5)
+        topRating = appDivs.slice(5,10)
         // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({
+          topRatingApps: topRating,
+          topInstallApps: topInstalls,
           apps: appDivs
         })
       })
@@ -242,11 +267,21 @@ export default class Dashboard extends React.Component {
                     <table class="table">
                       <thead>
                           <tr>
-                              <th>Top apps</th>
+                              <th>Most Popular Apps</th>
                           </tr>
                       </thead>
                       <tbody>
-                          {this.state.apps}
+                          {this.state.topInstallApps}
+                      </tbody>
+                    </table>
+                    <table class="table">
+                      <thead>
+                          <tr>
+                              <th>Highest Rating Apps</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {this.state.topRatingApps}
                       </tbody>
                     </table>
                   </div>

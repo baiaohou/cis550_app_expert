@@ -195,11 +195,18 @@ function getTopInGenre(req, res) {
   var genre = req.params.genre;
   console.log(genre)
   var query = `
-    SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
+    (SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
     FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
     WHERE a.Category = '${genre}' 
     ORDER BY a.installs DESC, a.rating DESC
-    LIMIT 10;
+    LIMIT 5)
+    UNION
+    (SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
+      FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
+      WHERE a.Category = '${genre}' AND a.installs > 1000
+      ORDER BY a.rating DESC, a.installs DESC
+      LIMIT 5
+    )
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
