@@ -51,7 +51,7 @@ export default class Recommendations extends React.Component {
 							<div><Rate disabled defaultValue={0} value={app.rating} />&nbsp;{app.rating}</div>
 							<div>{app.installs}+ installs</div>
 							<div class="text-lg text-medium text-muted">${app.price}</div>
-							<div class="text-lg text-medium">{app.summary}</div>
+							<div dangerouslySetInnerHTML={{__html: app.summary}}></div>
 						</div>
 					</div>
 				</td>

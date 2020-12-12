@@ -66,7 +66,7 @@ export default class ExpertSearchResults extends React.Component {
                                 &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                                 {/* {resultGenre} */}
                                 <div>{app.installs}+ installs</div>
-                                <div class="text-lg text-medium">{app.summary}</div>
+                                <div dangerouslySetInnerHTML={{__html: app.summary}}></div>
                             </div>
                         </div>
                     </td>
@@ -135,7 +135,7 @@ export default class ExpertSearchResults extends React.Component {
                                 &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                                 {/* {resultGenre} */}
                                 <div>{app.installs}+ installs</div>
-                                <div class="text-lg text-medium">{app.summary}</div>
+                                <div dangerouslySetInnerHTML={{__html: app.summary}}></div>
                             </div>
                         </div>
                     </td>
@@ -188,7 +188,7 @@ export default class ExpertSearchResults extends React.Component {
                                     &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                                     {/* {resultGenre} */}
                                     <div>{app.installs}+ installs</div>
-                                    <div class="text-lg text-medium">{app.summary}</div>
+                                    <div dangerouslySetInnerHTML={{__html: app.summary}}></div>
                                 </div>
                             </div>
                         </td>
