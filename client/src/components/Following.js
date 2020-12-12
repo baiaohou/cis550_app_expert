@@ -115,10 +115,10 @@ export default class Following extends React.Component {
           let newPieData = [['Category', 'Proportion', 'max', 'min', 'avg']];
           let newBarData = [['Category', 'max', 'min', 'avg']]
           dataList.map((dataObj, i) => {
-            let tmpList = [dataObj.category, dataObj.num, dataObj.max_rating, dataObj.min_rating, dataObj.avg_rating];
+            let tmpList = [dataObj.category.replace(/_/g, " "), dataObj.num, dataObj.max_rating, dataObj.min_rating, dataObj.avg_rating];
             newPieData.push(tmpList);
             if (dataObj.num > 1) { // for bar chart, only consider category with num>1
-              tmpList = [dataObj.category, dataObj.max_rating, dataObj.min_rating, dataObj.avg_rating];
+              tmpList = [dataObj.category.replace(/_/g, " "), dataObj.max_rating, dataObj.min_rating, dataObj.avg_rating];
               newBarData.push(tmpList);
             }
           });
@@ -270,51 +270,73 @@ export default class Following extends React.Component {
                     {this.state.followingWishList}
                     
                     <tr>
-                        <th>Satistics 📈 </th>
+                        <th>
+                        <b>TOP 3 POPULAR <b style={{color:'darkcyan'}}>MOBILE APPS</b> PICKED BY YOUR FOLLOWEES &nbsp;🏵</b><br></br><br></br>
+                        {/* example data, need to replace this */}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a data-tip data-for="1st" align="center">
+                        🥇  &nbsp;<b style={{color:'orange'}}>{this.state.top3Apps[0]}</b> ({this.state.top3Picks[0]} picks) 
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a data-tip data-for="2nd" align="center">
+                        🥈  &nbsp;<b style={{color:'gray'}}>{this.state.top3Apps[1]}</b> ({this.state.top3Picks[1]} picks)
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a data-tip data-for="3rd" align="center">
+                        🥉  &nbsp;<b style={{color:'brown'}}>{this.state.top3Apps[2]}</b> ({this.state.top3Picks[2]} picks)
+                        </a>
+
+                        <hr></hr>
+                        <b>TOP 3 POPULAR <b style={{color:'darkblue'}}>CATEGORIES</b> AMONG YOUR FOLLOWEES &nbsp;🏆</b>
+                        {/* Top Categories Picked By Your Following */}
+                        <Chart
+                          width={'600px'}
+                          height={'300px'}
+                          chartType="PieChart"
+                          loader={<div>Loading Chart</div>}
+                          data={this.state.pieData}
+                          options={{
+                            // title: 'Top Categories Picked By Your Followees',
+                            // pieSliceText: 'label',
+                            pieHole:0.4,
+                            slices: {
+                              4: { offset: 0.2 },
+                              12: { offset: 0.3 },
+                              14: { offset: 0.4 },
+                              15: { offset: 0.5 },
+                            }
+                          }}
+                          rootProps={{ 'data-testid': '5' }}
+                        />
+
+
+                        <hr></hr>
+                        <b> <b style={{color:'purple'}}>RATINGS STATISTICS</b> AMONG YOUR FOLLOWEES &nbsp;🧮</b>
+                        
+                        {/* User Ratings By Your Following */}
+                        
+                        <Chart
+                          width={'600px'}
+                          height={'300px'}
+                          chartType="ComboChart"
+                          loader={<div>Loading Chart</div>}
+                          data={this.state.barData}
+                          options={{
+                            // title: 'Category Ratings By Your Followees',
+                            vAxis: { title: 'Rating🌟' },
+                            // hAxis: { title: 'Categories' },
+                            seriesType: 'bars',
+                            series: { 2: { type: 'line' } },
+                          }}
+                          rootProps={{ 'data-testid': '1' }}
+                        />
+
+                        </th>
                     </tr>
-                    {/* Top Categories Picked By Your Following */}
-                    <Chart
-                      width={'600px'}
-                      height={'300px'}
-                      chartType="PieChart"
-                      loader={<div>Loading Chart</div>}
-                      data={this.state.pieData}
-                      options={{
-                        title: 'Top Categories Picked By Your Followees',
-                        // pieSliceText: 'label',
-                        pieHole:0.4,
-                        slices: {
-                          4: { offset: 0.2 },
-                          12: { offset: 0.3 },
-                          14: { offset: 0.4 },
-                          15: { offset: 0.5 },
-                        }
-                      }}
-                      rootProps={{ 'data-testid': '5' }}
-                    />
+                  
 
-                    {/* User Ratings By Your Following */}
-                    
-                    <Chart
-                      width={'500px'}
-                      height={'300px'}
-                      chartType="ComboChart"
-                      loader={<div>Loading Chart</div>}
-                      data={this.state.barData}
-                      options={{
-                        title: 'Category Ratings By Your Followees',
-                        vAxis: { title: 'Rating🌟' },
-                        // hAxis: { title: 'Categories' },
-                        seriesType: 'bars',
-                        series: { 2: { type: 'line' } },
-                      }}
-                      rootProps={{ 'data-testid': '1' }}
-                    />
-
-
-                    <b>TOP 3 APPS PICKED BY YOUR FOLLOWING</b><br></br>
-                    {/* example data, need to replace this */}
-                    <a data-tip data-for="1st" align="center">
+                    {/* <b>TOP 3 APPS PICKED BY YOUR FOLLOWING</b><br></br> */}
+                    {/* <a data-tip data-for="1st" align="center">
                     🏅  &nbsp;<b style={{color:'orange'}}>{this.state.top3Apps[0]}</b> ({this.state.top3Picks[0]} picks) 
                     </a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -354,7 +376,7 @@ export default class Following extends React.Component {
                       Installs: {this.state.top3Installs[2]}+
                       <br></br>
                       Price: ${this.state.top3Price[2]}
-                    </ReactTooltip>
+                    </ReactTooltip> */}
 
                 </tbody>
               </table>
