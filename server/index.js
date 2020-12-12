@@ -32,27 +32,13 @@ app.get('/genres', routes.getAllGenres);
 
 
 
-/* ---- Q1b (Dashboard) ---- */
+/* ---- (Dashboard) ---- */
 app.get('/genres/:genre', routes.getTopInGenre); // Hint: Replace () => {} with the appropriate route handler.
 app.get('/category/:genre', routes.getCategory);
 
 
 
-
-
-
-
-/* ---- Q2 (Recommendations) ---- */
-
 app.get('/recommendations/:appName', routes.getRecs);
-
-
-
-
-/* ---- (Best Genre) ---- */
-app.get('/decades', routes.getDecades);
-
-
 
 app.get('/app_detail/:app_name', routes.getAppDetailByName);
 
