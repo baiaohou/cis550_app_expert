@@ -332,13 +332,24 @@ export default class Recommended extends React.Component {
               <table class="table">
                 <thead>
                     <tr>
-                        <th>Recommendations For You</th>\
+                        <th>Recommendations For You</th>
                         {/* <i class="fa fa-heart" onClick={() => {console.log(this.state.recmdBySelf); this.setState({recmdBySelf: 1-this.state.recmdBySelf});this.updateRcmdList();}}></i> */}
+                        <td class="text-center">
+                          <div style={{ textAlign: "right" }}>
+                            <Dropdown overlay={this.state.menu}>
+                              <Tag >
+                                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                  {this.state.whoseInterest} <DownOutlined />
+                                </a>
+                              </Tag>
+                            </Dropdown>
+                          </div>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
-                  <td></td>
-                  <td class="text-center">
+                  {/* <td></td> */}
+                  {/* <td class="text-center">
                     <div style={{ textAlign: "right" }}>
                       <Dropdown overlay={this.state.menu}>
                         <Tag >
@@ -348,7 +359,7 @@ export default class Recommended extends React.Component {
                         </Tag>
                       </Dropdown>
                     </div>
-                  </td>
+                  </td> */}
                   {this.state.rcmdList}
                 </tbody>
               </table>
