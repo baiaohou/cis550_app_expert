@@ -240,25 +240,6 @@ function getRecs(req, res) {
   });
 };
 
-/* ---- (Best Genres) ---- */
-function getDecades(req, res) {
-  var query = `
-    SELECT DISTINCT (FLOOR(year/10)*10) AS decade
-    FROM (
-      SELECT DISTINCT release_year as year
-      FROM Movies
-      ORDER BY release_year
-    ) 
-  `;
-  connection.query(query, function (err, rows, fields) {
-    if (err) console.log(err);
-    else {
-      res.json(rows);
-    }
-  });
-}
-
-
 /* Used for app detail page */
 
 function getAppDetailByName(req, res) {
@@ -780,7 +761,6 @@ module.exports = {
   getCategory: getCategory,
   getTopInGenre: getTopInGenre,
   getRecs: getRecs,
-  getDecades: getDecades,
   getAppDetailByName: getAppDetailByName,
   getAppScreenshotsById: getAppScreenshotsById,
   getAppDescriptionById: getAppDescriptionById,
