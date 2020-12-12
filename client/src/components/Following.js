@@ -91,7 +91,7 @@ export default class Following extends React.Component {
                     </div>
                 </div>
             </td>
-            <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+            <td class="text-center"><a class="remove-from-cart" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
         </tr>
         );
         console.log("wishDivs: " + wishDivs);

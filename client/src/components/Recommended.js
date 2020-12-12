@@ -91,7 +91,7 @@ export default class Recommended extends React.Component {
                         </div>
                     </div>
                 </td>
-                <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+                <td class="text-center"><a class="remove-from-cart" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
               </tr>
             )
           } else {
@@ -110,7 +110,7 @@ export default class Recommended extends React.Component {
                         </div>
                     </div>
                 </td>
-                <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+                <td class="text-center"><a class="remove-from-cart" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
             </tr>
             )
           }
@@ -199,7 +199,7 @@ export default class Recommended extends React.Component {
                   </div>
               </td>
               <td class="text-center">
-                <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                <a class="add-to-wishlist" data-toggle="tooltip" title="" data-original-title="Remove item">
                   <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(rcmdObj.app_name, this.state.email)}></i>
                 </a>
               </td>
@@ -255,7 +255,7 @@ export default class Recommended extends React.Component {
                   </div>
               </td>
               <td class="text-center">
-                <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                <a class="add-to-wishlist" data-toggle="tooltip" title="" data-original-title="Remove item">
                   <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(rcmdObj.app_name, this.state.email)}></i>
                 </a>
               </td>

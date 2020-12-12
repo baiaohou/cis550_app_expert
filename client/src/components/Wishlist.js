@@ -85,7 +85,7 @@ export default class Wishlist extends React.Component {
                   </div>
               </td>
               <td class="text-center">
-                <a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                <a class="remove-from-cart" data-toggle="tooltip" title="" data-original-title="Remove item">
                   <i class="fa fa-window-close fa-2x" aria-hidden="true" onClick={() => this.addToWishList(wishObj.app_name, this.state.email)}></i>
                 </a>
               </td>
@@ -103,8 +103,6 @@ export default class Wishlist extends React.Component {
   }
 
 
-  /* ---- Q1b (Dashboard) ---- */
-  /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
 
   addToWishList(appName, email) {
     console.log("call addToWishList");
@@ -133,42 +131,7 @@ export default class Wishlist extends React.Component {
       .catch(err => console.log(err))	// Print the error if there is one.
   }
 
-  // addToWL(appName) {
-  //   fetch(`${Constants.servaddr_prefix}/addToWishList/`+appName, {
-  //     method: 'GET' // The type of HTTP request.
-  //   })
-  //     .then(res => res.json()) // Convert the response data to a JSON.
-  //     .then(oneAppList => {
-  //       if (!oneAppList) return;
-  //       // Map each genreObj in genreList to an HTML element:
-  //       // A button which triggers the showMovies function for each genre.
-
-  //       // Set the state of the genres list to the value returned by the HTTP response from the server.
-  //       oneAppList.map((oneAppObj) => {
-  //         let {wishList} = this.state;
-  //         let {wishListNames} = this.state;
-  //         if (wishListNames.has(oneAppObj.App)) {
-  //           console.log("The wishlist already has this app");
-  //           wishListNames.delete(oneAppObj.App);
-  //           for (let x of wishList) {
-  //             if (x.props.id == "button-" + oneAppObj.App) {
-  //               wishList.delete(x);
-  //             }
-  //           }
-  //         } else {
-  //           console.log("The wishlist already has does not have this app");
-  //           wishListNames.add(oneAppObj.App);
-  //           wishList.add(<GenreButton id={"button-" + oneAppObj.App} onClick={() => this.addToWL(oneAppObj.App)} genre={oneAppObj.App} />);
-  //           console.log("wishList: ", wishList);
-  //         }
-  //         this.setState({
-  //           wishList: wishList,
-  //           wishListNames: wishListNames
-  //         });
-  //       });
-  //     })
-  //     .catch(err => console.log(err))	// Print the error if there is one.
-  // }
+  
 
   render() {    
     return (
