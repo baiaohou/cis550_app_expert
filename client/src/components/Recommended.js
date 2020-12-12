@@ -87,7 +87,7 @@ export default class Recommended extends React.Component {
                             <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>
                             <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
                             <div>{wishObj.installs}+ installs</div>
-                            <div class="text-lg text-medium">{wishObj.summary}</div>
+                            <div dangerouslySetInnerHTML={{__html: wishObj.summary}}></div>
                         </div>
                     </div>
                 </td>
@@ -106,7 +106,7 @@ export default class Recommended extends React.Component {
                             <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${wishObj.price}&nbsp;&nbsp;</div>
                             <div class="tag-inline-block"><Tag color="cyan">{wishObj.genre}</Tag></div>
                             <div>{wishObj.installs}+ installs</div>
-                            <div class="text-lg text-medium">{wishObj.summary}</div>
+                            <div dangerouslySetInnerHTML={{__html: wishObj.summary}}></div>
                         </div>
                     </div>
                 </td>
@@ -194,7 +194,7 @@ export default class Recommended extends React.Component {
                           &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                           {resultGenre}
                           <div>{rcmdObj.installs}+ installs</div>
-                          <div class="text-lg text-medium">{rcmdObj.summary}</div>
+                          <div dangerouslySetInnerHTML={{__html: rcmdObj.summary}}></div>
                       </div>
                   </div>
               </td>
@@ -250,7 +250,7 @@ export default class Recommended extends React.Component {
                           &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                           {resultGenre}
                           <div>{rcmdObj.installs}+ installs</div>
-                          <div class="text-lg text-medium">{rcmdObj.summary}</div>
+                          <div dangerouslySetInnerHTML={{__html: rcmdObj.summary}}></div>
                       </div>
                   </div>
               </td>

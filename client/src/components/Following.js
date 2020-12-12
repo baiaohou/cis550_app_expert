@@ -87,7 +87,7 @@ export default class Following extends React.Component {
                         <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(wishObj.app_name)}>{wishObj.app_name}</a></h4>
                         ReactDOM.render(<Rate disabled defaultValue={0} value={wishObj.rating} />, mountNode);
                         <div class="text-lg text-medium text-muted">${wishObj.price}</div>
-                        <div class="text-lg text-medium">{wishObj.summary}</div>
+                        <div dangerouslySetInnerHTML={{__html: wishObj.summary}}></div>
                     </div>
                 </div>
             </td>

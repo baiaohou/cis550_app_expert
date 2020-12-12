@@ -80,7 +80,7 @@ export default class Wishlist extends React.Component {
                           &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
                           {resultGenre}
                           <div>{wishObj.installs}+ installs</div>
-                          <div class="text-lg text-medium">{wishObj.summary}</div>
+                          <div dangerouslySetInnerHTML={{__html: wishObj.summary}}></div>
                       </div>
                   </div>
               </td>
