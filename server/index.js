@@ -63,6 +63,8 @@ app.get('/app_detail/description/:package_name', routes.getAppDescriptionById);
 
 app.get('/app_comments', routes.loadMoreCommentsByAppName);
 
+app.get('/app_peer_rating', routes.getPeerRatings);
+
 
 app.get('/getWishList/:email', routes.getWishList);
 app.get('/addToWishList', routes.addToWishList);

@@ -27,7 +27,7 @@ function loginCheck(req, res) {
     FROM user
     WHERE email = '${req.query.email}' AND password = '${req.query.password}'
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
     else {
       var num = rows.length;
@@ -46,7 +46,7 @@ function loginCheck(req, res) {
           ],
           'Content-Type': 'text/plain',
           'Location': `${Constants.frontend_prefix}/home`
-          
+
         });
         res.end();
         console.log(rows);
@@ -70,7 +70,7 @@ function changePassword(req, res) {
     set password='${req.query.password}' 
     where email='${req.query.email}'
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
     else {
       var num = rows.affectedRows;
@@ -109,7 +109,7 @@ function register(req, res) {
     '${req.query.lastName}'
   )
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       // console.log(err);
       console.log("Register failed - already exist this user");
@@ -123,7 +123,7 @@ function register(req, res) {
       });
       res.end();
       console.log(rows);
-      
+
     }
   });
 };
@@ -258,11 +258,6 @@ function getDecades(req, res) {
   });
 }
 
-/* ---- Q3 (Best Genres) ---- */
-function bestGenresPerDecade(req, res) {
-
-};
-
 
 /* Used for app detail page */
 
@@ -314,6 +309,21 @@ function loadMoreCommentsByAppName(req, res) {
 
 function setUserRating(req, res) {
   var query = "REPLACE INTO user_review(`user`, app_name, rating)" + `VALUES("${req.query.email}", "${req.query.app_name}", ${req.query.rating});`;
+  connection.query(query, function (err, rows, fields) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(rows);
+    }
+  })
+}
+
+function getPeerRatings(req, res) {
+  var query = `
+    SELECT app_name, SUM(rating) AS rating_sum, COUNT(rating) AS rating_num
+    FROM user_review
+    WHERE app_name = "${req.query.app_name}"
+    GROUP BY app_name;`;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);
@@ -325,13 +335,13 @@ function setUserRating(req, res) {
 
 function getAppVideoById(req, res) {
   gplay.app({ appId: `${req.params.package_name}` })
-  .then(queryResult => {
-    if (queryResult) {
-      res.json(queryResult);
-    } else {
-      console.log("Cannot find the app");
-    }
-  });
+    .then(queryResult => {
+      if (queryResult) {
+        res.json(queryResult);
+      } else {
+        console.log("Cannot find the app");
+      }
+    });
 }
 
 
@@ -340,7 +350,7 @@ function addToWishList(req, res) {
   console.log("appName: ", req.query.appName);
   console.log("email: ", req.query.email);
   var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name="${req.query.appName}";`;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -351,7 +361,7 @@ function addToWishList(req, res) {
         console.log("Wishlist already has this, delete it.");
         query = `DELETE FROM wishlist WHERE email='${req.query.email}' AND app_name="${req.query.appName}";`;
       }
-      connection.query(query, function(err, rows, fields) {
+      connection.query(query, function (err, rows, fields) {
         if (err) {
           console.log(err);
         } else {
@@ -368,7 +378,7 @@ function isInWishList(req, res) {
   console.log("appName: ", req.query.appName);
   console.log("email: ", req.query.email);
   var query = `SELECT * FROM wishlist WHERE email='${req.query.email}' AND app_name="${req.query.appName}";`;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -419,7 +429,7 @@ function getWishList(req, res) {
     FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
     ORDER BY app_name
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -433,7 +443,7 @@ function clearWishList(req, res) {
   console.log("Into clearWishList function");
   console.log("email: ", req.params.email);
   var query = `DELETE FROM wishlist WHERE email='${req.params.email}';`;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -495,7 +505,7 @@ function getRecommended(req, res) {
     ORDER BY installs DESC, rating DESC
     LIMIT 10
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -507,7 +517,7 @@ function getRecommended(req, res) {
 
 function getRecommendedByFollowees(req, res) {
   console.log("Into getRecommendedByFollowees");
-  var query= `
+  var query = `
     WITH Followings AS ( -- find all the users that zimao follows
       SELECT following AS user
       FROM Follow
@@ -569,7 +579,7 @@ function getRecommendedByFollowees(req, res) {
     ORDER BY installs DESC, rating DESC
     LIMIT 20
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -588,7 +598,7 @@ function getFollowing(req, res) {
   from follow
   where self='${req.params.email}';
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -632,7 +642,7 @@ function getFollowingCategoryData(req, res) {
     GROUP BY category
     ORDER BY percentage DESC, category, avg_rating;
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -673,31 +683,31 @@ function getTop3Apps(req, res) {
   // Note: the following query is no longer needed
 
   // var query = `
-    // WITH followings AS (
-    //   SELECT following
-    //   FROM follow
-    //   WHERE self='${req.params.email}'
-    // ), user_app_rating AS (
-    //   SELECT *
-    //   FROM followings f
-    //   LEFT JOIN user_review u
-    //   ON f.following=u.user
-    // ), user_app_rating_details AS (
-    //   SELECT u1.user, u1.app_name, u2.rating, u2.installs, u2.price
-    //   FROM user_app_rating u1
-    //   LEFT JOIN app_detail u2
-    //   ON u1.app_name=u2.app_name
-    // )
-    // SELECT app_name,
-    //         count(app_name) AS picks,
-    //         rating AS general_rating,
-    //         installs,
-    //         price
-    // FROM user_app_rating_details
-    // GROUP BY app_name
-    // ORDER BY picks DESC, general_rating DESC;
+  // WITH followings AS (
+  //   SELECT following
+  //   FROM follow
+  //   WHERE self='${req.params.email}'
+  // ), user_app_rating AS (
+  //   SELECT *
+  //   FROM followings f
+  //   LEFT JOIN user_review u
+  //   ON f.following=u.user
+  // ), user_app_rating_details AS (
+  //   SELECT u1.user, u1.app_name, u2.rating, u2.installs, u2.price
+  //   FROM user_app_rating u1
+  //   LEFT JOIN app_detail u2
+  //   ON u1.app_name=u2.app_name
+  // )
+  // SELECT app_name,
+  //         count(app_name) AS picks,
+  //         rating AS general_rating,
+  //         installs,
+  //         price
+  // FROM user_app_rating_details
+  // GROUP BY app_name
+  // ORDER BY picks DESC, general_rating DESC;
   // `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -723,7 +733,7 @@ function getFollowingWishList(req, res) {
     JOIN user u ON u. email=w.email
     ORDER BY email
   `;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -738,7 +748,7 @@ function addFollow(req, res) {
   console.log("self", req.params.self);
   console.log("following", req.params.following);
   var query = `SELECT * FROM follow WHERE self='${req.query.self}' AND following="${req.query.following}";`;
-  connection.query(query, function(err, rows, fields) {
+  connection.query(query, function (err, rows, fields) {
     if (err) {
       console.log(err);
     } else {
@@ -749,7 +759,7 @@ function addFollow(req, res) {
         console.log("follow already has this, delete it.");
         query = `DELETE FROM follow WHERE self='${req.query.self}' AND following="${req.query.following}";`;
       }
-      connection.query(query, function(err, rows, fields) {
+      connection.query(query, function (err, rows, fields) {
         if (err) {
           console.log(err);
         } else {
@@ -771,10 +781,9 @@ module.exports = {
   getTopInGenre: getTopInGenre,
   getRecs: getRecs,
   getDecades: getDecades,
-  bestGenresPerDecade: bestGenresPerDecade,
   getAppDetailByName: getAppDetailByName,
   getAppScreenshotsById: getAppScreenshotsById,
-  getAppDescriptionById:getAppDescriptionById,
+  getAppDescriptionById: getAppDescriptionById,
   loadMoreCommentsByAppName: loadMoreCommentsByAppName,
   addToWishList: addToWishList,
   getWishList: getWishList,
@@ -788,5 +797,6 @@ module.exports = {
   getFollowingCategoryData: getFollowingCategoryData,
   getTop3Apps: getTop3Apps,
   getFollowingWishList: getFollowingWishList,
-  addFollow: addFollow
+  addFollow: addFollow,
+  getPeerRatings: getPeerRatings
 }
