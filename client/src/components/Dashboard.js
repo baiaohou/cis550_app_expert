@@ -92,12 +92,12 @@ export default class Dashboard extends React.Component {
                 <div class="product-item">
                     {/* <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a> */}
                     <div class="product-info">
-                        <h4>{cate.category}</h4>
+                        <h4>{cate.category.replace(/_/g, " ")}</h4>
                         {/* <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4> */}
                         <div><Rate disabled defaultValue={0} value={cate.average} />&nbsp;{cate.average}</div>
                         <div>Average rank No. {cate.avg_rank} </div>
                         <div>Total apps: {cate.num}</div>
-                        <div> {cate.user_num + 0} of the users added {cate.category} to their wishlist ! </div>
+                        <div> {cate.user_num + 0} of the users added {cate.category.replace(/_/g, " ")} to their wishlist ! </div>
                         <div>Populartiy rank No. {cate.user_rank}</div>
                         <h6>Don't hesitate to explore!</h6>
                         
