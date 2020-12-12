@@ -71,6 +71,116 @@ export default class Dashboard extends React.Component {
         })
       })
       .catch(err => console.log(err))	// Print the error if there is one.
+
+      fetch(`${Constants.servaddr_prefix}/category/`+`GAME`, {
+        method: 'GET' // The type of HTTP request.
+      })
+    
+        .then(res => res.json()) // Convert the response data to a JSON.
+        .then(cateList => {
+          console.log(cateList);
+          if (!cateList) return;
+          // Map each genreObj in genreList to an HTML element:
+          // A button which triggers the showMovies function for each genre.
+          
+          let cateDivs = cateList.map((cate, i) =>
+          
+          <tr>
+              <td>
+                  <div class="product-item">
+                      {/* <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a> */}
+                      <div class="product-info">
+                          <h4>{cate.category}</h4>
+                          {/* <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4> */}
+                          <div><Rate disabled defaultValue={0} value={cate.average} />&nbsp;{cate.average}</div>
+                          <div>Average rank No. {cate.avg_rank} </div>
+                          <div>Total apps: {cate.num}</div>
+                          <div> {cate.user_num + 0} of the users added {cate.category} to their wishlist ! </div>
+                          <div>Populartiy rank No. {cate.user_rank}</div>
+                          <h6>Don't hesitate to explore!</h6>
+                          
+                          {/* <div class="text-lg text-medium text-muted">${app.price}</div>
+                          <div class="text-lg text-medium">{app.summary}</div> */}
+                      </div>
+                  </div>
+              </td>
+              <td class="text-center"><a class="remove-from-cart" href="" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
+          </tr>
+          );
+  
+          console.log("cateinfo")
+          console.log(cateList[0].four_star)
+          // data_cate = []
+          const data_list = [["stars","apps"],["Positve", cateList[0].four_star],["Neutral", cateList[0].three_star],["Negative",cateList[0].two_star]]
+          console.log(data_list)
+          // Set the state of the genres list to the value returned by the HTTP response from the server.
+          this.setState({
+            category_info: cateDivs,
+            four_star: cateList[0].four_star,
+            data_cate: data_list
+            // data_cate: [["stars","apps"],["four stars", cateList[0].four_star],["three stars", cateList[0].three_star]]
+          })
+        })
+        .catch(err => console.log(err))	// Print the error if there is one.
+
+
+        fetch(`${Constants.servaddr_prefix}/genres/`+`GAME`, {
+          method: 'GET' // The type of HTTP request.
+        })
+      
+          .then(res => res.json()) // Convert the response data to a JSON.
+          .then(appList => {
+            
+            if (!appList) return;
+            let topRating = []
+            let topInstalls = []
+            // Map each genreObj in genreList to an HTML element:
+            // A button which triggers the showMovies function for each genre.
+            let appDivs = appList.map((app, i) =>{
+              
+              let resultPrice = "";
+              if (app.price == 0) {
+                  resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;Free&nbsp;&nbsp;</div>;
+              } else {
+                  resultPrice = <div class="divs-inline text-lg text-medium text-muted">&nbsp;&nbsp;${app.price}&nbsp;&nbsp;</div>;
+              }
+              return(
+              <tr>
+                  <td>
+                      <div class="product-item">
+                          <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a>
+                          <div class="product-info">
+                              <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4>
+                              <div class="divs-inline"><Rate disabled defaultValue={0} value={app.rating} />&nbsp;&nbsp;&nbsp;{app.rating}</div>
+                              &nbsp;&nbsp;{resultPrice}&nbsp;&nbsp;
+                              {/* {resultGenre} */}
+                              <div>{app.installs}+ installs</div>
+                              <div dangerouslySetInnerHTML={{__html: app.summary}}></div>
+                          </div>
+                      </div>
+                  </td>
+                  <td class="text-center">
+                      <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                          <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListDashboard(app.app_name, this.state.email)}></i>
+                      </a>
+                  </td>
+              </tr>
+              )
+          });
+            // console.log(appList);
+            topInstalls = appDivs.slice(0,5)
+            topRating = appDivs.slice(5,10)
+            // Set the state of the genres list to the value returned by the HTTP response from the server.
+            this.setState({
+              topRatingApps: topRating,
+              topInstallApps: topInstalls,
+              apps: appDivs
+            })
+          })
+          .catch(err => console.log(err))	// Print the error if there is one.
+
+
+
   }
 
   showCategory(genre){
@@ -267,7 +377,7 @@ export default class Dashboard extends React.Component {
                     <table class="table">
                       <thead>
                           <tr>
-                              <th>Most Popular Apps</th>
+                              <th><h5>Most Popular Apps</h5></th>
                           </tr>
                       </thead>
                       <tbody>
@@ -277,7 +387,7 @@ export default class Dashboard extends React.Component {
                     <table class="table">
                       <thead>
                           <tr>
-                              <th>Highest Rating Apps</th>
+                              <th><h5>Highest Rating Apps</h5></th>
                           </tr>
                       </thead>
                       <tbody>
