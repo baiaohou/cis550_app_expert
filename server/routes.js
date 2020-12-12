@@ -171,13 +171,16 @@ function getCategory(req, res) {
       w.user_num
       FROM categories c LEFT JOIN wish_category w ON c.category = w.category 
       JOIN stars s ON c.category = s.category
+    ), 
+    overall_data AS(
+      SELECT s.category, s.num, s.user_num, s.four_star, s.three_star, s.two_star,
+      ROUND(s.average,2) AS average, RANK() OVER (ORDER BY s.average) avg_rank,
+      RANK() OVER (ORDER BY s.four_star) fourstar_rank,
+      RANK() OVER (ORDER BY s.user_num DESC) user_rank
+      FROM statistics s
     )
-    SELECT s.category, s.num, s.user_num, s.four_star, s.three_star, s.two_star,
-    ROUND(s.average,2) AS average, RANK() OVER (ORDER BY s.average) avg_rank,
-    RANK() OVER (ORDER BY s.four_star) fourstar_rank,
-    RANK() OVER (ORDER BY s.user_num DESC) user_rank
-    FROM statistics s
-    WHERE s.category = '${genre}';
+    SELECT * FROM overall_data o
+    WHERE o.category = '${genre}';
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) console.log(err);
