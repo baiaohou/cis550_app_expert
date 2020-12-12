@@ -650,23 +650,50 @@ function getTop3Apps(req, res) {
     ), user_app_rating AS (
       SELECT *
       FROM followings f
-      LEFT JOIN user_review u
-      ON f.following=u.user
+      LEFT JOIN wishlist u
+      ON f.following=u.email
     ), user_app_rating_details AS (
-      SELECT u1.user, u1.app_name, u2.rating, u2.installs, u2.price
+      SELECT u1.email, u1.app_name, u2.rating, u2.installs, u2.price
       FROM user_app_rating u1
       LEFT JOIN app_detail u2
       ON u1.app_name=u2.app_name
     )
     SELECT app_name,
-            count(app_name) AS picks,
-            rating AS general_rating,
-            installs,
-            price
+        count(app_name) AS picks,
+        rating AS general_rating,
+        installs,
+        price
     FROM user_app_rating_details
     GROUP BY app_name
     ORDER BY picks DESC, general_rating DESC;
   `;
+  // Note: the following query is no longer needed
+
+  // var query = `
+    // WITH followings AS (
+    //   SELECT following
+    //   FROM follow
+    //   WHERE self='${req.params.email}'
+    // ), user_app_rating AS (
+    //   SELECT *
+    //   FROM followings f
+    //   LEFT JOIN user_review u
+    //   ON f.following=u.user
+    // ), user_app_rating_details AS (
+    //   SELECT u1.user, u1.app_name, u2.rating, u2.installs, u2.price
+    //   FROM user_app_rating u1
+    //   LEFT JOIN app_detail u2
+    //   ON u1.app_name=u2.app_name
+    // )
+    // SELECT app_name,
+    //         count(app_name) AS picks,
+    //         rating AS general_rating,
+    //         installs,
+    //         price
+    // FROM user_app_rating_details
+    // GROUP BY app_name
+    // ORDER BY picks DESC, general_rating DESC;
+  // `;
   connection.query(query, function(err, rows, fields) {
     if (err) {
       console.log(err);

@@ -253,10 +253,11 @@ export default class Following extends React.Component {
               <table class="table">
                 <thead>
                     <tr>
-                      <Search placeholder="search email and follow/unfollow" prefix={<UserOutlined className="site-form-item-icon"/>} allowClear enterButton="Follow/Unfollow"  onSearch={this.addFollow.bind(this)} />
+                      <Search placeholder=" Enter user email to follow/unfollow" prefix={<UserOutlined className="site-form-item-icon"/>} allowClear enterButton="Follow/Unfollow"  onSearch={this.addFollow.bind(this)} />
                     </tr>
+                    <p></p>
                     <tr>
-                        <th>Your following</th>
+                        <th>People You Follow 👬</th>
                     </tr>
                     {/* <tr>
                       <Search placeholder="input search email" suffix="+" prefix={<UserOutlined />} allowClear onSearch={this.getWishList} style={{ width: 200, margin: '0 10px' }} />
@@ -268,6 +269,9 @@ export default class Following extends React.Component {
                 <tbody>
                     {this.state.followingWishList}
                     
+                    <tr>
+                        <th>Satistics 📈 </th>
+                    </tr>
                     {/* Top Categories Picked By Your Following */}
                     <Chart
                       width={'600px'}
@@ -276,7 +280,7 @@ export default class Following extends React.Component {
                       loader={<div>Loading Chart</div>}
                       data={this.state.pieData}
                       options={{
-                        title: 'Top Categories Picked By Your Following',
+                        title: 'Top Categories Picked By Your Followees',
                         // pieSliceText: 'label',
                         pieHole:0.4,
                         slices: {
@@ -290,6 +294,7 @@ export default class Following extends React.Component {
                     />
 
                     {/* User Ratings By Your Following */}
+                    
                     <Chart
                       width={'500px'}
                       height={'300px'}
@@ -297,9 +302,9 @@ export default class Following extends React.Component {
                       loader={<div>Loading Chart</div>}
                       data={this.state.barData}
                       options={{
-                        title: 'User Ratings By Your Following',
-                        vAxis: { title: 'User Ratings' },
-                        hAxis: { title: 'Categories' },
+                        title: 'Category Ratings By Your Followees',
+                        vAxis: { title: 'Rating🌟' },
+                        // hAxis: { title: 'Categories' },
                         seriesType: 'bars',
                         series: { 2: { type: 'line' } },
                       }}
@@ -322,7 +327,7 @@ export default class Following extends React.Component {
                     </a>
 
                     <ReactTooltip id="1st" place="right" >
-                      <b>Uber</b>
+                      <b>{this.state.top3Apps[0]}</b>
                       <br></br>
                       Rating: {this.state.top3Ratings[0]}
                       <br></br>
@@ -332,7 +337,7 @@ export default class Following extends React.Component {
                     </ReactTooltip>
 
                     <ReactTooltip id="2nd" place="right" >
-                      <b>CF</b>
+                      <b>{this.state.top3Apps[1]}</b>
                       <br></br>
                       Rating: {this.state.top3Ratings[1]}
                       <br></br>
@@ -342,7 +347,7 @@ export default class Following extends React.Component {
                     </ReactTooltip>
 
                     <ReactTooltip id="3rd" place="right" >
-                      <b>BI APP</b>
+                      <b>{this.state.top3Apps[2]}</b>
                       <br></br>
                       Rating: {this.state.top3Ratings[2]}
                       <br></br>
