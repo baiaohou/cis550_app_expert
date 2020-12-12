@@ -227,10 +227,10 @@ export default class Wishlist extends React.Component {
                 </table>
               </div>
               {/* <hr class="mb-4"> */}
-              <div class="custom-control custom-checkbox">
+              {/* <div class="custom-control custom-checkbox">
                   <input class="custom-control-input" type="checkbox" id="inform_me" checked=""></input>
                   <label class="custom-control-label" for="inform_me">Inform me when item from my wishlist is on sale</label>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

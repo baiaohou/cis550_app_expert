@@ -726,7 +726,7 @@ function getFollowingWishList(req, res) {
       FROM follow
       WHERE self='${req.params.email}'
     )
-    SELECT w.email, w.app_name, u.first_name, p.icon
+    SELECT w.email, w.app_name, u.first_name, u.last_name, p.icon
     FROM wishlist w
     JOIN followings f ON w.email=f.following
     JOIN package_info p ON p.app_name=w.app_name

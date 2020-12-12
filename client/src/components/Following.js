@@ -181,12 +181,12 @@ export default class Following extends React.Component {
             
             if (i == 0) {
               avatars.push(<Tooltip title={dataObj.app_name} placement="top"><Avatar src={dataObj.icon} /></Tooltip>);
-              tmpDiv = <Comment author={<a>{dataObj.email}</a>} avatar={ <Avatar style={{backgroundColor:'#f56a00',}}>{dataObj.first_name}</Avatar>} content={<Avatar.Group maxCount={5} size="large" maxStyle={{color: '#f56a00',backgroundColor: '#fde3cf',}}>{avatars}</Avatar.Group>}/>
+            tmpDiv = <Comment author={<a>{dataObj.first_name} {dataObj.last_name} ({dataObj.email})</a>} avatar={ <Avatar src="../user-profile-pic1.png" />} content={<Avatar.Group maxCount={5} size="large" maxStyle={{color: '#f56a00',backgroundColor: '#fde3cf',}}>{avatars}</Avatar.Group>}/>
             } else if (dataObj.email!=lastemail) {
               dataDivs.push(tmpDiv);
               avatars = [];// clear avatars for new user
               avatars.push(<Tooltip title={dataObj.app_name} placement="top"><Avatar src={dataObj.icon} /></Tooltip>);
-              tmpDiv = <Comment author={<a>{dataObj.email}</a>} avatar={ <Avatar style={{backgroundColor:'#f56a00',}}>{dataObj.first_name}</Avatar>} content={<Avatar.Group maxCount={5} size="large" maxStyle={{color: '#f56a00',backgroundColor: '#fde3cf',}}>{avatars}</Avatar.Group>}/>
+              tmpDiv = <Comment author={<a>{dataObj.first_name} {dataObj.last_name} ({dataObj.email})</a>} avatar={ <Avatar src="../user-profile-pic1.png" />} content={<Avatar.Group maxCount={5} size="large" maxStyle={{color: '#f56a00',backgroundColor: '#fde3cf',}}>{avatars}</Avatar.Group>}/>
             } else {
               avatars.push(<Tooltip title={dataObj.app_name} placement="top"><Avatar src={dataObj.icon} /></Tooltip>);
             }
