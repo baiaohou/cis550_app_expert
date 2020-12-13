@@ -5,6 +5,7 @@ import PageNavbar from './PageNavbar';
 import GenreButton from './GenreButton';
 import DashboardMovieRow from './DashboardMovieRow';
 import AppDetailWishlistButton from './AppDetailWishlistButton';
+import SearchButton from './SearchButton';
 import AppDetail from './AppDetail';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
 import { Constants } from './Constants';
@@ -162,7 +163,7 @@ export default class Dashboard extends React.Component {
                   </td>
                   
                   <td class="text-center">
-                    <AppDetailWishlistButton app_name={app.app_name} email={getCookie("email")} />
+                    <SearchButton app_name={app.app_name} email={this.state.email} />
                   </td>
               </tr>
               )
@@ -174,7 +175,7 @@ export default class Dashboard extends React.Component {
             this.setState({
               topRatingApps: topRating,
               topInstallApps: topInstalls,
-              apps: appDivs
+              // apps: appDivs
             })
           })
           .catch(err => console.log(err))	// Print the error if there is one.

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react
 import { Rate } from 'antd';
 import { getCookie } from './Home';
 import AppDetailWishlistButton from './AppDetailWishlistButton';
+import SearchButton from './SearchButton';
 
 // var pageSize = 10;
 // var currPage = 0;
@@ -39,6 +40,7 @@ export default class ExpertSearchResults extends React.Component {
 		// 	appName: this.props.query_term
         // });
         // this.componentWillReceiveProps(this.props)
+
         this.setState({                  
             appName: this.props.query_term,
             email: getCookie("email")
@@ -56,6 +58,7 @@ export default class ExpertSearchResults extends React.Component {
 			if (!appList) return;
                 // Map each genreObj in genreList to an HTML element:
             let topDivs = []
+            
             let appDivs = appList.map((app, i) =>{
                 let resultPrice = "";
                 if (app.price == 0) {
@@ -79,7 +82,7 @@ export default class ExpertSearchResults extends React.Component {
                         </div>
                     </td>
                     <td class="text-center">
-                        <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
+                        <SearchButton app_name={app.app_name} email={this.state.email} />
                     </td>
                 </tr>
                 )
