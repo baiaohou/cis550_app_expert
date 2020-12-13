@@ -36,7 +36,11 @@ export default class ExpertSearchResults extends React.Component {
         // this.setState({
 		// 	appName: this.props.query_term
         // });
-        
+        this.setState({                  
+            appName: this.props.query_term,
+            email: getCookie("email")
+        })
+
         fetch(`${Constants.servaddr_prefix}/recommendations/`+this.state.appName, {
 			method: 'GET' // The type of HTTP request.
 		})
@@ -79,11 +83,11 @@ export default class ExpertSearchResults extends React.Component {
             });
 				console.log(appDivs)
                 // topDivs = [];
-                topDivs = appDivs.slice(0,5)
+                // topDivs = appDivs.slice(0,5)
 				// Set the state of the genres list to the value returned by the HTTP response from the server.
 				this.setState({
                     
-                    recApps: topDivs
+                    recApps: appDivs.slice(0,5)
                     
 				})
 		})
@@ -146,7 +150,7 @@ export default class ExpertSearchResults extends React.Component {
             });
 				console.log(appDivs)
                 // topDivs = [];
-                topDivs = appDivs.slice(0,5)
+                
 				// Set the state of the genres list to the value returned by the HTTP response from the server.
 				this.setState({    
                     recApps: appDivs
