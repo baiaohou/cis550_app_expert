@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
 import GenreButton from './GenreButton';
 import DashboardMovieRow from './DashboardMovieRow';
+import AppDetailWishlistButton from './AppDetailWishlistButton';
 import AppDetail from './AppDetail';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
 import { Constants } from './Constants';
@@ -159,10 +160,12 @@ export default class Dashboard extends React.Component {
                           </div>
                       </div>
                   </td>
+                  
                   <td class="text-center">
-                      <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
-                          <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListDashboard(app.app_name, this.state.email)}></i>
-                      </a>
+                    <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
+                  {/* <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                      <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListDashboard(app.app_name, this.state.email)}></i>
+                  </a> */}
                   </td>
               </tr>
               )
@@ -238,12 +241,38 @@ export default class Dashboard extends React.Component {
   /* ---- Q1b (Dashboard) ---- */
   /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
   addToWishListDashboard(appName, email) {
-    fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+encodeURIComponent(appName)+"&email="+email, {
-      method: 'GET' // The type of HTTP request.
-    })
-      .then(res => res.json()) // Convert the response data to a JSON.
-      .catch(err => console.log(err))	// Print the error if there is one.
+    // fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+encodeURIComponent(appName)+"&email="+email, {
+    //   method: 'GET' // The type of HTTP request.
+    // })
+    //   .then(res => res.json()) // Convert the response data to a JSON.
+    //   .catch(err => console.log(err))	// Print the error if there is one.
       
+
+    fetch(`${Constants.servaddr_prefix}/isInWishList?email=${email}&appName=${encodeURIComponent(appName)}`, {
+      method: 'GET'
+  })
+      .then(res => res.json())
+      .then(res => {
+          if (res.length == 0) {
+              this.setState({
+                  button: <Switch
+                      checkedChildren="In Wishlist"
+                      unCheckedChildren="Not In Wishlist"
+                      onChange={this.onSwitchChange}
+                  />
+              })
+          } else {
+              this.setState({
+                  button: <Switch
+                      checkedChildren="In Wishlist"
+                      unCheckedChildren="Not In Wishlist"
+                      defaultChecked
+                      onChange={this.onSwitchChange}
+                  />
+              })
+          }
+      })
+      .catch(err => console.log(err));
   }
 
   
@@ -285,9 +314,10 @@ export default class Dashboard extends React.Component {
                   </div>
               </td>
               <td class="text-center">
-                  <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                  <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
+                  {/* <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
                       <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListDashboard(app.app_name, this.state.email)}></i>
-                  </a>
+                  </a> */}
               </td>
           </tr>
           )

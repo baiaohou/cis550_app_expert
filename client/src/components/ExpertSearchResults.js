@@ -5,6 +5,7 @@ import PageNavbar from './PageNavbar';
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
 import { Rate } from 'antd';
 import { getCookie } from './Home';
+import AppDetailWishlistButton from './AppDetailWishlistButton';
 
 // var pageSize = 10;
 // var currPage = 0;
@@ -71,9 +72,7 @@ export default class ExpertSearchResults extends React.Component {
                         </div>
                     </td>
                     <td class="text-center">
-                        <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
-                            <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListSearch(app.app_name, this.state.email)}></i>
-                        </a>
+                        <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
                     </td>
                 </tr>
                 )
@@ -140,9 +139,7 @@ export default class ExpertSearchResults extends React.Component {
                         </div>
                     </td>
                     <td class="text-center">
-                        <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
-                            <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(app.app_name, this.state.email)}></i>
-                        </a>
+                        <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
                     </td>
                 </tr>
                 )
@@ -152,7 +149,7 @@ export default class ExpertSearchResults extends React.Component {
                 topDivs = appDivs.slice(0,5)
 				// Set the state of the genres list to the value returned by the HTTP response from the server.
 				this.setState({    
-                    recApps: topDivs    
+                    recApps: appDivs
 				})
 		})
 		.catch(err => console.log(err))	// Print the error if there is one.
@@ -193,9 +190,7 @@ export default class ExpertSearchResults extends React.Component {
                             </div>
                         </td>
                         <td class="text-center">
-                            <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
-                                <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(app.app_name, this.state.email)}></i>
-                            </a>
+                            <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
                         </td>
                     </tr>
                     )
