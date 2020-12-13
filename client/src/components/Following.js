@@ -286,6 +286,36 @@ export default class Following extends React.Component {
                         🥉  &nbsp;<b style={{color:'brown'}}>{this.state.top3Apps[2]}</b> ({this.state.top3Picks[2]} picks)
                         </a>
 
+                        <ReactTooltip id="1st" place="right" >
+                          <b>{this.state.top3Apps[0]}</b>
+                          <br></br>
+                          Rating: {this.state.top3Ratings[0]}
+                          <br></br>
+                          Installs: {this.state.top3Installs[0]}+
+                          <br></br>
+                          Price: ${this.state.top3Price[0]}
+                        </ReactTooltip>
+
+                        <ReactTooltip id="2nd" place="right" >
+                          <b>{this.state.top3Apps[1]}</b>
+                          <br></br>
+                          Rating: {this.state.top3Ratings[1]}
+                          <br></br>
+                          Installs: {this.state.top3Installs[1]}+
+                          <br></br>
+                          Price: ${this.state.top3Price[1]}
+                        </ReactTooltip>
+
+                        <ReactTooltip id="3rd" place="right" >
+                          <b>{this.state.top3Apps[2]}</b>
+                          <br></br>
+                          Rating: {this.state.top3Ratings[2]}
+                          <br></br>
+                          Installs: {this.state.top3Installs[2]}+
+                          <br></br>
+                          Price: ${this.state.top3Price[2]}
+                        </ReactTooltip> 
+
                         <hr></hr>
                         <b>TOP 3 POPULAR <b style={{color:'darkblue'}}>CATEGORIES</b> AMONG YOUR FOLLOWEES &nbsp;🏆</b>
                         {/* Top Categories Picked By Your Following */}
