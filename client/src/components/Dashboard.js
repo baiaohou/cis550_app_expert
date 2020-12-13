@@ -95,8 +95,8 @@ export default class Dashboard extends React.Component {
                           <div><Rate disabled defaultValue={0} value={cate.average} />&nbsp;&nbsp;&nbsp;{cate.average}</div>
                           <div><b>Category Ranking:</b> <a style={{color:'darkred'}}>No. {cate.avg_rank}</a> </div>
                           <div><b>Total Apps Count:</b> <a style={{color:'darkblue'}}>{cate.num}</a></div>
-                          <div><b style={{color:'purple'}}>{cate.user_num + 0}</b> of our users added <b>{cate.category}</b> apps to their wishlist! </div>
-                          <div><b>Populartiy Rank:</b> <a style={{color:'darkred'}}>No. {cate.user_rank}</a></div><br></br>
+                          <div><b style={{color:'purple'}}>{cate.user_num + 0}</b> of our users added <b>{cate.category.replace(/_/g, " ")}</b> apps to their wishlist! </div>
+                          <div><b>Popularity Rank:</b> <a style={{color:'darkred'}}>No. {cate.user_rank}</a></div><br></br>
                           <h6>Don't hesitate to explore! 😸</h6>
                           
                           {/* <div class="text-lg text-medium text-muted">${app.price}</div>
@@ -204,12 +204,12 @@ export default class Dashboard extends React.Component {
                     <div class="product-info">
                         <h4>{cate.category.replace(/_/g, " ")}</h4>
                         {/* <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4> */}
-                        <div><Rate disabled defaultValue={0} value={cate.average} />&nbsp;{cate.average}</div>
-                        <div>Average rank No. {cate.avg_rank} </div>
-                        <div>Total apps: {cate.num}</div>
-                        <div> {cate.user_num + 0} of the users added {cate.category.replace(/_/g, " ")} to their wishlist ! </div>
-                        <div>Populartiy rank No. {cate.user_rank}</div>
-                        <h6>Don't hesitate to explore!</h6>
+                        <div><Rate disabled defaultValue={0} value={cate.average} />&nbsp;&nbsp;&nbsp;{cate.average}</div>
+                          <div><b>Category Ranking:</b> <a style={{color:'darkred'}}>No. {cate.avg_rank}</a> </div>
+                          <div><b>Total Apps Count:</b> <a style={{color:'darkblue'}}>{cate.num}</a></div>
+                          <div><b style={{color:'purple'}}>{cate.user_num + 0}</b> of our users added <b>{cate.category.replace(/_/g, " ")}</b> apps to their wishlist! </div>
+                          <div><b>Popularity Rank:</b> <a style={{color:'darkred'}}>No. {cate.user_rank}</a></div><br></br>
+                          <h6>Don't hesitate to explore! 😸</h6>
                         
                         {/* <div class="text-lg text-medium text-muted">${app.price}</div>
                         <div class="text-lg text-medium">{app.summary}</div> */}
