@@ -162,9 +162,9 @@ export default class Dashboard extends React.Component {
                       </div>
                   </td>
                   
-                  <td class="text-center">
+                  {/* <td class="text-center">
                     <SearchButton app_name={app.app_name} email={this.state.email} />
-                  </td>
+                  </td> */}
               </tr>
               )
           });
@@ -311,12 +311,12 @@ export default class Dashboard extends React.Component {
                       </div>
                   </div>
               </td>
-              <td class="text-center">
+              {/* <td class="text-center">
                   <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
-                  {/* <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
+                  <a class="add-to-wishlist" href="" data-toggle="tooltip" title="" data-original-title="Remove item">
                       <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishListDashboard(app.app_name, this.state.email)}></i>
-                  </a> */}
-              </td>
+                  </a> 
+              </td> */}
           </tr>
           )
       });

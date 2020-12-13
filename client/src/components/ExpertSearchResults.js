@@ -81,9 +81,9 @@ export default class ExpertSearchResults extends React.Component {
                             </div>
                         </div>
                     </td>
-                    <td class="text-center">
+                    {/* <td class="text-center">
                         <SearchButton app_name={app.app_name} email={this.state.email} />
-                    </td>
+                    </td> */}
                 </tr>
                 )
             });
@@ -149,9 +149,9 @@ export default class ExpertSearchResults extends React.Component {
                             </div>
                         </div>
                     </td>
-                    <td class="text-center">
+                    {/* <td class="text-center">
                         <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
-                    </td>
+                    </td> */}
                 </tr>
                 )
             });
@@ -200,9 +200,9 @@ export default class ExpertSearchResults extends React.Component {
                                 </div>
                             </div>
                         </td>
-                        <td class="text-center">
+                        {/* <td class="text-center">
                             <AppDetailWishlistButton app_name={app.app_name} email={this.state.email} />
-                        </td>
+                        </td> */}
                     </tr>
                     )
                 });

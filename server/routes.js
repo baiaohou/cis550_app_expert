@@ -203,10 +203,10 @@ function getTopInGenre(req, res) {
     WHERE a.Category = '${genre}' 
     ORDER BY a.installs DESC, a.rating DESC
     LIMIT 5)
-    UNION
+    UNION ALL
     (SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
       FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
-      WHERE a.Category = '${genre}' AND a.installs > 1000
+      WHERE a.Category = '${genre}' AND a.installs > 10000
       ORDER BY a.rating DESC, a.installs DESC
       LIMIT 5
     )
