@@ -1,4 +1,4 @@
-# cis550_app_expert
+# CIS550-Project: App Expert
 
 ## How to run the codes?
 
