@@ -169,7 +169,7 @@ export default class Dashboard extends React.Component {
           });
             // console.log(appList);
             topInstalls = appDivs.slice(0,5)
-            topRating = appDivs.slice(5,10)
+            topRating = appDivs.slice(5,)
             // Set the state of the genres list to the value returned by the HTTP response from the server.
             this.setState({
               topRatingApps: topRating,
@@ -321,7 +321,7 @@ export default class Dashboard extends React.Component {
       });
         // console.log(appList);
         topInstalls = appDivs.slice(0,5)
-        topRating = appDivs.slice(5,10)
+        topRating = appDivs.slice(5,)
         // Set the state of the genres list to the value returned by the HTTP response from the server.
         this.setState({
           topRatingApps: topRating,
