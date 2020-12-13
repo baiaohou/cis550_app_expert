@@ -1,5 +1,4 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -7,13 +6,10 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
 import PageNavbar from './PageNavbar';
-import { Logout } from './Logout';
 
 
 function Sub() {
@@ -66,10 +62,10 @@ const cards = [
   // },
 
   {
-    header: "Categories 🏅",
+    header: "Categories 🏆",
     img:
       "https://images.unsplash.com/photo-1564198879220-63f2734f7cec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2072&q=80",
-    desc: "Explore top apps per category",
+    desc: "Explore Top Apps By Categories",
     goto: "/dashboard"
   },
 
@@ -77,7 +73,7 @@ const cards = [
     header: "My Wishlist 🛒",
     img:
       "../card-3.jpg",
-    desc: "See which apps you picked",
+    desc: "See Your Favorite Picks",
     goto: "/wishlist"
   },
 
@@ -93,7 +89,7 @@ const cards = [
     header: "Community 👭",
     img:
       "../card-5.jpg",
-    desc: "Meet friends, get their tastes",
+    desc: "Meet Friends & Get Their Tastes",
     goto: "/following"
   },
 
