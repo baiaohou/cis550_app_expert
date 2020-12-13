@@ -16,26 +16,6 @@ export default class AppDetailWishlistButton extends React.Component {
             method: 'GET'
         })
             .then(res => res.json())
-            .then(res => {
-                if (res.length != 0) {
-                    this.setState({
-                        button: <Switch
-                            checkedChildren="In Wishlist"
-                            unCheckedChildren="Not In Wishlist"
-                            onChange={this.onSwitchChange}
-                        />
-                    })
-                } else {
-                    this.setState({
-                        button: <Switch
-                            checkedChildren="In Wishlist"
-                            unCheckedChildren="Not In Wishlist"
-                            defaultChecked
-                            onChange={this.onSwitchChange}
-                        />
-                    })
-                }
-            })
             .catch(err => console.log(err));
     }
 
