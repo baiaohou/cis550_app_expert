@@ -231,8 +231,6 @@ a.list-group-item, .list-group-item-action {
 .order-table .remove-from-cart {
     display: inline-block;
     color: rgb(190, 13, 13);
-    font-size: 18px;
-    line-height: 1;
     text-decoration: none
 }
 

@@ -86,7 +86,7 @@ export default class Wishlist extends React.Component {
               </td>
               <td class="text-center">
                 <a class="remove-from-cart" data-toggle="tooltip" title="" data-original-title="Remove item">
-                  <i class="fa fa-window-close fa-2x" aria-hidden="true" onClick={() => this.addToWishList(wishObj.app_name, this.state.email)}></i>
+                  <i class="fa fa-window-close fa-2x remove-from-cart" aria-hidden="true" onClick={() => this.addToWishList(wishObj.app_name, this.state.email)}></i>
                 </a>
               </td>
             </tr>

@@ -200,7 +200,7 @@ export default class Recommended extends React.Component {
               </td>
               <td class="text-center">
                 <a class="add-to-wishlist" data-toggle="tooltip" title="" data-original-title="Remove item">
-                  <i class="fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(rcmdObj.app_name, this.state.email)}></i>
+                  <i class="add-to-wishlist fa fa-plus-circle fa-2x" aria-hidden="true" onClick={() => this.addToWishList(rcmdObj.app_name, this.state.email)}></i>
                 </a>
               </td>
             </tr>
