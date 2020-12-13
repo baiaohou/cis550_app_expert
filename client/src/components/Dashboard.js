@@ -90,14 +90,14 @@ export default class Dashboard extends React.Component {
                   <div class="product-item">
                       {/* <a class="product-thumb" href={"/app_detail/"+ encodeURIComponent(app.app_name)}><img src={app.icon} alt="Product"></img></a> */}
                       <div class="product-info">
-                          <h4>{cate.category}</h4>
+                          <h4><b>{cate.category}</b></h4>
                           {/* <h4 class="product-title"><a href={"/app_detail/"+ encodeURIComponent(app.app_name)}>{app.app_name}</a></h4> */}
-                          <div><Rate disabled defaultValue={0} value={cate.average} />&nbsp;{cate.average}</div>
-                          <div>Average rank No. {cate.avg_rank} </div>
-                          <div>Total apps: {cate.num}</div>
-                          <div> {cate.user_num + 0} of the users added {cate.category} to their wishlist ! </div>
-                          <div>Populartiy rank No. {cate.user_rank}</div>
-                          <h6>Don't hesitate to explore!</h6>
+                          <div><Rate disabled defaultValue={0} value={cate.average} />&nbsp;&nbsp;&nbsp;{cate.average}</div>
+                          <div><b>Category Ranking:</b> <a style={{color:'darkred'}}>No. {cate.avg_rank}</a> </div>
+                          <div><b>Total Apps Count:</b> <a style={{color:'darkblue'}}>{cate.num}</a></div>
+                          <div><b style={{color:'purple'}}>{cate.user_num + 0}</b> of our users added <b>{cate.category}</b> apps to their wishlist! </div>
+                          <div><b>Populartiy Rank:</b> <a style={{color:'darkred'}}>No. {cate.user_rank}</a></div><br></br>
+                          <h6>Don't hesitate to explore! 😸</h6>
                           
                           {/* <div class="text-lg text-medium text-muted">${app.price}</div>
                           <div class="text-lg text-medium">{app.summary}</div> */}
@@ -323,7 +323,7 @@ export default class Dashboard extends React.Component {
         <div className="container movies-container">
           {/* <div className="jumbotron"> */}
             
-            <div className="h5">Top Apps </div>
+            <div className="h5">Top Apps By Categories </div>
             <br></br>
             <div class = "row">
               <div class = "col-lg-3">
@@ -345,23 +345,24 @@ export default class Dashboard extends React.Component {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>More about this category</th>
+                                <th>Category Statistics 📈</th>
                             </tr>
                         </thead>
                           
                      
                           <div id="block_container">
-                          <div id="chart"><Chart
+                          <div id="chart" style={{paddingTop: "1em" }}>
+                          <Chart
                             
-                            width={'200px'}
-                            height={'150px'}
+                            width={'300px'}
+                            height={'210px'}
                             chartType="PieChart"
                             loader={<div>Loading Chart</div>}
 
                             data = {this.state.data_cate}
                             options={{
                               // title: 'Rating Distribution',
-                              chartArea:{width:"100%",height:"100%"}
+                              chartArea:{width:"90%",height:"90%"}
                             }}
                             rootProps={{ 'data-testid': '1' }}
                           /></div>
@@ -377,7 +378,7 @@ export default class Dashboard extends React.Component {
                     <table class="table">
                       <thead>
                           <tr>
-                              <th><h5>Most Popular Apps</h5></th>
+                              <th>🏆 Top 5 Popular Apps (by installs)</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -387,7 +388,7 @@ export default class Dashboard extends React.Component {
                     <table class="table">
                       <thead>
                           <tr>
-                              <th><h5>Highest Rating Apps</h5></th>
+                              <th>🏆 Top 5 Rated Apps (by scores)</th>
                           </tr>
                       </thead>
                       <tbody>
