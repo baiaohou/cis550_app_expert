@@ -778,5 +778,5 @@ module.exports = {
   getTop3Apps: getTop3Apps,
   getFollowingWishList: getFollowingWishList,
   addFollow: addFollow,
-  getPeerRatings: getPeerRatings
+  getPeerRatings: getPeerRatings,
 }

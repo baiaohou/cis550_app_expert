@@ -25,6 +25,8 @@ export default class ExpertSearchResults extends React.Component {
         }
         
         // this.submitApp = this.submitApp.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this)
         this.onLoadMore = this.onLoadMore.bind(this);
         this.addToWishListSearch = this.addToWishListSearch.bind(this);
     }
@@ -36,12 +38,13 @@ export default class ExpertSearchResults extends React.Component {
         // this.setState({
 		// 	appName: this.props.query_term
         // });
+        // this.componentWillReceiveProps(this.props)
         this.setState({                  
             appName: this.props.query_term,
             email: getCookie("email")
         })
 
-        fetch(`${Constants.servaddr_prefix}/recommendations/`+this.state.appName, {
+        fetch(`${Constants.servaddr_prefix}/recommendations/`+this.props.query_term, {
 			method: 'GET' // The type of HTTP request.
 		})
 		  
@@ -81,7 +84,8 @@ export default class ExpertSearchResults extends React.Component {
                 </tr>
                 )
             });
-				console.log(appDivs)
+                console.log(appDivs)
+                
                 // topDivs = [];
                 // topDivs = appDivs.slice(0,5)
 				// Set the state of the genres list to the value returned by the HTTP response from the server.
@@ -153,7 +157,7 @@ export default class ExpertSearchResults extends React.Component {
                 
 				// Set the state of the genres list to the value returned by the HTTP response from the server.
 				this.setState({    
-                    recApps: appDivs
+                    recApps: appDivs.slice(0,5)
 				})
 		})
 		.catch(err => console.log(err))	// Print the error if there is one.
