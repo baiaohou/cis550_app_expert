@@ -13,7 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import PageNavbar from './PageNavbar';
-import { Logout } from './Google2';
+import { Logout } from './Logout';
 
 
 function Sub() {
@@ -124,7 +124,8 @@ export function getCookie(cname) {
 
 
 
-const first_name = getCookie("first_name");
+var first_name = getCookie("first_name")
+first_name = first_name.substr(0, first_name.indexOf(" "));
 
 
 export default function Home() {

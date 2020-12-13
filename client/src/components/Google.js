@@ -39,21 +39,8 @@ function Login() {
     setCookie('last_name', last_name, 1);
     setCookie('date', ((new Date()).getFullYear()) + "/" + ((new Date()).getMonth() + 1) + "/" + (new Date()).getDate(), 1);
 
-    
     alert(
-      `Logged in successfully welcome ${getCookie('isVisit')} 😍. \n See console for full profile object.`
-    );
-    alert(
-      `Logged in successfully welcome ${getCookie('email')} 😍. \n See console for full profile object.`
-    );
-    alert(
-      `Logged in successfully welcome ${getCookie('first_name')} 😍. \n See console for full profile object.`
-    );
-    alert(
-      `Logged in successfully welcome ${getCookie('last_name')} 😍. \n See console for full profile object.`
-    );
-    alert(
-      `Logged in successfully welcome ${getCookie('date')} 😍. \n See console for full profile object.`
+      `😍 Welcome to AppExpert, ${getCookie('first_name')}!`
     );
     // refreshTokenSetup(res);
     window.location.replace(`${Constants.frontend_prefix}/home`);
@@ -62,15 +49,15 @@ function Login() {
   const onFailure = (res) => {
     console.log('Login failed: res:', res);
     alert(
-      `Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`
+      `Failed to login. 😢 `
     );
   };
 
   return (
-    <div>
+    <div style={{ margin: "auto", textAlign: "center", paddingTop: "2em" }}>
       <GoogleLogin
         clientId={clientId}
-        buttonText="Login"
+        buttonText="LOGIN WITH GOOGLE"
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}

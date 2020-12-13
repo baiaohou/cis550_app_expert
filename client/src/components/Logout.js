@@ -25,10 +25,10 @@ export function Logout() {
   };
 
   return (
-    <div>
+    <div style={{ margin: "auto", textAlign: "center", paddingTop: "4em" }}>
       <GoogleLogout
         clientId={clientId}
-        buttonText="Logout"
+        buttonText="CLICK HERE TO SIGN OUT"
         onLogoutSuccess={onSuccess}
       ></GoogleLogout>
     </div>

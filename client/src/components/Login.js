@@ -131,7 +131,7 @@ export default function Login() {
               </Grid>
               <Grid item>
                 <Link href="/GoogleLogin" variant="body2">
-                  {"Sign In With Google"}
+                  {"Sign In With Google / Facebook"}
                 </Link>
               </Grid>
             </Grid>

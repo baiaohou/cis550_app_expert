@@ -10,7 +10,7 @@ import BestGenres from './BestGenres';
 import AppDetail from './AppDetail';
 import Login from './Login';
 import Google from './Google';
-import Google2 from './Google2';
+import Logout from './Logout';
 import LoginFailed from './LoginFailed';
 import LoginReEnter from './LoginReEnter';
 import Register from './Register';
@@ -22,6 +22,7 @@ import Team from './Team';
 import Wishlist from './Wishlist';
 import Recommended from './Recommended';
 import Following from './Following';
+import Facebook from './Facebook';
 
 export default class App extends React.Component {
 
@@ -51,7 +52,8 @@ export default class App extends React.Component {
 							path="/GoogleLogin"
 							render={() => (
 								<div>
-								<Google /></div>
+									<Google /><Facebook />
+								</div>
 
 							)}
 						/>
@@ -61,7 +63,7 @@ export default class App extends React.Component {
 							path="/GoogleLogout"
 							render={() => (
 								<div>
-								<Google2 /></div>
+								<Logout /></div>
 
 							)}
 						/>
