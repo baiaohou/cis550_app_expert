@@ -40,8 +40,10 @@ function loginCheck(req, res) {
           'Set-Cookie': [
             "isVisit=1",
             "email=" + rows[0].email,
-            "first_name=" + rows[0].first_name,
-            "last_name=" + rows[0].last_name,
+            "first_name=" + rows[0].first_name + " " + rows[0].last_name,
+            // "first_name=" + rows[0].first_name,
+            "last_name=" + " ",
+            // "last_name=" + rows[0].last_name,
             "date=" + ((new Date()).getFullYear()) + "/" + ((new Date()).getMonth() + 1) + "/" + (new Date()).getDate()
           ],
           'Content-Type': 'text/plain',

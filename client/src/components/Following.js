@@ -317,7 +317,7 @@ export default class Following extends React.Component {
                         </ReactTooltip> 
 
                         <hr></hr>
-                        <b>TOP 3 RATED <b style={{color:'darkblue'}}>CATEGORIES</b> AMONG YOUR FOLLOWEES &nbsp;🏆</b>
+                        <b>TOP RATED <b style={{color:'darkblue'}}>CATEGORIES</b> AMONG YOUR FOLLOWEES &nbsp;🏆</b>
                         {/* Top Categories Picked By Your Following */}
                         <Chart
                           width={'600px'}
