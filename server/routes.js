@@ -389,12 +389,9 @@ function getWishList(req, res) {
       FROM wishAppAndGenre w1 JOIN wishAppAndGenre w2 ON w1.app_name=w2.app_name
       ORDER BY app_name, genre1
     ), dualGenreApp AS ( -- get the apps with two genres and rank two rows of the same app
-      SELECT *, RANK() OVER (
-        PARTITION BY app_name
-        ORDER BY genre1
-      )new_rank
+      SELECT *
       FROM wishAppAndGenreSelfJoin
-      WHERE genre1!=genre2
+      WHERE genre1<genre2
     ), singleAndDualGenreApp AS ( -- get apps with genre1 and genre2 in one row
       ( -- get the apps with only one genre
         SELECT app_name, genre1, genre2
@@ -405,7 +402,6 @@ function getWishList(req, res) {
       (
         SELECT app_name, genre1, genre2
         FROM dualGenreApp
-        WHERE new_rank=1
       )
     )
     SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
@@ -464,12 +460,9 @@ function getRecommended(req, res) {
       FROM popGenreAppAndGenre p1 JOIN popGenreAppAndGenre p2 ON p1.app_name=p2.app_name
       ORDER BY app_name, genre1
     ), dualGenreApp AS ( -- get the apps with two genres and rank two rows of the same app
-      SELECT *, RANK() OVER (
-        PARTITION BY app_name
-        ORDER BY genre1
-      )new_rank
+      SELECT *
       FROM popGenreAppSelfJoin
-      WHERE genre1!=genre2
+      WHERE genre1<genre2
     ), singleAndDualGenreApp AS ( -- get apps with genre1 and genre2 in one row
       ( -- get the apps with only one genre
         SELECT app_name, genre1, genre2
@@ -480,12 +473,11 @@ function getRecommended(req, res) {
       (
         SELECT app_name, genre1, genre2
         FROM dualGenreApp
-        WHERE new_rank=1
       )
     )
     SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
     FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
-    ORDER BY installs DESC, rating DESC
+    ORDER BY installs DESC, rating DESC, app_name
     LIMIT 10
   `;
   connection.query(query, function (err, rows, fields) {
@@ -538,12 +530,9 @@ function getRecommendedByFollowees(req, res) {
       FROM popGenreAppAndGenre p1 JOIN popGenreAppAndGenre p2 ON p1.app_name=p2.app_name
       ORDER BY app_name, genre1
     ), dualGenreApp AS ( -- get the apps with double genres and rank two rows of the same app
-      SELECT *, RANK() OVER (
-        PARTITION BY app_name
-        ORDER BY genre1
-      )new_rank
+      SELECT *
       FROM popGenreAppSelfJoin
-      WHERE genre1!=genre2
+      WHERE genre1<genre2
     ), singleAndDualGenreApp AS ( -- get apps with genre1 and genre2 in one row
       ( -- get the apps with only one genre
         SELECT app_name, genre1, genre2
@@ -554,12 +543,11 @@ function getRecommendedByFollowees(req, res) {
       ( -- get the apps with double genres, only take A,B instead of B,A
         SELECT app_name, genre1, genre2
         FROM dualGenreApp
-        WHERE new_rank=1
       )
     )
     SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
     FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
-    ORDER BY installs DESC, rating DESC
+    ORDER BY installs DESC, rating DESC, app_name
     LIMIT 20
   `;
   connection.query(query, function (err, rows, fields) {
