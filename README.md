@@ -27,6 +27,9 @@ charset : 'utf8mb4'
 4. cd to the client directory, do “npm install”
 5. cd to the server directory, do "npm start" to start the back-end server
 6. cd to the client directory, do “npm start” to start the front-end server  
+7. You may use this testing account to log into our website：  
+account: baiaohou@gmail.com  
+password: 123
 
 ## Team members
 
