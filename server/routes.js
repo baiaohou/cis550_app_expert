@@ -141,7 +141,6 @@ function register(req, res) {
 };
 
 
-/* ---- Q1a (Dashboard) ---- */
 function getAllGenres(req, res) {
   console.log('call routes getAllGenres');
   var query = `
@@ -203,8 +202,6 @@ function getCategory(req, res) {
   });
 };
 
-
-/* ---- Q1b (Dashboard) ---- */
 function getTopInGenre(req, res) {
   console.log('call routes getTopInGenre');
   var genre = req.params.genre;
@@ -232,7 +229,6 @@ function getTopInGenre(req, res) {
   });
 };
 
-/* ---- Q2 (Recommendations) ---- */
 function getRecs(req, res) {
   console.log('call routes getRecs');
   var appName = req.params.appName;
@@ -251,6 +247,7 @@ function getRecs(req, res) {
     }
   });
 };
+
 
 /* Used for app detail page */
 

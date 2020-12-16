@@ -22,20 +22,11 @@ app.get('/changepwd', routes.changePassword)
 /* ---- register ---- */
 app.get('/registervalidate', routes.register)
 
-/* ---- (Dashboard) ---- */
-// The route localhost:8081/genres is registered to the function
 // routes.getAllGenres, specified in routes.js.
 app.get('/genres', routes.getAllGenres);
 
-
-
-
-
-
-/* ---- (Dashboard) ---- */
-app.get('/genres/:genre', routes.getTopInGenre); // Hint: Replace () => {} with the appropriate route handler.
+app.get('/genres/:genre', routes.getTopInGenre);
 app.get('/category/:genre', routes.getCategory);
-
 
 
 app.get('/recommendations/:appName', routes.getRecs);

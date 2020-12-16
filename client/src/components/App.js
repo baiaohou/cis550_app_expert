@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Recommendations from './Recommendations';
-import BestGenres from './BestGenres';
 import AppDetail from './AppDetail';
 import Login from './Login';
 import Google from './Google';
@@ -149,12 +148,6 @@ export default class App extends React.Component {
 							path="/recommendations"
 							render={() => (
 								<Recommendations />
-							)}
-						/>
-						<Route
-							path="/bestgenres"
-							render={() => (
-								<BestGenres />
 							)}
 						/>
 						<Route

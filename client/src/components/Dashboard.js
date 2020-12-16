@@ -2,24 +2,15 @@ import React from 'react';
 import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
-import GenreButton from './GenreButton';
-import DashboardMovieRow from './DashboardMovieRow';
-import AppDetailWishlistButton from './AppDetailWishlistButton';
-import SearchButton from './SearchButton';
-import AppDetail from './AppDetail';
-import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { Constants } from './Constants';
-// import { Switch } from 'antd';
 import { Rate } from 'antd';
-import { Menu, Button } from 'antd';
+import { Menu } from 'antd';
 import Chart from "react-google-charts";
 import Layout from 'antd/lib/layout/layout';
 import { getCookie } from './Home';
 const { Header, Content, Sider } = Layout;
 const { Item: MenuItem } = Menu;
-
-
-// const { SubMenu } = Menu;
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -236,8 +227,7 @@ export default class Dashboard extends React.Component {
       })
       .catch(err => console.log(err))	// Print the error if there is one.
   }
-  /* ---- Q1b (Dashboard) ---- */
-  /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
+  
   addToWishListDashboard(appName, email) {
     // fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+encodeURIComponent(appName)+"&email="+email, {
     //   method: 'GET' // The type of HTTP request.

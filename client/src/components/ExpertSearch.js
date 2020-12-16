@@ -7,11 +7,8 @@ const { Search } = Input;
 
 export default class ExpertSearch extends React.Component {
 
-    //此乃用户按下搜索键或者回车时的回调函数
     searchHandler = (value) => {
         if (value) {
-            //这里通过query_term把用户输入的内容传给了ExpertSearchResults这个component
-            //在ExpertSearchResults这个component中用 this.props.query_term接受
             ReactDOM.render(<ExpertSearchResults query_term={value} />, document.getElementById('root'));
         }
     }

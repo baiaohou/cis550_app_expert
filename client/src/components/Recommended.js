@@ -2,21 +2,12 @@ import React from 'react';
 import '../style/Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PageNavbar from './PageNavbar';
-import GenreButton from './GenreButton';
-import DashboardMovieRow from './DashboardMovieRow';
-import AppDetail from './AppDetail';
-import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom";
-// import { Switch } from 'antd';
 import '../style/WishList.css';
 import { Rate, Tag } from 'antd';
 import { getCookie } from './Home';
 import { Constants } from './Constants';
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-
-
-
-
 
 export default class Recommended extends React.Component {
   constructor(props) {
@@ -125,9 +116,6 @@ export default class Recommended extends React.Component {
       .catch(err => console.log(err));	// Print the error if there is one.
   }
 
-
-  /* ---- Q1b (Dashboard) ---- */
-  /* Set this.state.movies to a list of <DashboardMovieRow />'s. */
 
   addToWishList(appName, email) {
     fetch(`${Constants.servaddr_prefix}/addToWishList?appName=`+encodeURIComponent(appName)+"&email="+email, {
