@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Constants } from './Constants';
 
+/**
+ * structure refers to material ui tutorial code
+ */
 
 function Copyright() {
   return (

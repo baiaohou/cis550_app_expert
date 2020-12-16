@@ -11,6 +11,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import PageNavbar from './PageNavbar';
 
+/**
+ * structure refers to material ui tutorial code
+ */
 
 function Sub() {
   return (
