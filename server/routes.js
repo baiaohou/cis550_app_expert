@@ -110,6 +110,7 @@ function register(req, res) {
     '${req.query.firstName}', 
     '${req.query.lastName}'
   )
+
   `;
   connection.query(query, function (err, rows, fields) {
     if (err) {
@@ -119,6 +120,15 @@ function register(req, res) {
     } else {
 
       console.log("Register OK");
+      var query2 = `
+        insert into follow
+        values (
+          '${req.query.email}', 
+          'baiaohou@gmail.com' 
+        )
+      `;
+      connection.query(query2, function () {});
+
       res.writeHead(302, {
         'Content-Type': 'text/plain',
         'Location': `${Constants.frontend_prefix}/loginreenter`

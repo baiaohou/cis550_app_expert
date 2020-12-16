@@ -48,9 +48,9 @@ function Login() {
 
   const onFailure = (res) => {
     console.log('Login failed: res:', res);
-    alert(
-      `Failed to login. 😢 `
-    );
+    // alert(
+    //   `Failed to login. 😢 `
+    // );
   };
 
   return (
