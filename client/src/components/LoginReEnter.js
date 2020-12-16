@@ -9,11 +9,9 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Constants } from './Constants';
-
 
 
 function Copyright() {
@@ -47,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -55,12 +53,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function Login() {
   const classes = useStyles();
-
-
-
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -108,22 +102,6 @@ export default function Login() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              // onClick={
-              //   () => {
-              //     alert("yoyoyo");
-              //     var usr;
-              //     var pwd;
-              //     pwd = document.getElementByLabel("password");
-              //     pwd = 
-              //     alert("PWD is " + pwd);
-              //   }
-              // }
-
-              // onClick={
-              //   () => {
-                  
-              //   }
-              // }
               
             >
               Sign In

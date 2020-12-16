@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   heroContent: {
-    // backgroundColor: theme.palette.background.paper,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(9, 0, 8)
   },
@@ -36,30 +35,22 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(3)
   },
   card: {
-    height: "100%", // 100%
+    height: "100%", 
     display: "flex",
     flexDirection: "column"
   },
   cardMedia: {
-    paddingTop: "56.25%"// "56.25%" // 16:9
+    paddingTop: "56.25%"
   },
   cardContent: {
     flexGrow: 1
   },
   footer: {
-    //backgroundColor: theme.palette.background.default,
     padding: theme.spacing(4)
   }
 }));
 
 const cards = [
-  // {
-  //   header: "Search Your App 🔍",
-  //   img:
-  //     "../card-1.jpg",
-  //   desc: "Description blah blah blah",
-  //   goto: "/recommendations"
-  // },
 
   {
     header: "Categories 🏆",
@@ -77,14 +68,6 @@ const cards = [
     goto: "/wishlist"
   },
 
-  // {
-  //   header: "Recommendations 👀",
-  //   img:
-  //     "../card-4.jpg",
-  //   desc: "Description blah blah blah",
-  //   goto: "/recommended"
-  // },
-
   {
     header: "Community 👭",
     img:
@@ -92,14 +75,6 @@ const cards = [
     desc: "Meet Friends & Get Their Tastes",
     goto: "/following"
   },
-
-  // {
-  //   header: "I'm Feeling Lucky 🎲",
-  //   img:
-  //     "../card-6.jpg",
-  //   desc: "Pick a random app",
-  //   goto: "/team"
-  // }
 ];
 
 export function getCookie(cname) {
@@ -117,9 +92,6 @@ export function getCookie(cname) {
   return "";
 }
 
-
-
-
 var first_name = getCookie("first_name")
 first_name = first_name.substr(0, first_name.indexOf(" "));
 
@@ -132,13 +104,6 @@ export default function Home() {
     <React.Fragment>
       <CssBaseline />
       <PageNavbar active="Home" />
-    {/*    <AppBar position="relative">
-         <Toolbar>
-           <Typography variant="h6" color="inherit">
-             🦧 AppExpert
-           </Typography>
-         </Toolbar>
-       </AppBar> */}
 
       <main>
         {/* Hero unit */}
@@ -198,9 +163,6 @@ export default function Home() {
                     <Typography>{card.desc}</Typography>
                   </CardContent>
                   <CardActions>
-                    {/* <Button size="small" color="primary">
-                      View
-                    </Button> */}
                   </CardActions>
                 </Card>
               </Grid>
@@ -211,9 +173,6 @@ export default function Home() {
 
       {/* Footer */}
       <footer className={classes.footer}>
-        {/* <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography> */}
         <Typography
           variant="subtitle1"
           align="center"

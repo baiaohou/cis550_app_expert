@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   heroContent: {
-    // backgroundColor: theme.palette.background.paper,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(6, 0, 3)
   },
@@ -49,37 +48,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   footer: {
-    //backgroundColor: theme.palette.background.default,
     padding: theme.spacing(0)
   }
 }));
 
 const cards = [];
-// const cards = [
-//   {
-//     header: "Search Your App 🔍",
-//     img:
-//       "../card-1.jpg",
-//     desc: "Description blah blah blah",
-//     goto: "/recommendations"
-//   },
-
-//   {
-//     header: "See Top Apps 🏅",
-//     img:
-//       "https://images.unsplash.com/photo-1564198879220-63f2734f7cec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2072&q=80",
-//     desc: "Description blah blah blah",
-//     goto: "/dashboard"
-//   },
-
-//   {
-//     header: "My Wishlist ✨",
-//     img:
-//       "../card-3.jpg",
-//     desc: "Description blah blah blah",
-//     goto: "/wishlist"
-//   }
-// ];
 
 function getCookie(cname) {
   var name = cname + "=";
@@ -107,13 +80,6 @@ export default function Home() {
     <React.Fragment>
       <CssBaseline />
       <PageNavbar />
-    {/*    <AppBar position="relative">
-         <Toolbar>
-           <Typography variant="h6" color="inherit">
-             🦧 AppExpert
-           </Typography>
-         </Toolbar>
-       </AppBar> */}
 
       <main>
         {/* Hero unit */}
@@ -185,9 +151,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className={classes.footer}>
-        {/* <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography> */}
+        
         <Typography
           variant="subtitle1"
           align="center"
