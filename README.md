@@ -13,6 +13,7 @@ Please execute the .sql files and insert the corresponding data  in the followin
 (7) follow  
 (8) wishlist  
 (9) user_review  
+(10) materialized_view    
 **Please feel free to contact our team if you meet any trouble.**
 2. Add a file called db-config.js in the server directory, and include the information of your local MySQL database in this file, using the format below  
 `module.exports = {  

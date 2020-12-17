@@ -207,16 +207,16 @@ function getTopInGenre(req, res) {
   var genre = req.params.genre;
   console.log(genre)
   var query = `
-    (SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
-    FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
-    WHERE a.Category = '${genre}' 
-    ORDER BY a.installs DESC, a.rating DESC
+    (SELECT app_name, rating, installs, icon, summary, price 
+    FROM full_app_info
+    WHERE Category = '${genre}' 
+    ORDER BY installs DESC, rating DESC
     LIMIT 5)
     UNION ALL
-    (SELECT p.app_name, a.rating, a.installs, p.icon, p.summary, a.price 
-      FROM package_info p JOIN app_detail a ON p.app_name = a.app_name
-      WHERE a.Category = '${genre}' AND a.installs > 10000
-      ORDER BY a.rating DESC, a.installs DESC
+    (SELECT app_name, rating, installs, icon, summary, price 
+      FROM full_app_info
+      WHERE Category = '${genre}' AND installs > 10000
+      ORDER BY rating DESC, installs DESC
       LIMIT 5
     )
   `;
@@ -412,7 +412,7 @@ function getWishList(req, res) {
       )
     )
     SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
-    FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
+    FROM singleAndDualGenreApp s JOIN full_app_info f ON s.app_name = f.app_name
     ORDER BY app_name
   `;
   connection.query(query, function (err, rows, fields) {
@@ -483,7 +483,7 @@ function getRecommended(req, res) {
       )
     )
     SELECT s.app_name, genre1, if(genre1=genre2,null,genre2) AS genre2, rating, installs, price, icon, summary
-    FROM singleAndDualGenreApp s JOIN app_detail d ON s.app_name=d.app_name JOIN package_info p ON s.app_name=p.app_name
+    FROM singleAndDualGenreApp s JOIN full_app_info f ON s.app_name = f.app_name
     ORDER BY installs DESC, rating DESC, app_name
     LIMIT 10
   `;
