@@ -1,5 +1,8 @@
 # CIS550-Project: App Expert
 
+## Demo video
+https://drive.google.com/file/d/1Dh-GYrn8jT5aRcT0Tgh7Iu9ki3bakTvG/view?usp=sharing
+
 ## How to run the codes?
 
 1. Build a local MySQL database and the relevant tables, using the .sql files in the code file submitted to Canvas. **Inserting corresponding data is also required**. However, data is too big to submit to Canvas, so please be sure to contact our team members for the data.  
